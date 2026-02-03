@@ -41,9 +41,9 @@ class Program
     /// </summary>
     /// <param name="args">Command-line arguments</param>
     /// <remarks>
-    /// PICOGK: Library.Go() must be called to initialize PicoGK before
-    /// any geometry operations. It takes a voxel size and a delegate
-    /// (method reference) to execute.
+    /// PICOGK: The Library constructor initializes PicoGK in headless mode
+    /// (no viewer window). This is ideal for CLI batch processing where we
+    /// only need geometry generation and STL export, not interactive viewing.
     /// </remarks>
     static void Main(string[] args)
     {
@@ -70,6 +70,7 @@ class Program
             float voxelSize = 0.5f;
             string boardType = "shortboard";
             string finConfigStr = "default";
+            bool allFins = false;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -84,6 +85,10 @@ class Program
                 else if (args[i] == "--fins" && i + 1 < args.Length)
                 {
                     finConfigStr = args[i + 1].ToLower();
+                }
+                else if (args[i] == "--all-fins")
+                {
+                    allFins = true;
                 }
                 else if (args[i] == "--help")
                 {
@@ -116,20 +121,27 @@ class Program
             };
 
             Console.WriteLine($"Board Type:  {boardType}");
-            Console.WriteLine($"Fin Setup:   {finConfiguration}");
+            Console.WriteLine($"Fin Setup:   {(allFins ? "All configurations" : finConfiguration.ToString())}");
             Console.WriteLine($"Voxel Size:  {voxelSize} mm");
             Console.WriteLine();
 
             // =================================================================
             // PICOGK INITIALIZATION AND GEOMETRY GENERATION
             // =================================================================
-            // Library.Go() initializes PicoGK with the specified voxel size,
-            // then calls the provided delegate. We use a lambda to capture
-            // the parameters, voxel size, and fin configuration.
-            Library.Go(
-                voxelSize,
-                () => SurfboardBody.Task(parameters, voxelSize, finConfiguration)
-            );
+            // Using PicoGK's headless constructor -- no viewer window.
+            // The using block initializes the geometry kernel for the
+            // duration of the generation, then cleans up automatically.
+            using (new Library(voxelSize))
+            {
+                if (allFins)
+                {
+                    SurfboardBody.TaskAllFins(parameters, voxelSize);
+                }
+                else
+                {
+                    SurfboardBody.Task(parameters, voxelSize, finConfiguration);
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -159,6 +171,7 @@ class Program
         Console.WriteLine("  --voxel <size>     Voxel size in mm (default: 0.5)");
         Console.WriteLine("  --type <type>      Board type: shortboard, longboard, or fish (default: shortboard)");
         Console.WriteLine("  --fins <config>    Fin setup: thruster, twin, quad, or single (default: per board type)");
+        Console.WriteLine("  --all-fins         Generate all 4 fin configurations as separate STL files");
         Console.WriteLine("  --help             Show this help message");
         Console.WriteLine();
         Console.WriteLine("Examples:");
@@ -169,6 +182,7 @@ class Program
         Console.WriteLine("  dotnet run -- --type fish --voxel 1           # Fast preview of fish board");
         Console.WriteLine("  dotnet run -- --fins quad                     # Shortboard with quad fins");
         Console.WriteLine("  dotnet run -- --type longboard --fins single  # Longboard with single fin");
+        Console.WriteLine("  dotnet run -- --all-fins --voxel 2            # All fin configs, fast preview");
         Console.WriteLine();
         Console.WriteLine("Board Presets:");
         Console.WriteLine("  shortboard   6'0\" x 19.5\" x 2.44\"  Performance shortboard  (default fins: thruster)");

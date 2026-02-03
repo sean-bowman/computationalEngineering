@@ -173,6 +173,41 @@ public class SurfboardParameters
     public float RailRadius { get; init; } = 12f;
 
     // =========================================================================
+    // TAIL SHAPE
+    // =========================================================================
+
+    /// <summary>Tail shape type for this board</summary>
+    /// <remarks>
+    /// SURFBOARD: Tail shape affects water release and turning.
+    /// Standard tails taper to a narrow point; swallow tails split into
+    /// two lobes via a V-shaped center notch for cleaner water release.
+    /// </remarks>
+    public TailShape TailShape { get; init; } = TailShape.Standard;
+
+    /// <summary>Half-width at the tail tip before any notch carving [mm]</summary>
+    /// <remarks>
+    /// For standard tails, this is a narrow ~15mm half-width (tapers to a point).
+    /// For swallow tails, this should be wider (~80-100mm) to create two broad
+    /// lobes before the center notch is carved out.
+    /// </remarks>
+    public float TailTipHalfWidth { get; init; } = 15f;
+
+    /// <summary>Depth of the swallow tail notch from the tail tip [mm]</summary>
+    /// <remarks>
+    /// Only used when TailShape is Swallow. Controls how deep the V-notch
+    /// cuts into the tail. Typical range: 50-75mm for a fish board.
+    /// </remarks>
+    public float SwallowNotchDepth { get; init; } = 0f;
+
+    /// <summary>Half-width of the notch at the tail tip [mm]</summary>
+    /// <remarks>
+    /// Only used when TailShape is Swallow. Controls how wide the V-notch
+    /// is at the very end of the tail. The notch tapers from this width
+    /// at the tail tip to zero at the notch apex (SwallowNotchDepth forward).
+    /// </remarks>
+    public float SwallowNotchHalfWidth { get; init; } = 0f;
+
+    // =========================================================================
     // FIN CONFIGURATION
     // =========================================================================
 
@@ -284,26 +319,33 @@ public class SurfboardParameters
     };
 
     /// <summary>
-    /// Retro fish (5'6" x 21" x 2.56").
+    /// Round Nose Fish / RNF (5'6" x 21" x 2.56").
     /// </summary>
     /// <remarks>
-    /// SURFBOARD: Wide, flat, and fast. The fish was designed for speed
-    /// in small waves. Low rocker, wide nose and tail, extra volume
-    /// packed into a short frame. Swallow tail typical.
+    /// SURFBOARD: Modeled after the Lost Round Nose Fish. Wide, flat,
+    /// and fast with a distinctively round/full nose and swallow tail.
+    /// Low rocker, extra volume packed into a short frame. The swallow
+    /// tail splits into two lobes for clean water release and increased
+    /// effective rail length.
     /// </remarks>
     public static SurfboardParameters Fish => new()
     {
         Length = 1676f,           // 5'6"
         MaxWidth = 533f,         // 21"
         MaxThickness = 65f,      // 2.56"
-        NoseWidth = 380f,        // ~15" wide nose
-        TailWidth = 420f,        // ~16.5" wide tail (fish characteristic)
-        WidePointOffset = -50f,  // forward wide point for paddle
+        NoseWidth = 400f,        // ~15.75" fuller/rounder nose (RNF characteristic)
+        TailWidth = 430f,        // ~16.9" wide tail
+        WidePointOffset = -25f,  // RNF wide point near center
         NoseRocker = 80f,        // ~3.1" minimal nose rocker
         TailRocker = 30f,        // ~1.2" low tail rocker
         DeckCrown = 6f,
         BottomConcave = 3f,      // deeper concave for speed
         RailRadius = 10f,        // medium-hard rails
+        // Swallow tail: wide blunt tail with V-notch carved out
+        TailShape = TailShape.Swallow,
+        TailTipHalfWidth = 90f,          // ~3.5" half-width at each lobe
+        SwallowNotchDepth = 65f,         // ~2.5" deep V-notch
+        SwallowNotchHalfWidth = 40f,     // ~1.6" notch half-width at tail tip
         DefaultFinConfiguration = FinConfiguration.Twin
     };
 

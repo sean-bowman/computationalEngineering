@@ -98,6 +98,9 @@ dotnet run --project SurfboardGeometry/ -- --fins quad
 # Fast preview (low resolution)
 dotnet run --project SurfboardGeometry/ -- --type shortboard --voxel 1
 
+# Generate all 4 fin configurations as separate STL files
+dotnet run --project SurfboardGeometry/ -- --all-fins --voxel 2
+
 # Show help
 dotnet run --project SurfboardGeometry/ -- --help
 ```

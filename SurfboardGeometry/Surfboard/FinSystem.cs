@@ -309,8 +309,8 @@ public class FinSystem
     /// <remarks>
     /// <para>
     /// QUAD POSITIONING:
-    /// - Front pair: similar to thruster sides, ~280mm from tail, ~100mm lateral
-    /// - Rear pair: smaller "trailer" fins, ~120mm from tail, ~115mm lateral
+    /// - Front pair: wider toward rails (~115mm lateral), ~350mm from tail
+    /// - Rear pair: smaller "trailer" fins closer to center (~85mm lateral), ~140mm from tail
     /// - Front fins: 5 degree cant for drive
     /// - Rear fins: 3 degree cant for tracking stability
     /// </para>
@@ -339,16 +339,18 @@ public class FinSystem
         float rearFinBase    = 70f * scaleFactor;    // ~2.75" chord
         float rearCant       = 3f;                   // degrees (less cant for stability)
 
-        // Front fin positioning: further from tail (same as thruster sides)
-        float frontTrailingMargin = 180f;
-        float frontLateralOffset  = 100f;
+        // Front fin positioning: further from tail, wider toward the rails
+        // Real quads have the front pair out near the rail line for drive
+        float frontTrailingMargin = 250f;
+        float frontLateralOffset  = 115f;
         float frontFinX   = _params.Length - frontFinBase - frontTrailingMargin;
         float frontFinT   = frontFinX / _params.Length;
         float frontRockerZ = rockerProfile.GetRockerHeight(frontFinT);
 
-        // Rear fin positioning: close to tail, slightly wider
-        float rearTrailingMargin = 50f;
-        float rearLateralOffset  = 115f;
+        // Rear fin positioning: close to tail, closer to centerline
+        // Rear "trailer" fins tuck inboard to channel water between the pairs
+        float rearTrailingMargin = 70f;
+        float rearLateralOffset  = 85f;
         float rearFinX   = _params.Length - rearFinBase - rearTrailingMargin;
         float rearFinT   = rearFinX / _params.Length;
         float rearRockerZ = rockerProfile.GetRockerHeight(rearFinT);

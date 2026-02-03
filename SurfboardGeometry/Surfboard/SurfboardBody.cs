@@ -249,6 +249,16 @@ public class SurfboardBody
         // Generate the board body
         Voxels voxBody = GenerateBody();
 
+        // Apply swallow tail notch if configured
+        if (_params.TailShape == TailShape.Swallow)
+        {
+            var notch = new SwallowTailNotch(_params, _voxelSize);
+            Voxels voxNotch = notch.Generate(_rocker);
+            Console.WriteLine("\nCarving swallow tail notch...");
+            voxBody.BoolSubtract(voxNotch);
+            Console.WriteLine("  ✓ Swallow tail notch carved");
+        }
+
         // Generate fins for the selected configuration and combine with body
         var finSystem = new FinSystem(_params, _voxelSize);
         Voxels voxFins = finSystem.Generate(finConfiguration, _rocker);
@@ -286,6 +296,16 @@ public class SurfboardBody
 
         // Generate the board body once
         Voxels voxBody = GenerateBody();
+
+        // Apply swallow tail notch if configured (before attaching any fins)
+        if (_params.TailShape == TailShape.Swallow)
+        {
+            var notch = new SwallowTailNotch(_params, _voxelSize);
+            Voxels voxNotch = notch.Generate(_rocker);
+            Console.WriteLine("\nCarving swallow tail notch...");
+            voxBody.BoolSubtract(voxNotch);
+            Console.WriteLine("  ✓ Swallow tail notch carved");
+        }
 
         var finSystem = new FinSystem(_params, _voxelSize);
 
@@ -369,6 +389,35 @@ public class SurfboardBody
         );
 
         board.GenerateAndExport(outputFolder, finConfiguration);
+
+        Console.WriteLine();
+        Console.WriteLine($"Output folder: {outputFolder}");
+    }
+
+    /// <summary>
+    /// Task entry point for generating all fin configurations as separate STL files.
+    /// </summary>
+    /// <param name="parameters">Board parameters to use</param>
+    /// <param name="voxelSize">Voxel resolution in mm</param>
+    /// <remarks>
+    /// Generates the board body once, then exports it with each of the four
+    /// fin configurations (thruster, twin, quad, single) as separate STL files.
+    /// </remarks>
+    public static void TaskAllFins(SurfboardParameters parameters, float voxelSize)
+    {
+        Console.WriteLine("═══════════════════════════════════════════");
+        Console.WriteLine("  PicoGK Surfboard Geometry Showcase");
+        Console.WriteLine("  All Fin Configurations");
+        Console.WriteLine("═══════════════════════════════════════════");
+        Console.WriteLine();
+
+        var board = new SurfboardBody(parameters, voxelSize);
+
+        string outputFolder = Path.GetFullPath(
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Output")
+        );
+
+        board.GenerateAllFinsAndExport(outputFolder);
 
         Console.WriteLine();
         Console.WriteLine($"Output folder: {outputFolder}");

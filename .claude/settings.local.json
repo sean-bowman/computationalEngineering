@@ -37,7 +37,11 @@
       "Bash(dotnet run:*)",
       "Bash(taskkill:*)",
       "Bash(tasklist:*)",
-      "Bash(wmic process where \"name=''SurfboardGeometry.exe''\" get ProcessId,Name)"
+      "Bash(wmic process where \"name=''SurfboardGeometry.exe''\" get ProcessId,Name)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(grep:*)"
     ]
   }
 }

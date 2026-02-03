@@ -43,17 +43,17 @@ When running a file as a test of functionality through bash, you have permission
 
 ### Naming Conventions
 
-**Python (Primary Language):**
+**Python:**
 
 - **Variables & Functions:** `camelCase`
   ```python
   userInput = {}
-  def calculatePressure():
+  def calculateWaveHeight():
   ```
 - **Classes:** `PascalCase`
   ```python
-  class FluidView:
-  class CPUResourceManager:
+  class WaveModel:
+  class SurfboardAnalyzer:
   ```
 - **Constants:** `camelCase`
   ```python
@@ -66,7 +66,7 @@ When running a file as a test of functionality through bash, you have permission
   _privateVariable = 10
   ```
 
-**JavaScript (for Streamlit components):**
+**JavaScript (for web components):**
 
 - **Variables & Functions:** `camelCase`
   ```javascript
@@ -75,7 +75,7 @@ When running a file as a test of functionality through bash, you have permission
   ```
 - **Constants:** `camelCase`
   ```javascript
-  const sessionKey = 'vaya_session_id';
+  const sessionKey = 'app_session_id';
   const timeoutMs = 60000;
   ```
 
@@ -134,12 +134,12 @@ import sys
 from typing import Optional, Dict
 
 # Third-party imports
-import streamlit as st
 import numpy as np
+import plotly.graph_objects as go
 
 # Local imports
-from utilsVaya import fluidView
-from utilsGUI.jobManager import get_job_manager
+from utils.geometry import computeOutline
+from utils.waveModel import linearWaveTheory
 ```
 
 ---
@@ -283,25 +283,29 @@ finally:
 - Never commit sensitive data (.env files, credentials)
 - Validate user inputs before processing
 - Sanitize file paths to prevent directory traversal
-- Use pickle safely (only load trusted data)
+- Validate serialized data before loading
 
 ## Project Structure
 
 ```
-vayaSpacePropulsion/
-├── GUI.py                      # Main Streamlit app entry point
-├── utilsVaya.py               # Core utility functions (REFPROP, geometry, etc.)
-├── Nozzle.py                  # Nozzle design calculations
-└── utilsGUI/
-    ├── utilsGUI.py            # GUI helper functions
-    ├── cpuResourceManager.py  # Multi-user CPU allocation
-    ├── sessionManager.py      # Browser session tracking
-    ├── jobManager.py          # Background job management
-    ├── backgroundJobProcessor.py  # Subprocess calculation runner
-    └── pages/
-        ├── fluidView.py       # Fluid properties viewer
-        ├── nozzleDesigner.py  # Nozzle design interface
-        └── ...
+computationalEngineering/
+├── SurfboardGeometry/                     # C# / PicoGK surfboard generator
+│   ├── Program.cs                         # CLI entry point
+│   ├── Surfboard/
+│   │   ├── SurfboardParameters.cs         # Parametric dimensions & presets
+│   │   ├── SurfboardBody.cs               # Spatial painting geometry generation
+│   │   ├── Outline.cs                     # Planform shape (top view)
+│   │   ├── RockerProfile.cs               # Bottom curvature (side view)
+│   │   ├── CrossSection.cs                # Deck/bottom profile
+│   │   ├── FinConfiguration.cs            # Fin setup enum
+│   │   └── FinSystem.cs                   # Fin geometry generation
+│   ├── Utils/
+│   │   └── Constants.cs                   # Physical constants
+│   └── Output/                            # Generated STL files
+├── PicoGK/                                # LEAP 71 geometry kernel (submodule)
+├── SurfPhysics/                           # Python physics simulations (planned)
+├── documentation/                         # Technical writeups
+└── references/                            # Source material
 ```
 
 ---
@@ -310,16 +314,17 @@ vayaSpacePropulsion/
 
 ### Key Libraries
 
-- **NumPy** - Numerical computations
+- **PicoGK** - Voxel-based computational geometry kernel (C#)
+- **NumPy** - Numerical computations (Python)
 - **Plotly** - Interactive plots
-- **joblib** - Parallel processing
-- **ctREFPROP** - Thermodynamic properties
+- **Three.js** - 3D visualization (planned)
 
 ### Development Tools
 
 - **Git** - Version control
 - **VSCode** - IDE (Claude Code integration)
-- **Python 3.x** - Programming language
+- **.NET 10.0** - C# runtime
+- **Python 3.x** - Physics simulations
 
 ---
 
@@ -340,10 +345,9 @@ find . -type f \( -name "*.tmp.*" -o -name "*.tmp" -o -name "tmpclaude-*" \) -de
 - **Clean up** temp files automatically after edits
 - **Follow conventions** consistently
 - **Document** significant changes
-- **Test** multi-user scenarios when modifying shared resources
 - **Never commit** without explicit user request
 - **Update documentation** when making architectural changes
 
 ---
 
-**Remember:** This is aerospace engineering software. Accuracy, reliability, and documentation are critical. When in doubt, ask the user for clarification.
+**Remember:** This is computational engineering software. Accuracy, reliability, and documentation are critical. When in doubt, ask the user for clarification.

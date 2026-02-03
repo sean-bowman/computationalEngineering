@@ -80,7 +80,7 @@ public class Outline
 
         _widePointT = _params.WidePointX / _params.Length;
         _maxHalfWidth = _params.HalfWidth;
-        _tailTipHalf = 15f; // ~1.2" at the tail tip
+        _tailTipHalf = parameters.TailTipHalfWidth;
 
         // =====================================================================
         // CALIBRATE NOSE EXPONENT
