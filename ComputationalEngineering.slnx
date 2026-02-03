@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PicoGK/PicoGK.csproj" />
+  <Project Path="SurfboardGeometry/SurfboardGeometry.csproj" />
+</Solution>

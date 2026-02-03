@@ -1,0 +1,28 @@
+# Build output
+**/bin/
+**/obj/
+**/Output/
+output/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.vs/
+.vscode/
+*.user
+
+# Temp files
+*.tmp
+*.tmp.*
+tmpclaude-*
+
+# Media output
+*.mp4
+
+# OS
+Thumbs.db
+.DS_Store
