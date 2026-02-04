@@ -1,0 +1,27 @@
+{
+    "board": {
+        "type": "longboard",
+        "finConfiguration": "single",
+        "foamType": "pu",
+        "customParametersFile": null
+    },
+    "geometry": {
+        "generate": false,
+        "voxelSize": 0.5,
+        "outputDir": "SurfboardGeometry/Output",
+        "useMeshForPhysics": false
+    },
+    "waves": {
+        "height": 0.6,
+        "period": 8.0,
+        "depth": 1.5
+    },
+    "rider": {
+        "mass": 75.0
+    },
+    "analysis": {
+        "showDashboard": true,
+        "speedRange": [0.5, 10.0],
+        "nSpeedPoints": 50
+    }
+}

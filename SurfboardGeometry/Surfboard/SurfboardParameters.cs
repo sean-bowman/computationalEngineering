@@ -341,11 +341,11 @@ public class SurfboardParameters
         DeckCrown = 6f,
         BottomConcave = 3f,      // deeper concave for speed
         RailRadius = 10f,        // medium-hard rails
-        // Swallow tail: wide blunt tail with V-notch carved out
+        // Swallow tail: wide blunt tail with U-shaped channel carved out
         TailShape = TailShape.Swallow,
-        TailTipHalfWidth = 90f,          // ~3.5" half-width at each lobe
-        SwallowNotchDepth = 65f,         // ~2.5" deep V-notch
-        SwallowNotchHalfWidth = 40f,     // ~1.6" notch half-width at tail tip
+        TailTipHalfWidth = 95f,          // ~3.7" half-width at each lobe
+        SwallowNotchDepth = 110f,        // ~4.3" deep U-notch
+        SwallowNotchHalfWidth = 55f,     // ~2.2" notch half-width at tail tip
         DefaultFinConfiguration = FinConfiguration.Twin
     };
 

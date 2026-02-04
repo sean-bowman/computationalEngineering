@@ -253,13 +253,13 @@ public class FinSystem
 
         float scaleFactor = _params.Length / 1828f;
 
-        // Twin fins: larger than thruster sides since no center fin for hold
-        float twinFinHeight = 115f * scaleFactor;    // ~4.5" (vs 4.1" thruster side)
-        float twinFinBase   = 110f * scaleFactor;    // ~4.3" chord (vs 3.9" thruster side)
+        // Keel-style twin fins: large base and height for drive and hold
+        float twinFinHeight = 140f * scaleFactor;    // ~5.5" tall keel fins
+        float twinFinBase   = 145f * scaleFactor;    // ~5.7" long base chord (keel shape)
         float twinCant      = 7f;                    // degrees (vs 5 degrees thruster)
 
-        // Positioning: wider apart and further forward than thruster sides
-        float trailingMargin = 220f;                 // further from tail than thruster (180mm)
+        // Positioning: close to tail for classic fish keel placement
+        float trailingMargin = 180f;                 // closer to tail for fish look
         float lateralOffset  = 120f;                 // wider than thruster (100mm)
 
         float finX    = _params.Length - twinFinBase - trailingMargin;

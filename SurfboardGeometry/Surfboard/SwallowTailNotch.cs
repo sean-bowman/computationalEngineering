@@ -1,11 +1,11 @@
 // =============================================================================
-// SWALLOW TAIL NOTCH - V-SHAPED CENTER NOTCH FOR FISH TAILS
+// SWALLOW TAIL NOTCH - U-SHAPED CENTER NOTCH FOR FISH TAILS
 // =============================================================================
 //
 // SURFBOARD CONCEPT: Swallow (Fish) Tail
 // =======================================
 //
-// A swallow tail splits the tail into two lobes via a V-shaped center notch.
+// A swallow tail splits the tail into two lobes via a U-shaped center notch.
 // This increases the effective rail length and allows water to release
 // cleanly from each lobe independently, improving speed and looseness.
 //
@@ -25,8 +25,10 @@
 // IMPLEMENTATION:
 // ───────────────
 // The notch is carved from a wide, blunt tail body using PicoGK's
-// boolean subtraction. A V-shaped wedge solid is defined via a signed
+// boolean subtraction. A U-shaped channel solid is defined via a signed
 // distance function (IBoundedImplicit) and subtracted from the board body.
+// The U-shape uses a power curve (square root) so the notch opens up
+// quickly from a rounded apex rather than tapering to a sharp V point.
 //
 // This follows the same pattern as fin attachment (separate geometry +
 // boolean operation), keeping the outline and body painting code unchanged.
@@ -39,22 +41,24 @@ using PicoGK;
 namespace SurfboardGeometry.Surfboard;
 
 /// <summary>
-/// Signed distance function defining a V-shaped wedge for the swallow tail notch.
+/// Signed distance function defining a U-shaped channel for the swallow tail notch.
 /// </summary>
 /// <remarks>
 /// <para>
-/// The wedge is a V-shaped prism centered on the stringer line (Y=0),
+/// The channel is a U-shaped prism centered on the stringer line (Y=0),
 /// with its apex pointing forward (toward the nose) and widening toward
-/// the tail tip.
+/// the tail tip. The U-shape is achieved using a power curve (exponent 0.5)
+/// so the notch opens up quickly from a rounded apex.
 /// </para>
 /// <para>
 /// MATH: At any longitudinal position X in the notch region, the notch
-/// half-width is linearly interpolated from 0 (at the apex) to the
+/// half-width follows a square-root curve from 0 (at the apex) to the
 /// maximum notch half-width (at the tail tip):
 ///
-///   localHalfWidth = notchHalfWidth * (x - apexX) / notchDepth
+///   fraction = (x - apexX) / notchDepth
+///   localHalfWidth = notchHalfWidth * sqrt(fraction)
 ///
-/// A point is inside the wedge if |Y| &lt; localHalfWidth and X is
+/// A point is inside the channel if |Y| &lt; localHalfWidth and X is
 /// between the apex and the tail tip. The signed distance is negative
 /// inside, positive outside.
 /// </para>
@@ -68,7 +72,7 @@ internal class SwallowNotchImplicit : IBoundedImplicit
     private readonly BBox3 _bounds;
 
     /// <summary>
-    /// Create the implicit function for a swallow tail V-notch.
+    /// Create the implicit function for a swallow tail U-notch.
     /// </summary>
     /// <param name="parameters">Board parameters with swallow tail dimensions</param>
     /// <param name="rockerZAtTail">Rocker Z-offset at the tail tip for bounding box</param>
@@ -113,12 +117,14 @@ internal class SwallowNotchImplicit : IBoundedImplicit
         }
 
         // Forward of apex: compute the notch half-width at this X
+        // Using square root (power 0.5) creates a U-shape that opens
+        // quickly from the apex, matching the rounded channel of a real fish tail
         float fraction = (x - _apexX) / _notchDepth;
         fraction = MathF.Min(fraction, 1f);
-        float localHalfWidth = _notchHalfWidth * fraction;
+        float localHalfWidth = _notchHalfWidth * MathF.Pow(fraction, 0.5f);
 
-        // Signed distance to the angled sides of the V
-        // Negative = inside the wedge, positive = outside
+        // Signed distance to the curved sides of the U-channel
+        // Negative = inside the channel, positive = outside
         return MathF.Abs(y) - localHalfWidth;
     }
 }
@@ -129,7 +135,7 @@ internal class SwallowNotchImplicit : IBoundedImplicit
 /// <remarks>
 /// Follows the same pattern as FinSystem: takes parameters and voxel size,
 /// has a Generate method that returns Voxels. The returned voxels represent
-/// the V-shaped wedge that should be subtracted from the board body.
+/// the U-shaped channel that should be subtracted from the board body.
 /// </remarks>
 public class SwallowTailNotch
 {
@@ -148,10 +154,10 @@ public class SwallowTailNotch
     }
 
     /// <summary>
-    /// Generate the V-shaped notch as voxels.
+    /// Generate the U-shaped notch as voxels.
     /// </summary>
     /// <param name="rocker">Rocker profile for determining Z position at the tail</param>
-    /// <returns>Voxels representing the wedge to be subtracted from the body</returns>
+    /// <returns>Voxels representing the channel to be subtracted from the body</returns>
     public Voxels Generate(RockerProfile rocker)
     {
         Console.WriteLine("Generating swallow tail notch...");

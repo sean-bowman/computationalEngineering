@@ -41,7 +41,26 @@
       "Bash(git branch:*)",
       "Bash(git push:*)",
       "Bash(git fetch:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(pip install:*)",
+      "Bash(where:*)",
+      "Bash(python -m pip:*)",
+      "Bash(py:*)",
+      "Bash(py -m pip:*)",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" --version)",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" -m pip install numpy scipy plotly)",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" -m SurfPhysics --no-dashboard)",
+      "Bash(xargs:*)",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" codeInterface.py --no-dashboard)",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" codeInterface.py --config configs/fish_overhead.json --no-dashboard)",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" codeInterface.py --config configs/longboard_small.json --no-dashboard)",
+      "Bash(del \"c:\\\\Users\\\\seanb\\\\Desktop\\\\Main\\\\Personal_Code_Projects\\\\computationalEngineering\\\\exampleCodeInterfaceFormat.py\")",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" codeInterface.py)",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" -c \"import os; os.system\\(''cls''\\); from SurfPhysics.analyzer import PhysicsAnalyzer; pa = PhysicsAnalyzer\\(\\); pa.runAnalysis\\(''configs/fish_overhead.json''\\)\")",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" -c \"import os; os.system\\(''cls''\\); from SurfPhysics.analyzer import PhysicsAnalyzer; pa = PhysicsAnalyzer\\(\\); pa.runAnalysis\\(''configs/longboard_small.json''\\)\")",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" -c \"import json, os; os.system\\(''cls''\\); config = json.load\\(open\\(''configs/fish_overhead.json''\\)\\); from SurfPhysics.analyzer import PhysicsAnalyzer; from SurfPhysics.visualization.visualizer import Visualizer; pa = PhysicsAnalyzer\\(\\); pa.runAnalysis\\(''configs/fish_overhead.json''\\); v = Visualizer\\(\\); v.createDashboard\\(pa.results\\) if config.get\\(''analysis'',{}\\).get\\(''showDashboard'',True\\) else None\")",
+      "Bash(\"C:\\\\Users\\\\seanb\\\\miniconda3\\\\python.exe\" -c \"import json, os; os.system\\(''cls''\\); config = json.load\\(open\\(''configs/longboard_small.json''\\)\\); from SurfPhysics.analyzer import PhysicsAnalyzer; from SurfPhysics.visualization.visualizer import Visualizer; pa = PhysicsAnalyzer\\(\\); pa.runAnalysis\\(''configs/longboard_small.json''\\); v = Visualizer\\(\\); v.createDashboard\\(pa.results\\) if config.get\\(''analysis'',{}\\).get\\(''showDashboard'',True\\) else None\")",
+      "Bash(code:*)"
     ]
   }
 }
