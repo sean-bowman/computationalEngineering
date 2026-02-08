@@ -71,6 +71,7 @@ class Program
             string boardType = "shortboard";
             string finConfigStr = "default";
             bool allFins = false;
+            string? configPath = null;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -90,6 +91,10 @@ class Program
                 {
                     allFins = true;
                 }
+                else if (args[i] == "--config" && i + 1 < args.Length)
+                {
+                    configPath = args[i + 1];
+                }
                 else if (args[i] == "--help")
                 {
                     PrintUsage();
@@ -98,14 +103,27 @@ class Program
             }
 
             // =================================================================
-            // SELECT BOARD PRESET
+            // SELECT BOARD PARAMETERS
             // =================================================================
-            SurfboardParameters parameters = boardType switch
+            SurfboardParameters parameters;
+
+            if (configPath != null)
             {
-                "longboard" => SurfboardParameters.Longboard,
-                "fish" => SurfboardParameters.Fish,
-                _ => SurfboardParameters.Shortboard
-            };
+                // Load custom parameters from JSON config file
+                Console.WriteLine($"Loading custom parameters from: {configPath}");
+                parameters = SurfboardParameters.FromJson(configPath);
+                boardType = "custom";
+            }
+            else
+            {
+                // Use preset based on board type
+                parameters = boardType switch
+                {
+                    "longboard" => SurfboardParameters.Longboard,
+                    "fish" => SurfboardParameters.Fish,
+                    _ => SurfboardParameters.Shortboard
+                };
+            }
 
             // =================================================================
             // SELECT FIN CONFIGURATION
@@ -172,6 +190,7 @@ class Program
         Console.WriteLine("  --type <type>      Board type: shortboard, longboard, or fish (default: shortboard)");
         Console.WriteLine("  --fins <config>    Fin setup: thruster, twin, quad, or single (default: per board type)");
         Console.WriteLine("  --all-fins         Generate all 4 fin configurations as separate STL files");
+        Console.WriteLine("  --config <path>    Load custom parameters from JSON file (overrides --type)");
         Console.WriteLine("  --help             Show this help message");
         Console.WriteLine();
         Console.WriteLine("Examples:");
@@ -183,6 +202,7 @@ class Program
         Console.WriteLine("  dotnet run -- --fins quad                     # Shortboard with quad fins");
         Console.WriteLine("  dotnet run -- --type longboard --fins single  # Longboard with single fin");
         Console.WriteLine("  dotnet run -- --all-fins --voxel 2            # All fin configs, fast preview");
+        Console.WriteLine("  dotnet run -- --config custom_params.json     # Use custom parameters");
         Console.WriteLine();
         Console.WriteLine("Board Presets:");
         Console.WriteLine("  shortboard   6'0\" x 19.5\" x 2.44\"  Performance shortboard  (default fins: thruster)");
@@ -194,5 +214,21 @@ class Program
         Console.WriteLine("  twin       2 side fins                    Fast, loose, skatey feel");
         Console.WriteLine("  quad       4 fins (2 front + 2 rear)      Speed and hold in large surf");
         Console.WriteLine("  single     1 large center fin              Smooth turns, stability");
+        Console.WriteLine();
+        Console.WriteLine("Custom Parameters JSON Format:");
+        Console.WriteLine("  {");
+        Console.WriteLine("    \"customParameters\": {");
+        Console.WriteLine("      \"Length\": 1828.0,");
+        Console.WriteLine("      \"MaxWidth\": 495.0,");
+        Console.WriteLine("      \"MaxThickness\": 62.0,");
+        Console.WriteLine("      \"NoseWidth\": 300.0,");
+        Console.WriteLine("      \"TailWidth\": 380.0,");
+        Console.WriteLine("      \"WidePointOffset\": -25.0,");
+        Console.WriteLine("      \"NoseRocker\": 120.0,");
+        Console.WriteLine("      \"TailRocker\": 40.0,");
+        Console.WriteLine("      \"DeckCrown\": 8.0,");
+        Console.WriteLine("      \"BottomConcave\": 2.0");
+        Console.WriteLine("    }");
+        Console.WriteLine("  }");
     }
 }

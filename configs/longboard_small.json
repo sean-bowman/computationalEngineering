@@ -20,8 +20,26 @@
         "mass": 75.0
     },
     "analysis": {
+        "run": true,
         "showDashboard": true,
         "speedRange": [0.5, 10.0],
         "nSpeedPoints": 50
+    },
+    "viewer": {
+        "export": true,
+        "openInBrowser": false,
+        "outputDir": "SurfViewer/data"
+    },
+    "waterSim": {
+        "run": false,
+        "preset": "small",
+        "configPath": null,
+        "export": true,
+        "outputDir": "WaterSim/output"
+    },
+    "animations": {
+        "render": false,
+        "scenes": [],
+        "quality": "high"
     }
 }

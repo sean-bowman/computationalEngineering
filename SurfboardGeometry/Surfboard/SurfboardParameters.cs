@@ -51,6 +51,8 @@
 //
 // =============================================================================
 
+using System.Text.Json;
+
 namespace SurfboardGeometry.Surfboard;
 
 /// <summary>
@@ -378,5 +380,75 @@ public class SurfboardParameters
         Console.WriteLine("╠══════════════════════════════════════════════════════════╣");
         Console.WriteLine($"║  Approx Volume:       {ApproxVolumeLiters,8:F1} L                     ║");
         Console.WriteLine("╚══════════════════════════════════════════════════════════╝");
+    }
+
+    // =========================================================================
+    // JSON LOADING FOR OPTIMIZATION
+    // =========================================================================
+
+    /// <summary>
+    /// Load surfboard parameters from a JSON configuration file.
+    /// </summary>
+    /// <param name="filePath">Path to JSON config file</param>
+    /// <returns>SurfboardParameters instance with values from JSON</returns>
+    /// <remarks>
+    /// Expected JSON format:
+    /// {
+    ///   "customParameters": {
+    ///     "Length": 1828.0,
+    ///     "MaxWidth": 495.0,
+    ///     ...
+    ///   }
+    /// }
+    /// Missing properties use shortboard defaults.
+    /// </remarks>
+    public static SurfboardParameters FromJson(string filePath)
+    {
+        string json = File.ReadAllText(filePath);
+        using JsonDocument doc = JsonDocument.Parse(json);
+        JsonElement root = doc.RootElement;
+
+        // Look for customParameters object
+        if (!root.TryGetProperty("customParameters", out JsonElement paramsElement))
+        {
+            throw new InvalidOperationException(
+                "JSON config must contain a 'customParameters' object"
+            );
+        }
+
+        // Start with shortboard defaults
+        var defaults = Shortboard;
+
+        return new SurfboardParameters
+        {
+            Length = GetFloat(paramsElement, "Length", defaults.Length),
+            MaxWidth = GetFloat(paramsElement, "MaxWidth", defaults.MaxWidth),
+            MaxThickness = GetFloat(paramsElement, "MaxThickness", defaults.MaxThickness),
+            NoseWidth = GetFloat(paramsElement, "NoseWidth", defaults.NoseWidth),
+            TailWidth = GetFloat(paramsElement, "TailWidth", defaults.TailWidth),
+            WidePointOffset = GetFloat(paramsElement, "WidePointOffset", defaults.WidePointOffset),
+            NoseRocker = GetFloat(paramsElement, "NoseRocker", defaults.NoseRocker),
+            TailRocker = GetFloat(paramsElement, "TailRocker", defaults.TailRocker),
+            DeckCrown = GetFloat(paramsElement, "DeckCrown", defaults.DeckCrown),
+            BottomConcave = GetFloat(paramsElement, "BottomConcave", defaults.BottomConcave),
+            RailRadius = GetFloat(paramsElement, "RailRadius", defaults.RailRadius),
+            TailShape = defaults.TailShape,
+            TailTipHalfWidth = GetFloat(paramsElement, "TailTipHalfWidth", defaults.TailTipHalfWidth),
+            SwallowNotchDepth = GetFloat(paramsElement, "SwallowNotchDepth", defaults.SwallowNotchDepth),
+            SwallowNotchHalfWidth = GetFloat(paramsElement, "SwallowNotchHalfWidth", defaults.SwallowNotchHalfWidth),
+            DefaultFinConfiguration = defaults.DefaultFinConfiguration,
+        };
+    }
+
+    /// <summary>
+    /// Helper to extract a float property from JSON with a default fallback.
+    /// </summary>
+    private static float GetFloat(JsonElement element, string propertyName, float defaultValue)
+    {
+        if (element.TryGetProperty(propertyName, out JsonElement prop))
+        {
+            return prop.GetSingle();
+        }
+        return defaultValue;
     }
 }

@@ -9,7 +9,24 @@
         "generate": false,
         "voxelSize": 0.5,
         "outputDir": "SurfboardGeometry/Output",
+        "finConfiguration": "thruster",
         "useMeshForPhysics": false
+    },
+    "validation": {
+        "run": true,
+        "referencePath": "SurfPhysics/validation/meshes/referenceThruster.stl",
+        "optimize": true,
+        "targetRmsMm": 10.0,
+        "maxPhase1Iterations": 3,
+        "maxPhase2Iterations": 30,
+        "initialBoardType": "shortboard",
+        "decimateFactor": 0.05,
+        "nSamplePoints": 20000,
+        "alignMethod": "combined",
+        "referenceScaleFactor": null,
+        "referenceAxisMapping": null,
+        "outputDir": "SurfPhysics/validation_output",
+        "exportDeviation": true
     },
     "waves": {
         "height": 1.5,
@@ -20,8 +37,26 @@
         "mass": 75.0
     },
     "analysis": {
+        "run": true,
         "showDashboard": true,
         "speedRange": [0.5, 10.0],
         "nSpeedPoints": 50
+    },
+    "viewer": {
+        "export": true,
+        "openInBrowser": false,
+        "outputDir": "SurfViewer/data"
+    },
+    "waterSim": {
+        "run": false,
+        "preset": "small",
+        "configPath": null,
+        "export": true,
+        "outputDir": "WaterSim/output"
+    },
+    "animations": {
+        "render": false,
+        "scenes": [],
+        "quality": "high"
     }
 }
