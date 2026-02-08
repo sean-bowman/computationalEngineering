@@ -1,4 +1,5 @@
 <Solution>
-  <Project Path="PicoGK/PicoGK.csproj" />
-  <Project Path="SurfboardGeometry/SurfboardGeometry.csproj" />
+  <Project Path="codeInterface.csproj" />
+  <Project Path="computationalEngineering/PicoGK/PicoGK.csproj" />
+  <Project Path="computationalEngineering/SurfboardGeometry/SurfboardGeometry.csproj" />
 </Solution>

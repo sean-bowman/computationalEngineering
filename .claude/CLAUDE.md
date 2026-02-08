@@ -288,24 +288,34 @@ finally:
 ## Project Structure
 
 ```
-computationalEngineering/
-├── SurfboardGeometry/                     # C# / PicoGK surfboard generator
-│   ├── Program.cs                         # CLI entry point
-│   ├── Surfboard/
-│   │   ├── SurfboardParameters.cs         # Parametric dimensions & presets
-│   │   ├── SurfboardBody.cs               # Spatial painting geometry generation
-│   │   ├── Outline.cs                     # Planform shape (top view)
-│   │   ├── RockerProfile.cs               # Bottom curvature (side view)
-│   │   ├── CrossSection.cs                # Deck/bottom profile
-│   │   ├── FinConfiguration.cs            # Fin setup enum
-│   │   └── FinSystem.cs                   # Fin geometry generation
-│   ├── Utils/
-│   │   └── Constants.cs                   # Physical constants
-│   └── Output/                            # Generated STL files
-├── PicoGK/                                # LEAP 71 geometry kernel (submodule)
-├── SurfPhysics/                           # Python physics simulations (planned)
-├── documentation/                         # Technical writeups
-└── references/                            # Source material
+repo_root/
+├── .claude/                               # Claude Code settings
+├── codeInterface.py                       # Python entry point
+├── codeInterface.cs                       # C# entry point
+├── codeInterface.csproj                   # C# project for root launcher
+├── codeInterface.html                     # JavaScript/viewer entry point
+├── ComputationalEngineering.slnx          # Visual Studio solution
+├── README.md                              # Documentation
+│
+└── computationalEngineering/              # Master code directory
+    ├── SurfboardGeometry/                 # C# / PicoGK surfboard generator
+    │   ├── Program.cs                     # C# CLI entry point
+    │   ├── Surfboard/                     # Core geometry classes
+    │   └── Utils/                         # Physical constants
+    ├── PicoGK/                            # LEAP 71 geometry kernel (submodule)
+    ├── SurfPhysics/                       # Python physics & parametric geometry
+    │   ├── geometry/                      # Parametric surfboard model
+    │   ├── waves/                         # Wave theory
+    │   ├── hydrodynamics/                 # Force models
+    │   ├── visualization/                 # Plotly dashboards
+    │   ├── export/                        # STL, viewer, deviation exporters
+    │   ├── validation/                    # Reverse engineering & mesh comparison
+    │   └── optimization/                  # Parameter optimization
+    ├── WaterSim/                          # SPH water simulation
+    ├── SurfAnimations/                    # Manim animation scenes
+    ├── SurfViewer/                        # Three.js interactive web viewer
+    ├── configs/                           # JSON configuration files
+    └── documentation/                     # Technical writeups
 ```
 
 ---

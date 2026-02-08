@@ -24,11 +24,11 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from SurfPhysics.geometry.parameters import SurfboardParameters
-from SurfPhysics.geometry.board import BoardGeometry
-from SurfPhysics.geometry.surfaceMeshGenerator import SurfaceMeshGenerator, RESOLUTION_PRESETS
-from SurfPhysics.validation.reverseEngineer import ReverseEngineer
-from SurfPhysics.visualization import theme
+from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.SurfPhysics.geometry.surfaceMeshGenerator import SurfaceMeshGenerator, RESOLUTION_PRESETS
+from computationalEngineering.SurfPhysics.validation.reverseEngineer import ReverseEngineer
+from computationalEngineering.SurfPhysics.visualization import theme
 
 # Clear terminal
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -45,7 +45,7 @@ boardPreset = 'shortboard'
 meshResolution = 'standard'
 
 # Output directory for generated STL files
-outputDir = 'SurfboardGeometry/Output'
+outputDir = 'computationalEngineering/SurfboardGeometry/Output'
 
 # Whether to run reverse-engineering validation
 runReverseEngineering = True
@@ -347,9 +347,9 @@ if runReverseEngineering:
         horizontal_spacing=0.10,
     )
 
-    from SurfPhysics.geometry.outline import Outline
-    from SurfPhysics.geometry.rocker import RockerProfile
-    from SurfPhysics.geometry.crossSection import CrossSection
+    from computationalEngineering.SurfPhysics.geometry.outline import Outline
+    from computationalEngineering.SurfPhysics.geometry.rocker import RockerProfile
+    from computationalEngineering.SurfPhysics.geometry.crossSection import CrossSection
 
     fitOutline = Outline(fittedParams)
     fitRocker = RockerProfile(fittedParams)
