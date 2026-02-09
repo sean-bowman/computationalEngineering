@@ -10,6 +10,9 @@ Sean Bowman [02/04/2026]
 '''
 
 import math
+import os
+import sys
+
 import numpy as np
 from manim import (
     Arrow, Arrow3D, Text, VGroup,
@@ -17,8 +20,6 @@ from manim import (
     ManimColor,
 )
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols import PlaningState

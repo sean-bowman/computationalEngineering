@@ -14,6 +14,9 @@ Sequence (~30 seconds):
 Sean Bowman [02/04/2026]
 '''
 
+import os
+import sys
+
 import numpy as np
 from manim import (
     Scene, Text, MathTex, VGroup, VMobject,
@@ -24,8 +27,6 @@ from manim import (
     config,
 )
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
@@ -51,7 +52,7 @@ class WavePhysicsIntro(Scene):
     orbital motions, and a velocity field visualization.
     '''
 
-    def construct(self):
+    def construct(self) -> None:
         # Dark background
         self.camera.background_color = BG_COLOR
 

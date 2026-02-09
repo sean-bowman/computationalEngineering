@@ -11,11 +11,12 @@ Sean Bowman [02/04/2026]
 '''
 
 import math
+import os
+import sys
+
 import numpy as np
 from manim import VMobject, Polygon, VGroup, np as mnp
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry

@@ -9,11 +9,12 @@ pattern beneath a propagating wave, with color mapping by magnitude.
 Sean Bowman [02/04/2026]
 '''
 
+import os
+import sys
+
 import numpy as np
 from manim import Arrow, VGroup, interpolate_color, ManimColor
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory

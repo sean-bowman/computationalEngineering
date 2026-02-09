@@ -19,6 +19,9 @@ Sean Bowman [02/04/2026]
 '''
 
 import math
+import os
+import sys
+
 import numpy as np
 from manim import (
     Scene, Text, MathTex, VGroup, VMobject,
@@ -28,8 +31,6 @@ from manim import (
     linear, config,
 )
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
@@ -73,19 +74,19 @@ class _BoardData:
         self.totalWeightN = self.forceBalance.totalWeightN
         self.shape = None
 
-    def computeEquilibrium(self, speed):
+    def computeEquilibrium(self, speed: float) -> None:
         '''Compute planing state at the given speed.'''
         self.state = self.forceBalance.findEquilibrium(speed)
 
-    def lengthFt(self):
+    def lengthFt(self) -> float:
         '''Board length in feet (for display).'''
         return self.params.length / 304.8
 
-    def widthIn(self):
+    def widthIn(self) -> float:
         '''Board width in inches (for display).'''
         return self.params.maxWidth / 25.4
 
-    def thicknessIn(self):
+    def thicknessIn(self) -> float:
         '''Board thickness in inches (for display).'''
         return self.params.maxThickness / 25.4
 
@@ -102,7 +103,7 @@ class PerformanceComparison(Scene):
     showing force balance differences and performance metrics.
     '''
 
-    def construct(self):
+    def construct(self) -> None:
         self.camera.background_color = BG_COLOR
 
         # Physics setup

@@ -25,14 +25,12 @@ from computationalEngineering.Surfboard import *
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-
 ######################################################################
 # -- Configuration -- #
 ######################################################################
 
 boardPreset = 'shortboard'      # 'shortboard', 'longboard', or 'fish'
 meshResolution = 'standard'     # 'draft', 'standard', or 'high'
-
 
 ######################################################################
 # -- Generate Board -- #

@@ -24,6 +24,7 @@ The repo-root entry point uses a single wildcard import to access the entire Sur
 - `meshResolution` — `'draft'`, `'standard'`, or `'high'`
 
 **Wildcard import** for programmatic use:
+
 ```python
 from computationalEngineering.Surfboard import *
 params = SurfboardParameters.shortboard()
@@ -277,10 +278,11 @@ At each station along the board, the cross-section defines:
 - [X] Prioritize API calls over CLI calls for code library interfacing
 - [ ] Update surfboard and fin shapes against reference images and STLs for maximum realism
 - [X] Investigate PicoGK geometry generation methodologies: is there a better way than packed spheres?
-- [ ] Parallel develop surface-mesh based geometry generation through Python
+- [X] Parallel develop surface-mesh based geometry generation through Python
 - [X] Consolidate the references and documentation folders
 - [ ] Extend WaterSim to 3D with wave-maker boundaries for breaking wave modeling
 - [ ] Add new geometry domains (boat hull, etc.) as sibling packages under `computationalEngineering/`
+- [ ] Port pytthon utilities and coding standards from existing projects and cross reference progress to github pages portfolio site
 
 ## Technology
 

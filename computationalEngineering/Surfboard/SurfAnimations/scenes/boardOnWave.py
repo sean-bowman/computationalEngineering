@@ -11,6 +11,9 @@ Sean Bowman [02/04/2026]
 '''
 
 import math
+import os
+import sys
+
 import numpy as np
 from manim import (
     Scene, ThreeDScene, Text, MathTex, VGroup, VMobject,
@@ -20,8 +23,6 @@ from manim import (
     linear, config,
 )
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
@@ -64,7 +65,7 @@ class BoardOnWaveSideView(Scene):
     (weight, buoyancy, planing lift, drag) and velocity field.
     '''
 
-    def construct(self):
+    def construct(self) -> None:
         self.camera.background_color = BG_COLOR
 
         # Physics setup
@@ -295,7 +296,7 @@ class BoardOnWavePerspective(ThreeDScene):
     tracking the wave, 3D force arrows, and camera orbit.
     '''
 
-    def construct(self):
+    def construct(self) -> None:
         self.camera.background_color = BG_COLOR
 
         # Physics setup

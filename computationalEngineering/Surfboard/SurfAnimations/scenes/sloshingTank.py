@@ -15,6 +15,8 @@ Sean Bowman [02/05/2026]
 '''
 
 import json
+import os
+import sys
 
 import numpy as np
 from manim import (
@@ -25,8 +27,6 @@ from manim import (
     rate_functions,
 )
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import (
@@ -50,7 +50,7 @@ class SloshingTankAnimation(Scene):
     this scene with the exported JSON path.
     '''
 
-    def construct(self):
+    def construct(self) -> None:
         '''Build and play the animation sequence.'''
 
         # --- Configuration --- #

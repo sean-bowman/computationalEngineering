@@ -9,11 +9,12 @@ SPH sloshing tank visualization.
 Sean Bowman [02/05/2026]
 '''
 
+import os
+import sys
+
 import numpy as np
 from manim import VGroup, Line
 
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import WHITE
