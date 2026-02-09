@@ -16,9 +16,9 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfAnimations.utils.manimTheme import BLUE, CYAN
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import BLUE, CYAN
 
 
 ######################################################################

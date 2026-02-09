@@ -12,8 +12,8 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from computationalEngineering.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
-from computationalEngineering.SurfPhysics.visualization import theme
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
+from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
 
 
 def plotDragBreakdown(

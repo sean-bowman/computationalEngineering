@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import math
 
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
 
 
 class RockerProfile:

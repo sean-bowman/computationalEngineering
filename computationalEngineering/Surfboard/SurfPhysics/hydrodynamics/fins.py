@@ -22,9 +22,9 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.hydrodynamics.protocols import ForceResult
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols import ForceResult
 
 
 @dataclass

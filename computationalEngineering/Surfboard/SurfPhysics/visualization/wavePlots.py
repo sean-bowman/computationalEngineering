@@ -12,10 +12,10 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.visualization import theme
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
 
 
 def plotWaveProfile(

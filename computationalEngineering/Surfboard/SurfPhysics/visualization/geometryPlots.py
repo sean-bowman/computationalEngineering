@@ -12,10 +12,10 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.units import mToMm
-from computationalEngineering.SurfPhysics.visualization import theme
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.units import mToMm
+from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
 
 
 def plotOutline(board: BoardGeometry, params: SurfboardParameters) -> go.Figure:

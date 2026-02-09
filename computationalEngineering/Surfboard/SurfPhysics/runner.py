@@ -24,14 +24,14 @@ from typing import Optional
 
 import numpy as np
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
-from computationalEngineering.SurfPhysics.hydrodynamics.buoyancy import BuoyancyModel
-from computationalEngineering.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
-from computationalEngineering.SurfPhysics.visualization.dashboard import createAnalysisDashboard
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.buoyancy import BuoyancyModel
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
+from computationalEngineering.Surfboard.SurfPhysics.visualization.dashboard import createAnalysisDashboard
 
 
 def buildParser() -> argparse.ArgumentParser:

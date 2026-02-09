@@ -11,14 +11,14 @@ from __future__ import annotations
 
 import numpy as np
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.hydrodynamics.protocols import ForceResult, PlaningState
-from computationalEngineering.SurfPhysics.hydrodynamics.buoyancy import BuoyancyModel
-from computationalEngineering.SurfPhysics.hydrodynamics.friction import FrictionDragModel
-from computationalEngineering.SurfPhysics.hydrodynamics.planing import PlaningModel
-from computationalEngineering.SurfPhysics.hydrodynamics.fins import FinForceModel
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols import ForceResult, PlaningState
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.buoyancy import BuoyancyModel
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.friction import FrictionDragModel
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.planing import PlaningModel
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.fins import FinForceModel
 
 
 class ForceBalance:

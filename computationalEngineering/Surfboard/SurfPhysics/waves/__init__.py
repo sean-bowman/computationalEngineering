@@ -4,5 +4,5 @@
 Wave physics models including linear (Airy) wave theory.
 '''
 
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory

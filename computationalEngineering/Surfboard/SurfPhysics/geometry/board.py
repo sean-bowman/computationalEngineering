@@ -18,11 +18,11 @@ import math
 
 import numpy as np
 
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.geometry.outline import Outline
-from computationalEngineering.SurfPhysics.geometry.rocker import RockerProfile
-from computationalEngineering.SurfPhysics.geometry.crossSection import CrossSection
-from computationalEngineering.SurfPhysics.units import mmToM
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.outline import Outline
+from computationalEngineering.Surfboard.SurfPhysics.geometry.rocker import RockerProfile
+from computationalEngineering.Surfboard.SurfPhysics.geometry.crossSection import CrossSection
+from computationalEngineering.Surfboard.SurfPhysics.units import mmToM
 
 
 class BoardGeometry:

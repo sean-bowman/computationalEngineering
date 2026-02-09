@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from typing import Protocol
 
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
 
 
 class WaveModel(Protocol):

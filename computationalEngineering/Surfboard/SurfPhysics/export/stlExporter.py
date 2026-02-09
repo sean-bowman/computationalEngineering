@@ -16,8 +16,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional
 
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.geometry.surfaceMeshGenerator import (
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.surfaceMeshGenerator import (
     SurfaceMeshGenerator,
     RESOLUTION_PRESETS,
 )
@@ -175,7 +175,7 @@ class StlExporter:
         refPath = Path(referencePath)
         if refPath.exists():
             try:
-                from computationalEngineering.SurfPhysics.validation.meshComparison import MeshComparisonAnalyzer
+                from computationalEngineering.Surfboard.SurfPhysics.validation.meshComparison import MeshComparisonAnalyzer
 
                 analyzer = MeshComparisonAnalyzer(
                     referencePath=str(refPath),

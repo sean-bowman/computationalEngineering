@@ -35,12 +35,12 @@ try:
 except ImportError:
     trimesh = None
 
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.geometry.outline import Outline
-from computationalEngineering.SurfPhysics.geometry.rocker import RockerProfile
-from computationalEngineering.SurfPhysics.geometry.crossSection import CrossSection
-from computationalEngineering.SurfPhysics.optimization.coordinateTransformer import CoordinateTransformer
-from computationalEngineering.SurfPhysics.validation.finSegmentation import FinSegmenter
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.outline import Outline
+from computationalEngineering.Surfboard.SurfPhysics.geometry.rocker import RockerProfile
+from computationalEngineering.Surfboard.SurfPhysics.geometry.crossSection import CrossSection
+from computationalEngineering.Surfboard.SurfPhysics.optimization.coordinateTransformer import CoordinateTransformer
+from computationalEngineering.Surfboard.SurfPhysics.validation.finSegmentation import FinSegmenter
 
 
 ######################################################################

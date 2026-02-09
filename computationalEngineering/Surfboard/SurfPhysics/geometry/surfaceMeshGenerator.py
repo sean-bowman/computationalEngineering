@@ -33,10 +33,10 @@ try:
 except ImportError:
     trimesh = None
 
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.geometry.outline import Outline
-from computationalEngineering.SurfPhysics.geometry.rocker import RockerProfile
-from computationalEngineering.SurfPhysics.geometry.crossSection import CrossSection
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.outline import Outline
+from computationalEngineering.Surfboard.SurfPhysics.geometry.rocker import RockerProfile
+from computationalEngineering.Surfboard.SurfPhysics.geometry.crossSection import CrossSection
 
 
 ######################################################################
@@ -67,7 +67,7 @@ class SurfaceMeshGenerator:
 
     Examples:
     ---------
-    >>> from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
+    >>> from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
     >>> params = SurfboardParameters.shortboard()
     >>> gen = SurfaceMeshGenerator(params, nLongitudinal=300, nLateral=60)
     >>> gen.exportStl('shortboard.stl')

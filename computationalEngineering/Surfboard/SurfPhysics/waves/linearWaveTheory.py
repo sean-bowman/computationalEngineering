@@ -29,8 +29,8 @@ from __future__ import annotations
 
 import math
 
-from computationalEngineering.SurfPhysics import constants as c
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics import constants as c
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
 
 
 class LinearWaveTheory:

@@ -22,10 +22,10 @@ from datetime import datetime
 
 import numpy as np
 
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.export.meshSampler import sampleParametricSurface
-from computationalEngineering.SurfPhysics.units import mToMm
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.export.meshSampler import sampleParametricSurface
+from computationalEngineering.Surfboard.SurfPhysics.units import mToMm
 
 
 class ViewerExporter:
@@ -40,8 +40,8 @@ class ViewerExporter:
     def exportForViewer(
         self,
         results: dict,
-        stlDir: str = 'computationalEngineering/SurfboardGeometry/Output',
-        outputDir: str = 'computationalEngineering/SurfViewer/data',
+        stlDir: str = 'computationalEngineering/Surfboard/SurfboardGeometry/Output',
+        outputDir: str = 'computationalEngineering/Surfboard/SurfViewer/data',
         embedStl: bool = False,
         nLongitudinal: int = 100,
         nLateral: int = 25,

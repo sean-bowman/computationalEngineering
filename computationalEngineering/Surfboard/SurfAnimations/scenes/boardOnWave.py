@@ -24,32 +24,32 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
-from computationalEngineering.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
 
-from computationalEngineering.SurfAnimations.utils.manimTheme import (
+from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import (
     WAVE_COLOR, WATER_FILL, BG_COLOR, WHITE, CYAN, BLUE,
     RED, GREEN, ORANGE, REFERENCE_LINE, BOARD_COLOR,
     SHORTBOARD_COLOR,
 )
-from computationalEngineering.SurfAnimations.components.waveSurface import (
+from computationalEngineering.Surfboard.SurfAnimations.components.waveSurface import (
     createWaveLine, updateWaveLine,
     createWaterFill, updateWaterFill,
     createWaveSurface3D,
 )
-from computationalEngineering.SurfAnimations.components.boardProfile import (
+from computationalEngineering.Surfboard.SurfAnimations.components.boardProfile import (
     createBoardProfile, positionBoardOnWave,
     createBoardOutline3D, positionBoardOnWave3D,
 )
-from computationalEngineering.SurfAnimations.components.forceArrows import (
+from computationalEngineering.Surfboard.SurfAnimations.components.forceArrows import (
     createForceArrow, createForceBalance,
     createForceBalance3D,
 )
-from computationalEngineering.SurfAnimations.components.velocityField import createVelocityField
+from computationalEngineering.Surfboard.SurfAnimations.components.velocityField import createVelocityField
 
 
 ######################################################################

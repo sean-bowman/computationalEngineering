@@ -22,13 +22,13 @@ try:
 except ImportError:
     trimesh = None
 
-from computationalEngineering.SurfPhysics.validation.meshAlignment import MeshAligner, AlignmentResult
-from computationalEngineering.SurfPhysics.validation.distanceMetrics import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.meshAlignment import MeshAligner, AlignmentResult
+from computationalEngineering.Surfboard.SurfPhysics.validation.distanceMetrics import (
     DistanceAnalyzer, DistanceStatistics, RegionalDeviation
 )
-from computationalEngineering.SurfPhysics.validation.finSegmentation import FinSegmenter, SegmentedMesh
-from computationalEngineering.SurfPhysics.validation.deviationVisualizer import DeviationVisualizer
-from computationalEngineering.SurfPhysics.validation.comparisonReport import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.finSegmentation import FinSegmenter, SegmentedMesh
+from computationalEngineering.Surfboard.SurfPhysics.validation.deviationVisualizer import DeviationVisualizer
+from computationalEngineering.Surfboard.SurfPhysics.validation.comparisonReport import (
     ComparisonReportGenerator, ComparisonReportData
 )
 

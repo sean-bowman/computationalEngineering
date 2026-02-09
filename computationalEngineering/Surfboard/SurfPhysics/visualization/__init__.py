@@ -5,5 +5,5 @@ Plotly-based interactive visualizations for wave physics,
 board geometry, and hydrodynamic force analysis.
 '''
 
-from computationalEngineering.SurfPhysics.visualization.visualizer import Visualizer
-from computationalEngineering.SurfPhysics.visualization.dashboard import createAnalysisDashboard
+from computationalEngineering.Surfboard.SurfPhysics.visualization.visualizer import Visualizer
+from computationalEngineering.Surfboard.SurfPhysics.visualization.dashboard import createAnalysisDashboard

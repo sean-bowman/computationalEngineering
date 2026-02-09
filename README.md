@@ -4,40 +4,97 @@
 
 This repository demonstrates computational engineering -- the process of using software to define, generate, and analyze physical objects and their behavior. Rather than drawing shapes manually in CAD software, geometry is defined programmatically through mathematical functions and parameters, enabling precise control, reproducibility, and design exploration.
 
+The library is organized by domain under `computationalEngineering/`. Each domain (e.g. `Surfboard/`) is a self-contained Python package with its own configs, documentation, and code. Generic tools like `PicoGK` and `WaterSim` live at the top level for reuse across domains.
+
+---
+
+## Quick Start
+
+### Python — Parametric Surface Mesh
+
+```bash
+python codeInterface.py
+```
+
+The repo-root entry point uses a single wildcard import to access the entire Surfboard module. It generates a parametric surfboard mesh, runs reverse-engineering validation, and opens an interactive 3D Plotly visualization.
+
+**Configuration** (edit variables at the top of `codeInterface.py`):
+
+- `boardPreset` — `'shortboard'`, `'longboard'`, or `'fish'`
+- `meshResolution` — `'draft'`, `'standard'`, or `'high'`
+
+**Wildcard import** for programmatic use:
+```python
+from computationalEngineering.Surfboard import *
+params = SurfboardParameters.shortboard()
+board = BoardGeometry(params)
+```
+
+### C# — Voxel-Based Geometry (PicoGK)
+
+```bash
+dotnet run --project computationalEngineering/Surfboard/SurfboardGeometry/SurfboardGeometry.csproj
+```
+
+Generates voxel-based surfboard geometry using [PicoGK](https://github.com/leap71/PicoGK), LEAP 71's computational geometry kernel. Supports CLI options for board type, fin configuration, and voxel resolution.
+
+```bash
+# Generate a longboard with single fin
+dotnet run --project computationalEngineering/Surfboard/SurfboardGeometry/SurfboardGeometry.csproj -- --type longboard
+
+# Fish board at high resolution
+dotnet run --project computationalEngineering/Surfboard/SurfboardGeometry/SurfboardGeometry.csproj -- --type fish --voxel 0.25
+
+# Shortboard with quad fins
+dotnet run --project computationalEngineering/Surfboard/SurfboardGeometry/SurfboardGeometry.csproj -- --fins quad
+
+# Show all options
+dotnet run --project computationalEngineering/Surfboard/SurfboardGeometry/SurfboardGeometry.csproj -- --help
+```
+
+Output STL files are saved to `computationalEngineering/Surfboard/SurfboardGeometry/Output/`.
+
+### Web Viewer — Interactive 3D (Three.js)
+
+```bash
+# Serve from the repo root
+python -m http.server 8080
+
+# Open in browser:
+#   http://localhost:8080/computationalEngineering/Surfboard/SurfViewer/viewer.html
+```
+
+The viewer reads JSON data exported by the Python analysis pipeline from `computationalEngineering/Surfboard/SurfViewer/data/`. Features include dual geometry modes (STL mesh or parametric surface), solid/wireframe/glass render modes, physics overlays (waterline, force vectors), and board comparison.
+
 ---
 
 ## Python API
 
-All modules expose clean package-level imports for programmatic use. The `codeInterface.py` file demonstrates the full pipeline:
+All modules expose clean package-level imports for programmatic use:
 
 ```python
-# Core analysis pipeline
-from SurfPhysics import PhysicsAnalyzer, SurfboardParameters, Visualizer, ViewerExporter
-analyzer = PhysicsAnalyzer()
-results = analyzer.runAnalysis('configs/shortboard_default.json')
+# Wildcard import — all key surfboard classes
+from computationalEngineering.Surfboard import *
 
-# SPH water simulation
-from WaterSim import WaterSimRunner, SloshingTankConfig
-runner = WaterSimRunner()
-results = runner.runSloshing(SloshingTankConfig.small2D())
+# Or import specific modules
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.geometry.surfaceMeshGenerator import SurfaceMeshGenerator
+from computationalEngineering.Surfboard.SurfPhysics.validation.reverseEngineer import ReverseEngineer
+from computationalEngineering.Surfboard.SurfboardGeometry.geometryGenerator import GeometryGenerator
+from computationalEngineering.Surfboard.SurfAnimations.render import renderScene
 
-# Manim animations
-from SurfAnimations import renderScene
-renderScene('wave_intro', quality='high')
-
-# C# geometry generation (via subprocess)
-from SurfboardGeometry import GeometryGenerator
-generator = GeometryGenerator()
-stlPath = generator.generateFromConfig('configs/shortboard_default.json')
+# SPH water simulation (generic, top-level)
+from computationalEngineering.WaterSim.runner import WaterSimRunner
 ```
 
-Each step is config-flag-driven -- see `configs/shortboard_default.json` for all options. Full API documentation is in `documentation/api-reference.md`.
+Surfboard configs are in `computationalEngineering/Surfboard/configs/`. Full API documentation is in [computationalEngineering/Surfboard/documentation/apiReference.md](computationalEngineering/Surfboard/documentation/apiReference.md).
 
 ---
 
 ## Surfboard Geometry (PicoGK / C#)
 
-The primary project generates parametric surfboard geometry using [PicoGK](https://github.com/leap71/PicoGK), LEAP 71's open-source computational geometry kernel. A surfboard's shape is defined by three mathematical profiles that are combined during voxel-based spatial painting:
+The C# project generates parametric surfboard geometry using [PicoGK](https://github.com/leap71/PicoGK), LEAP 71's open-source computational geometry kernel. A surfboard's shape is defined by three mathematical profiles that are combined during voxel-based spatial painting:
 
 ```
   TOP VIEW (Outline)          SIDE VIEW (Rocker)         CROSS-SECTION
@@ -48,8 +105,8 @@ The primary project generates parametric surfboard geometry using [PicoGK](https
     ╱        ╲        \ Nose Rocker                       │   Volume    │
    │  Wide    │        \                    /              ╲___________╱
    │  Point   │         \_______Flat_______/ Tail Rocker      Concave
-    ╲        ╱  
-      ╲____╱  
+    ╲        ╱
+      ╲____╱
        Tail
 ```
 
@@ -82,7 +139,7 @@ All dimensions are configurable through `SurfboardParameters`.
 | Quad          | 4 (2 front + 2 rear) | --          | Speed and hold in large surf |
 | Single        | 1 (center only)      | Longboard   | Smooth turns, stability      |
 
-Fin configuration is independent of board type -- any combination can be used via the `--fins` CLI argument.
+Fin configuration is independent of board type -- any combination can be used via the `--fins` argument.
 
 ---
 
@@ -90,6 +147,7 @@ Fin configuration is independent of board type -- any combination can be used vi
 
 - [.NET 10.0 SDK](https://dotnet.microsoft.com/download) or later
 - [PicoGK Runtime](https://github.com/leap71/PicoGK) (included as git submodule)
+- Python 3.x with `numpy`, `plotly`, `trimesh`
 - Windows x64 (for PicoGK native libraries)
 
 ## Setup
@@ -102,67 +160,12 @@ cd computationalEngineering
 # If you already cloned without submodules
 git submodule update --init --recursive
 
-# Build
-dotnet build SurfboardGeometry/
+# Build the C# surfboard geometry project
+dotnet build computationalEngineering/Surfboard/SurfboardGeometry/SurfboardGeometry.csproj
+
+# Install Python dependencies
+pip install numpy plotly trimesh
 ```
-
-## Usage
-
-```bash
-# Generate a default shortboard (6'0", thruster fins, 0.5mm voxel resolution)
-dotnet run --project SurfboardGeometry/
-
-# Generate a longboard (defaults to single fin)
-dotnet run --project SurfboardGeometry/ -- --type longboard
-
-# Generate a fish board (defaults to twin fins)
-dotnet run --project SurfboardGeometry/ -- --type fish
-
-# Generate a fish board at high resolution
-dotnet run --project SurfboardGeometry/ -- --type fish --voxel 0.25
-
-# Shortboard with quad fins
-dotnet run --project SurfboardGeometry/ -- --fins quad
-
-# Fast preview (low resolution)
-dotnet run --project SurfboardGeometry/ -- --type shortboard --voxel 1
-
-# Generate all 4 fin configurations as separate STL files
-dotnet run --project SurfboardGeometry/ -- --all-fins --voxel 2
-
-# Show help
-dotnet run --project SurfboardGeometry/ -- --help
-```
-
-Output STL files are saved to `SurfboardGeometry/Output/`.
-
----
-
-## Interactive 3D Viewer (Three.js)
-
-The project includes an interactive Three.js-based 3D viewer for inspecting surfboard geometry and physics data in the browser.
-
-### Features
-
-- **Dual geometry modes**: Load voxel-generated STL meshes or parametric surface reconstructions
-- **Render modes**: Solid (fiberglass finish), wireframe, and transparent glass
-- **Physics overlays**: Waterline plane, force vectors (weight, buoyancy, drag, lift), draft indicator
-- **Board comparison**: Side-by-side or overlay comparison of up to 3 board types
-
-### Usage
-
-```bash
-# 1. Export viewer data (run the analysis pipeline with viewer export enabled)
-python codeInterface.py
-
-# 2. Serve the viewer locally (Three.js requires HTTP, not file://)
-python -m http.server 8080 --directory SurfViewer
-
-# 3. Open in browser
-#    http://localhost:8080/viewer.html
-```
-
-The viewer reads JSON data exported by the Python analysis pipeline from `SurfViewer/data/`. Each board type produces a `boardData_<type>.json` file containing parametric surface geometry, physics results, and force vector data.
 
 ---
 
@@ -184,64 +187,57 @@ Animated physics visualizations built with Manim Community Edition, showing wave
 
 ```bash
 # Render a single scene (1080p)
-python SurfAnimations/render.py --scene wave_intro
+python computationalEngineering/Surfboard/SurfAnimations/render.py --scene wave_intro
 
 # Render all scenes
-python SurfAnimations/render.py --all
+python computationalEngineering/Surfboard/SurfAnimations/render.py --all
 
 # Fast preview (480p)
-python SurfAnimations/render.py --scene board_side --quality low
+python computationalEngineering/Surfboard/SurfAnimations/render.py --scene board_side --quality low
 
 # List available scenes
-python SurfAnimations/render.py --list
+python computationalEngineering/Surfboard/SurfAnimations/render.py --list
 ```
 
-Output MP4 files are saved to `SurfAnimations/media/`.
+Output MP4 files are saved to `computationalEngineering/Surfboard/SurfAnimations/media/`.
 
 ---
 
 ## Project Structure
 
 ```
-computationalEngineering/
-├── SurfboardGeometry/                     C# / PicoGK surfboard generator
-│   ├── Program.cs                         CLI entry point
-│   ├── Surfboard/
-│   │   ├── SurfboardParameters.cs         Parametric dimensions & presets
-│   │   ├── SurfboardBody.cs               Spatial painting geometry generation
-│   │   ├── Outline.cs                     Planform shape (top view)
-│   │   ├── RockerProfile.cs               Bottom curvature (side view)
-│   │   ├── CrossSection.cs               Deck/bottom profile (cross-section)
-│   │   ├── FinConfiguration.cs            Fin setup enum (thruster/twin/quad/single)
-│   │   └── FinSystem.cs                   Fin geometry generation
-│   ├── Utils/
-│   │   └── Constants.cs                   Physical constants
-│   └── Output/                            Generated STL files
-├── SurfViewer/                            Three.js interactive 3D viewer
-│   ├── viewer.html                        Entry point
-│   ├── js/                                ES modules (app, scene, renderer, UI)
-│   ├── lib/                               Local Three.js dependencies
-│   └── data/                              Exported JSON (gitignored)
-├── SurfAnimations/                        Manim physics animations
-│   ├── scenes/                            Animation scene classes
-│   ├── components/                        Reusable Manim mobjects
-│   ├── utils/                             Theme colors
-│   ├── render.py                          CLI render script
-│   └── media/                             Rendered output (gitignored)
-├── SurfPhysics/                           Python physics simulations
-│   ├── geometry/                          Parametric board geometry
-│   ├── waves/                             Linear wave theory
-│   ├── hydrodynamics/                     Force models (buoyancy, planing, drag)
-│   ├── visualization/                     Plotly dashboards
-│   └── export/                            Viewer data export pipeline
-├── WaterSim/                              SPH water simulation
-│   ├── sph/                               WCSPH solver engine
-│   ├── scenarios/                         Pre-configured simulations
-│   └── export/                            Frame data export
-├── PicoGK/                                LEAP 71 geometry kernel (submodule)
-├── configs/                               JSON configuration files
-├── documentation/                         Technical writeups & API reference
-└── references/                            Source material
+repo_root/
+├── codeInterface.py                       Python entry point
+├── README.md
+│
+└── computationalEngineering/              Master code directory
+    │
+    ├── Surfboard/                         Surfboard design domain
+    │   ├── SurfboardGeometry/             C# / PicoGK surfboard generator
+    │   │   ├── Program.cs                 C# CLI entry point
+    │   │   ├── Surfboard/                 Core geometry classes
+    │   │   └── Utils/                     Physical constants
+    │   ├── SurfPhysics/                   Python physics simulations
+    │   │   ├── geometry/                  Parametric board geometry
+    │   │   ├── waves/                     Linear wave theory
+    │   │   ├── hydrodynamics/             Force models
+    │   │   ├── visualization/             Plotly dashboards
+    │   │   ├── export/                    Viewer data export
+    │   │   ├── validation/                Reverse engineering & mesh comparison
+    │   │   └── optimization/              Parameter optimization
+    │   ├── SurfAnimations/                Manim physics animations
+    │   ├── SurfViewer/                    Three.js interactive 3D viewer
+    │   ├── configs/                       Surfboard JSON configs
+    │   └── documentation/                 Surfboard technical writeups
+    │
+    ├── WaterSim/                          SPH water simulation (generic)
+    │   ├── sph/                           WCSPH solver engine
+    │   ├── scenarios/                     Pre-configured simulations
+    │   ├── export/                        Frame data export
+    │   ├── configs/                       Water sim JSON configs
+    │   └── documentation/                 Water sim technical writeups
+    │
+    └── PicoGK/                            LEAP 71 geometry kernel (submodule)
 ```
 
 ## Voxel-Based Geometry
@@ -275,7 +271,7 @@ At each station along the board, the cross-section defines:
 
 ---
 
-# Future Work
+## Future Work
 
 - [X] Document all work thoroughly with informational and conversational overviews of all modules
 - [X] Prioritize API calls over CLI calls for code library interfacing
@@ -284,6 +280,7 @@ At each station along the board, the cross-section defines:
 - [ ] Parallel develop surface-mesh based geometry generation through Python
 - [X] Consolidate the references and documentation folders
 - [ ] Extend WaterSim to 3D with wave-maker boundaries for breaking wave modeling
+- [ ] Add new geometry domains (boat hull, etc.) as sibling packages under `computationalEngineering/`
 
 ## Technology
 
@@ -297,14 +294,22 @@ At each station along the board, the cross-section defines:
 
 ## Documentation
 
-Detailed documentation is in the `documentation/` directory:
+### Surfboard
 
-- **[API Reference](documentation/api-reference.md)** — Quick reference for all importable classes and functions
-- **[SurfPhysics Overview](documentation/surf-physics-overview.md)** — Wave theory, buoyancy, and force balance physics
-- **[WaterSim Overview](documentation/water-sim-overview.md)** — SPH simulation theory and implementation
-- **[SurfAnimations Overview](documentation/surf-animations-overview.md)** — Manim scene architecture and components
-- **[SurfboardGeometry Overview](documentation/surfboard-geometry-overview.md)** — Voxel-based geometry generation
-- **[Geometry Implementation](documentation/surfboard-geometry-implementation.md)** — Mathematical details of outline, rocker, and cross-section
+Detailed documentation is in `computationalEngineering/Surfboard/documentation/`:
+
+- **[API Reference](computationalEngineering/Surfboard/documentation/apiReference.md)** — Quick reference for all importable classes and functions
+- **[SurfPhysics Overview](computationalEngineering/Surfboard/documentation/surfPhysicsOverview.md)** — Wave theory, buoyancy, and force balance physics
+- **[SurfAnimations Overview](computationalEngineering/Surfboard/documentation/surfAnimationsOverview.md)** — Manim scene architecture and components
+- **[SurfboardGeometry Overview](computationalEngineering/Surfboard/documentation/surfboardGeometryOverview.md)** — Voxel-based geometry generation
+- **[Geometry Implementation](computationalEngineering/Surfboard/documentation/surfboardGeometryImplementation.md)** — Mathematical details of outline, rocker, and cross-section
+- **[Parametric Surface Mesh](computationalEngineering/Surfboard/documentation/parametricSurfaceMeshOverview.md)** — Python parametric surface mesh generation
+- **[Fin Dimensions Reference](computationalEngineering/Surfboard/documentation/finDimensionsReference.md)** — Reference fin measurements
+- **[Surfboard Shaping References](computationalEngineering/Surfboard/documentation/surfboardShapingReferences.md)** — Industry shaping conventions
+
+### Water Simulation
+
+- **[WaterSim Overview](computationalEngineering/WaterSim/documentation/waterSimOverview.md)** — SPH simulation theory and implementation
 
 ---
 
@@ -317,4 +322,4 @@ Detailed documentation is in the `documentation/` directory:
 
 ---
 
-Sean Bowman | [GitHub Pages Portfolio](https://YOUR_USERNAME.github.io)
+Sean Bowman

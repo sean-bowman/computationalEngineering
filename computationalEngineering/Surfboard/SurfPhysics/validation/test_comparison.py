@@ -16,7 +16,7 @@ sys.path.insert(0, str(projectRoot))
 
 def testMeshComparison():
     '''Test the mesh comparison workflow with actual STL files.'''
-    from computationalEngineering.SurfPhysics.validation import MeshComparisonAnalyzer
+    from computationalEngineering.Surfboard.SurfPhysics.validation import MeshComparisonAnalyzer
 
     referencePath = projectRoot / 'referenceThruster.stl'
     generatedPath = projectRoot / 'SurfboardGeometry' / 'Output' / 'surfboard_thruster.stl'

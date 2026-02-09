@@ -35,6 +35,6 @@
     },
     "viewer": {
         "export": true,
-        "outputDir": "computationalEngineering/SurfViewer/data"
+        "outputDir": "computationalEngineering/Surfboard/SurfViewer/data"
     }
 }

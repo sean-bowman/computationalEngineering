@@ -13,10 +13,10 @@ from __future__ import annotations
 
 from scipy.optimize import brentq
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.hydrodynamics.protocols import ForceResult
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols import ForceResult
 
 
 class BuoyancyModel:

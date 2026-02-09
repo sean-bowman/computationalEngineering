@@ -1,4 +1,4 @@
 # Enables: python -m SurfPhysics
-from computationalEngineering.SurfPhysics.runner import main
+from computationalEngineering.Surfboard.SurfPhysics.runner import main
 
 main()

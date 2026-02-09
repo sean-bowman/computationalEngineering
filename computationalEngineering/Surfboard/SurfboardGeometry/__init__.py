@@ -7,4 +7,4 @@ Provides a GeometryGenerator class that wraps the C# CLI tool,
 enabling Python scripts to invoke STL geometry generation.
 '''
 
-from computationalEngineering.SurfboardGeometry.geometryGenerator import GeometryGenerator
+from computationalEngineering.Surfboard.SurfboardGeometry.geometryGenerator import GeometryGenerator

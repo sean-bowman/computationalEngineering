@@ -69,7 +69,7 @@ class GeometryGenerator:
         boardType = config.get('boardType', 'shortboard')
         finConfiguration = config.get('finConfiguration', 'default')
         voxelSize = config.get('voxelSize', 0.5)
-        outputDir = config.get('outputDir', 'computationalEngineering/SurfboardGeometry/Output')
+        outputDir = config.get('outputDir', 'computationalEngineering/Surfboard/SurfboardGeometry/Output')
 
         self._boardType = boardType
 
@@ -104,8 +104,8 @@ class GeometryGenerator:
                 print(f'  stderr: {result.stderr.strip()}')
             raise subprocess.CalledProcessError(result.returncode, cmd)
 
-        # Locate the output STL (go up two levels: SurfboardGeometry -> computationalEngineering -> repo root)
-        rootDir = os.path.dirname(os.path.dirname(self._projectDir))
+        # Locate the output STL (go up three levels: SurfboardGeometry -> Surfboard -> computationalEngineering -> repo root)
+        rootDir = os.path.dirname(os.path.dirname(os.path.dirname(self._projectDir)))
         stlDir = os.path.join(rootDir, outputDir)
         stlPath = os.path.join(stlDir, 'surfboard.stl')
 
@@ -142,5 +142,5 @@ class GeometryGenerator:
             'boardType': board.get('type', 'shortboard'),
             'finConfiguration': board.get('finConfiguration', 'default'),
             'voxelSize': geometry.get('voxelSize', 0.5),
-            'outputDir': geometry.get('outputDir', 'computationalEngineering/SurfboardGeometry/Output'),
+            'outputDir': geometry.get('outputDir', 'computationalEngineering/Surfboard/SurfboardGeometry/Output'),
         }

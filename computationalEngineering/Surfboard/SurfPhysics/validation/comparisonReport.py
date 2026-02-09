@@ -24,9 +24,9 @@ try:
 except ImportError:
     trimesh = None
 
-from computationalEngineering.SurfPhysics.validation.distanceMetrics import DistanceStatistics, RegionalDeviation
-from computationalEngineering.SurfPhysics.validation.meshAlignment import AlignmentResult
-from computationalEngineering.SurfPhysics.validation.finSegmentation import SegmentedMesh
+from computationalEngineering.Surfboard.SurfPhysics.validation.distanceMetrics import DistanceStatistics, RegionalDeviation
+from computationalEngineering.Surfboard.SurfPhysics.validation.meshAlignment import AlignmentResult
+from computationalEngineering.Surfboard.SurfPhysics.validation.finSegmentation import SegmentedMesh
 
 
 ######################################################################

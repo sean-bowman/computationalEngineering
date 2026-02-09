@@ -18,13 +18,13 @@ import os
 
 import numpy as np
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
-from computationalEngineering.SurfPhysics.hydrodynamics.buoyancy import BuoyancyModel
-from computationalEngineering.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.buoyancy import BuoyancyModel
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
 
 
 class PhysicsAnalyzer:
@@ -107,8 +107,8 @@ class PhysicsAnalyzer:
         # Choose parametric or mesh-based geometry
         useMesh = config.get('useMeshForPhysics', False)
         if useMesh:
-            from computationalEngineering.SurfPhysics.geometry.meshLoader import MeshBoardGeometry
-            outputDir = config.get('geometryOutputDir', 'computationalEngineering/SurfboardGeometry/Output')
+            from computationalEngineering.Surfboard.SurfPhysics.geometry.meshLoader import MeshBoardGeometry
+            outputDir = config.get('geometryOutputDir', 'computationalEngineering/Surfboard/SurfboardGeometry/Output')
             stlPath = os.path.join(outputDir, 'surfboard.stl')
             board = MeshBoardGeometry(stlPath)
         else:
@@ -275,7 +275,7 @@ class PhysicsAnalyzer:
             'foamType': board.get('foamType', 'pu'),
             'customParametersFile': board.get('customParametersFile', None),
             'useMeshForPhysics': geometry.get('useMeshForPhysics', False),
-            'geometryOutputDir': geometry.get('outputDir', 'computationalEngineering/SurfboardGeometry/Output'),
+            'geometryOutputDir': geometry.get('outputDir', 'computationalEngineering/Surfboard/SurfboardGeometry/Output'),
             'waveHeight': waves.get('height', 1.5),
             'wavePeriod': waves.get('period', 10.0),
             'waterDepth': waves.get('depth', 2.5),

@@ -28,17 +28,17 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfAnimations.utils.manimTheme import (
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import (
     WAVE_COLOR, WATER_FILL, BG_COLOR, WHITE, CYAN, BLUE,
     RED, GREEN, ORANGE, REFERENCE_LINE,
 )
-from computationalEngineering.SurfAnimations.components.waveSurface import (
+from computationalEngineering.Surfboard.SurfAnimations.components.waveSurface import (
     createWaveLine, updateWaveLine,
     createWaterFill, updateWaterFill,
 )
-from computationalEngineering.SurfAnimations.components.velocityField import (
+from computationalEngineering.Surfboard.SurfAnimations.components.velocityField import (
     createVelocityField, createParticleOrbits,
 )
 

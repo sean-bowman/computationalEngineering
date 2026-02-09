@@ -11,41 +11,41 @@ Sean Bowman [02/05/2026]
 '''
 
 # Main orchestrator
-from computationalEngineering.SurfPhysics.validation.meshComparison import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.meshComparison import (
     MeshComparisonAnalyzer,
     ComparisonResult,
 )
 
 # Distance metrics
-from computationalEngineering.SurfPhysics.validation.distanceMetrics import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.distanceMetrics import (
     DistanceStatistics,
     RegionalDeviation,
     DistanceAnalyzer,
 )
 
 # Mesh alignment
-from computationalEngineering.SurfPhysics.validation.meshAlignment import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.meshAlignment import (
     MeshAligner,
     AlignmentResult,
 )
 
 # Fin segmentation
-from computationalEngineering.SurfPhysics.validation.finSegmentation import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.finSegmentation import (
     FinSegmenter,
     SegmentedMesh,
 )
 
 # Visualization
-from computationalEngineering.SurfPhysics.validation.deviationVisualizer import DeviationVisualizer
+from computationalEngineering.Surfboard.SurfPhysics.validation.deviationVisualizer import DeviationVisualizer
 
 # Report generation
-from computationalEngineering.SurfPhysics.validation.comparisonReport import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.comparisonReport import (
     ComparisonReportGenerator,
     ComparisonReportData,
 )
 
 # Reverse engineering
-from computationalEngineering.SurfPhysics.validation.reverseEngineer import (
+from computationalEngineering.Surfboard.SurfPhysics.validation.reverseEngineer import (
     ReverseEngineer,
     ExtractedProfiles,
 )

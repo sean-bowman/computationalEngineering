@@ -27,11 +27,11 @@ from typing import Optional
 import numpy as np
 from scipy.optimize import fsolve
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.geometry.board import BoardGeometry
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.hydrodynamics.protocols import ForceResult, PlaningState
-from computationalEngineering.SurfPhysics.hydrodynamics.friction import FrictionDragModel
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardGeometry
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols import ForceResult, PlaningState
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.friction import FrictionDragModel
 
 
 class PlaningModel:

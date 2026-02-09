@@ -8,7 +8,7 @@
     "geometry": {
         "generate": false,
         "voxelSize": 0.5,
-        "outputDir": "computationalEngineering/SurfboardGeometry/Output",
+        "outputDir": "computationalEngineering/Surfboard/SurfboardGeometry/Output",
         "useMeshForPhysics": false
     },
     "waves": {
@@ -28,7 +28,7 @@
     "viewer": {
         "export": true,
         "openInBrowser": false,
-        "outputDir": "computationalEngineering/SurfViewer/data"
+        "outputDir": "computationalEngineering/Surfboard/SurfViewer/data"
     },
     "waterSim": {
         "run": false,

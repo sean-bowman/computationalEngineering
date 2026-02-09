@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import plotly.graph_objects as go
 
-from computationalEngineering.SurfPhysics.visualization.dashboard import createAnalysisDashboard
+from computationalEngineering.Surfboard.SurfPhysics.visualization.dashboard import createAnalysisDashboard
 
 
 class Visualizer:

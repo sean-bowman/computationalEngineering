@@ -26,27 +26,27 @@ import os
 
 SCENES = {
     'wave_intro': {
-        'file': 'computationalEngineering/SurfAnimations/scenes/waveIntro.py',
+        'file': 'computationalEngineering/Surfboard/SurfAnimations/scenes/waveIntro.py',
         'class': 'WavePhysicsIntro',
         'description': 'Linear wave theory introduction',
     },
     'board_side': {
-        'file': 'computationalEngineering/SurfAnimations/scenes/boardOnWave.py',
+        'file': 'computationalEngineering/Surfboard/SurfAnimations/scenes/boardOnWave.py',
         'class': 'BoardOnWaveSideView',
         'description': 'Board riding wave (2D side view)',
     },
     'board_perspective': {
-        'file': 'computationalEngineering/SurfAnimations/scenes/boardOnWave.py',
+        'file': 'computationalEngineering/Surfboard/SurfAnimations/scenes/boardOnWave.py',
         'class': 'BoardOnWavePerspective',
         'description': 'Board riding wave (2.5D perspective)',
     },
     'performance': {
-        'file': 'computationalEngineering/SurfAnimations/scenes/performanceComparison.py',
+        'file': 'computationalEngineering/Surfboard/SurfAnimations/scenes/performanceComparison.py',
         'class': 'PerformanceComparison',
         'description': 'Multi-board performance comparison',
     },
     'sloshing_tank': {
-        'file': 'computationalEngineering/SurfAnimations/scenes/sloshingTank.py',
+        'file': 'computationalEngineering/Surfboard/SurfAnimations/scenes/sloshingTank.py',
         'class': 'SloshingTankAnimation',
         'description': 'SPH sloshing tank simulation',
     },
@@ -93,7 +93,7 @@ def _ensureFfmpegPath():
 
 def _projectRoot():
     '''Get the project root directory.'''
-    return os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 
 
 def renderScene(sceneName, quality='high'):
@@ -125,7 +125,7 @@ def renderScene(sceneName, quality='high'):
     cmd = [
         sys.executable, '-m', 'manim', 'render',
         qualityFlag,
-        '--media_dir', os.path.join(projectRoot, 'computationalEngineering', 'SurfAnimations', 'media'),
+        '--media_dir', os.path.join(projectRoot, 'computationalEngineering', 'Surfboard', 'SurfAnimations', 'media'),
         os.path.join(projectRoot, sceneInfo['file']),
         sceneInfo['class'],
     ]

@@ -21,9 +21,9 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from computationalEngineering.SurfPhysics.hydrodynamics.protocols import PlaningState
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfAnimations.utils.manimTheme import (
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols import PlaningState
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import (
     WEIGHT_COLOR, BUOYANCY_COLOR, DRAG_COLOR, LIFT_COLOR,
 )
 

@@ -20,8 +20,8 @@ from __future__ import annotations
 
 import math
 
-from computationalEngineering.SurfPhysics import constants as const
-from computationalEngineering.SurfPhysics.hydrodynamics.protocols import ForceResult
+from computationalEngineering.Surfboard.SurfPhysics import constants as const
+from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols import ForceResult
 
 
 class FrictionDragModel:

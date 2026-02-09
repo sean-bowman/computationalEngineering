@@ -19,19 +19,20 @@
     The project structure should look like:
     repo_root/
     └── computationalEngineering/
-        ├── SurfboardGeometry/
-        │   └── SurfboardGeometry.csproj (this file)
+        ├── Surfboard/
+        │   └── SurfboardGeometry/
+        │       └── SurfboardGeometry.csproj (this file)
         └── PicoGK/                      (git submodule)
             └── PicoGK.csproj
   -->
 
   <ItemGroup>
-    <ProjectReference Include="..\PicoGK\PicoGK.csproj" />
+    <ProjectReference Include="..\..\PicoGK\PicoGK.csproj" />
   </ItemGroup>
 
   <!-- Copy native DLLs to output directory -->
   <ItemGroup>
-    <None Include="..\PicoGK\native\win-x64\*.dll">
+    <None Include="..\..\PicoGK\native\win-x64\*.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>%(Filename)%(Extension)</Link>
     </None>

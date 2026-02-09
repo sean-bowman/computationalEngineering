@@ -29,13 +29,13 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from computationalEngineering.SurfAnimations.utils.manimTheme import (
+from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import (
     BG_COLOR, WHITE, BLUE, CYAN, RED, WAVE_COLOR,
 )
-from computationalEngineering.SurfAnimations.components.particleField import (
+from computationalEngineering.Surfboard.SurfAnimations.components.particleField import (
     createParticleField, updateParticleField,
 )
-from computationalEngineering.SurfAnimations.components.containerWalls import createContainerWalls
+from computationalEngineering.Surfboard.SurfAnimations.components.containerWalls import createContainerWalls
 
 
 class SloshingTankAnimation(Scene):

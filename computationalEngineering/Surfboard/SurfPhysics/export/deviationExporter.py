@@ -40,7 +40,7 @@ class DeviationExporter:
     def exportDeviationData(
         self,
         comparisonResult,
-        outputDir: str = 'computationalEngineering/SurfViewer/data',
+        outputDir: str = 'computationalEngineering/Surfboard/SurfViewer/data',
         filename: str = 'deviationData.json',
         decimateFactor: float = 0.1,
     ) -> str:
@@ -138,7 +138,7 @@ class DeviationExporter:
         self,
         referenceMesh: 'trimesh.Trimesh',
         generatedMesh: 'trimesh.Trimesh',
-        outputDir: str = 'computationalEngineering/SurfViewer/data',
+        outputDir: str = 'computationalEngineering/Surfboard/SurfViewer/data',
         filename: str = 'deviationData.json',
         decimateFactor: float = 0.1,
     ) -> str:

@@ -16,8 +16,8 @@ from typing import Optional
 
 import numpy as np
 
-from computationalEngineering.SurfPhysics.validation.meshComparison import ComparisonResult
-from computationalEngineering.SurfPhysics.validation.distanceMetrics import RegionalDeviation
+from computationalEngineering.Surfboard.SurfPhysics.validation.meshComparison import ComparisonResult
+from computationalEngineering.Surfboard.SurfPhysics.validation.distanceMetrics import RegionalDeviation
 
 
 ######################################################################

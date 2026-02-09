@@ -11,14 +11,14 @@ Sean Bowman [02/03/2026]
 
 __version__ = '0.1.0'
 
-from computationalEngineering.SurfPhysics.analyzer import PhysicsAnalyzer
-from computationalEngineering.SurfPhysics.geometry.parameters import SurfboardParameters
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfPhysics.visualization.visualizer import Visualizer
-from computationalEngineering.SurfPhysics.export.viewerExporter import ViewerExporter
+from computationalEngineering.Surfboard.SurfPhysics.analyzer import PhysicsAnalyzer
+from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.visualization.visualizer import Visualizer
+from computationalEngineering.Surfboard.SurfPhysics.export.viewerExporter import ViewerExporter
 
 # Validation tools
-from computationalEngineering.SurfPhysics.validation import (
+from computationalEngineering.Surfboard.SurfPhysics.validation import (
     MeshComparisonAnalyzer,
     ComparisonResult,
     DistanceStatistics,

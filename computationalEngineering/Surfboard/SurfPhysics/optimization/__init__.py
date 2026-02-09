@@ -10,16 +10,16 @@ Provides two-phase optimization:
 Sean Bowman [02/05/2026]
 '''
 
-from computationalEngineering.SurfPhysics.optimization.parameterOptimizer import (
+from computationalEngineering.Surfboard.SurfPhysics.optimization.parameterOptimizer import (
     ParameterOptimizer,
     OptimizationResult,
     DEFAULT_PARAMS,
 )
-from computationalEngineering.SurfPhysics.optimization.directMapper import (
+from computationalEngineering.Surfboard.SurfPhysics.optimization.directMapper import (
     DirectParameterMapper,
     PARAMETER_BOUNDS,
 )
-from computationalEngineering.SurfPhysics.optimization.coordinateTransformer import CoordinateTransformer
+from computationalEngineering.Surfboard.SurfPhysics.optimization.coordinateTransformer import CoordinateTransformer
 
 
 __all__ = [

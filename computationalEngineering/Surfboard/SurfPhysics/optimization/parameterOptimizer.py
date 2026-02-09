@@ -25,8 +25,8 @@ try:
 except ImportError:
     trimesh = None
 
-from computationalEngineering.SurfPhysics.optimization.directMapper import DirectParameterMapper, PARAMETER_BOUNDS
-from computationalEngineering.SurfPhysics.optimization.coordinateTransformer import CoordinateTransformer
+from computationalEngineering.Surfboard.SurfPhysics.optimization.directMapper import DirectParameterMapper, PARAMETER_BOUNDS
+from computationalEngineering.Surfboard.SurfPhysics.optimization.coordinateTransformer import CoordinateTransformer
 
 
 ######################################################################
@@ -440,7 +440,7 @@ class ParameterOptimizer:
     def _compareToReference(self, generatedPath: Path):
         '''Compare generated mesh to reference.'''
         try:
-            from computationalEngineering.SurfPhysics.validation import MeshComparisonAnalyzer
+            from computationalEngineering.Surfboard.SurfPhysics.validation import MeshComparisonAnalyzer
 
             analyzer = MeshComparisonAnalyzer(
                 referencePath=self.referencePath,

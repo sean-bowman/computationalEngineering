@@ -22,8 +22,8 @@ try:
 except ImportError:
     trimesh = None
 
-from computationalEngineering.SurfPhysics.visualization import theme
-from computationalEngineering.SurfPhysics.validation.distanceMetrics import DistanceStatistics, RegionalDeviation
+from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
+from computationalEngineering.Surfboard.SurfPhysics.validation.distanceMetrics import DistanceStatistics, RegionalDeviation
 
 
 ######################################################################
@@ -34,7 +34,7 @@ class DeviationVisualizer:
     '''
     Creates visualizations for mesh comparison analysis.
 
-    All plots use consistent dark theme from computationalEngineering.SurfPhysics.visualization.theme.
+    All plots use consistent dark theme from computationalEngineering.Surfboard.SurfPhysics.visualization.theme.
     '''
 
     # Diverging colorscale: blue (inside/negative) -> white (zero) -> red (outside/positive)

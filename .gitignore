@@ -8,11 +8,11 @@
 output/
 
 # Viewer exported data (generated artifacts)
-computationalEngineering/SurfViewer/data/
-computationalEngineering/SurfViewer/node_modules/
+computationalEngineering/Surfboard/SurfViewer/data/
+computationalEngineering/Surfboard/SurfViewer/node_modules/
 
 # Manim rendered output
-computationalEngineering/SurfAnimations/media/
+computationalEngineering/Surfboard/SurfAnimations/media/
 
 # Python
 __pycache__/

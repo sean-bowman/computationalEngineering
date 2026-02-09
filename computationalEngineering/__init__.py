@@ -3,12 +3,12 @@
 '''
 Master package for the Computational Engineering toolkit.
 
-Contains all code modules:
-    - SurfPhysics: Python physics simulations and parametric geometry
-    - SurfboardGeometry: C# voxel-based geometry generation (PicoGK)
+Domain-specific sub-packages:
+    - Surfboard: Parametric surfboard design, physics, and visualization
     - WaterSim: SPH water simulation
-    - SurfAnimations: Manim animation scenes
-    - SurfViewer: Three.js interactive web viewer
 
-Sean Bowman [02/07/2026]
+Shared tools:
+    - PicoGK: LEAP 71 voxel-based geometry kernel (C# submodule)
+
+Sean Bowman [02/08/2026]
 '''

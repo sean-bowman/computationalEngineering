@@ -38,8 +38,8 @@ from typing import Protocol
 
 import numpy as np
 
-from computationalEngineering.SurfPhysics.waves.waveConditions import WaveConditions
-from computationalEngineering.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
+from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
+from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
 from computationalEngineering.WaterSim.sph.particles import ParticleSystem
 
 

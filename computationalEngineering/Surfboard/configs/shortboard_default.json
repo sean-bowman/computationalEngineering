@@ -8,13 +8,13 @@
     "geometry": {
         "generate": false,
         "voxelSize": 0.5,
-        "outputDir": "computationalEngineering/SurfboardGeometry/Output",
+        "outputDir": "computationalEngineering/Surfboard/SurfboardGeometry/Output",
         "finConfiguration": "thruster",
         "useMeshForPhysics": false
     },
     "validation": {
         "run": true,
-        "referencePath": "computationalEngineering/SurfPhysics/validation/meshes/referenceThruster.stl",
+        "referencePath": "computationalEngineering/Surfboard/SurfPhysics/validation/meshes/referenceThruster.stl",
         "optimize": true,
         "targetRmsMm": 10.0,
         "maxPhase1Iterations": 3,
@@ -25,7 +25,7 @@
         "alignMethod": "combined",
         "referenceScaleFactor": null,
         "referenceAxisMapping": null,
-        "outputDir": "computationalEngineering/SurfPhysics/validation_output",
+        "outputDir": "computationalEngineering/Surfboard/SurfPhysics/validation_output",
         "exportDeviation": true
     },
     "waves": {
@@ -45,7 +45,7 @@
     "viewer": {
         "export": true,
         "openInBrowser": false,
-        "outputDir": "computationalEngineering/SurfViewer/data"
+        "outputDir": "computationalEngineering/Surfboard/SurfViewer/data"
     },
     "waterSim": {
         "run": false,
