@@ -53,9 +53,9 @@ from computationalEngineering.Surfboard.SurfAnimations.components.forceArrows im
 from computationalEngineering.Surfboard.SurfAnimations.components.velocityField import createVelocityField
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Scene A: 2D Side View -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class BoardOnWaveSideView(Scene):
     '''
@@ -284,9 +284,9 @@ class BoardOnWaveSideView(Scene):
         self.wait(0.5)
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Scene B: 2.5D Perspective View -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class BoardOnWavePerspective(ThreeDScene):
     '''

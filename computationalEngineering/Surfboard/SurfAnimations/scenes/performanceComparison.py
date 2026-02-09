@@ -54,9 +54,9 @@ from computationalEngineering.Surfboard.SurfAnimations.components.boardProfile i
 from computationalEngineering.Surfboard.SurfAnimations.components.forceArrows import createForceBalance
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Board Data Container -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class _BoardData:
     '''Internal container for computed board data.'''
@@ -91,9 +91,9 @@ class _BoardData:
         return self.params.maxThickness / 25.4
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Performance Comparison Scene -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class PerformanceComparison(Scene):
     '''

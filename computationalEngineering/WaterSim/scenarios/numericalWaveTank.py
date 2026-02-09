@@ -43,9 +43,9 @@ from computationalEngineering.WaterSim.sph.waveMaker import WaveMakerConfig, Pis
 from computationalEngineering.WaterSim.sph.breakingDetection import BreakingDetector
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Wave Tank Configuration -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 @dataclass
 class WaveTankConfig:
@@ -226,9 +226,9 @@ class WaveTankConfig:
         )
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Extended Boundary Handler for Beach -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class WaveTankBoundaryHandler(BoundaryHandler):
     '''
@@ -421,9 +421,9 @@ class WaveTankBoundaryHandler(BoundaryHandler):
         return (positions, masses)
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Scenario Creation -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 @dataclass
 class WaveTankResult:
@@ -494,9 +494,9 @@ def createNumericalWaveTank(
         containerMin = np.array([0.0, 0.0, 0.0])
         containerMax = np.array([L, W, tankHeight])
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Create boundary handler with beach slope
-    ######################################################################
+    #--------------------------------------------------------------------#
     boundaryHandler = WaveTankBoundaryHandler(
         containerMin=containerMin,
         containerMax=containerMax,
@@ -512,9 +512,9 @@ def createNumericalWaveTank(
     )
     nBoundary = len(boundaryPositions)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Create fluid particles below still water level (accounting for beach)
-    ######################################################################
+    #--------------------------------------------------------------------#
     fluidPositions = _generateFluidParticles(tankConfig, s)
     nFluid = len(fluidPositions)
 
@@ -522,9 +522,9 @@ def createNumericalWaveTank(
     particleVolume = s ** dim
     fluidMass = const.referenceDensity * particleVolume
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Combine fluid and boundary particles
-    ######################################################################
+    #--------------------------------------------------------------------#
     nTotal = nFluid + nBoundary
     positions = np.vstack([fluidPositions, boundaryPositions])
     velocities = np.zeros((nTotal, dim))
@@ -550,9 +550,9 @@ def createNumericalWaveTank(
         isFluid=isFluid,
     )
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Create wave-maker
-    ######################################################################
+    #--------------------------------------------------------------------#
     waveMakerConfig = WaveMakerConfig(
         waveHeight=tankConfig.waveHeight,
         wavePeriod=tankConfig.wavePeriod,
@@ -569,9 +569,9 @@ def createNumericalWaveTank(
         tolerance=s * const.defaultBoundaryLayers,
     )
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Create breaking detector
-    ######################################################################
+    #--------------------------------------------------------------------#
     breakingDetector = BreakingDetector(
         waveSpeed=waveMaker.phaseSpeed,
         velocityThreshold=0.85,
@@ -579,9 +579,9 @@ def createNumericalWaveTank(
         clusterRadius=s * 5.0,
     )
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Build simulation config
-    ######################################################################
+    #--------------------------------------------------------------------#
     if dim == 2:
         gravityVec = np.array([0.0, -const.gravity])
     else:

@@ -22,9 +22,9 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import 
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import BLUE, CYAN
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- 2D Velocity Quiver Field -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createVelocityField(
     waveTheory: LinearWaveTheory,
@@ -192,9 +192,9 @@ def updateVelocityField(
     )
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Particle Orbital Paths -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createParticleOrbits(
     waveTheory: LinearWaveTheory,

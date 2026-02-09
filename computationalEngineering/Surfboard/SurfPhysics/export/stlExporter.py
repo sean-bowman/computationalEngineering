@@ -23,9 +23,9 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.surfaceMeshGenerato
 )
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Preset Name to Factory Mapping -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 _PRESET_FACTORIES = {
     'shortboard': SurfboardParameters.shortboard,

@@ -206,7 +206,7 @@ Output MP4 files are saved to `computationalEngineering/Surfboard/SurfAnimations
 
 ## Project Structure
 
-```
+```txt
 repo_root/
 ├── codeInterface.py                       Python entry point
 ├── README.md
@@ -282,7 +282,9 @@ At each station along the board, the cross-section defines:
 - [X] Consolidate the references and documentation folders
 - [ ] Extend WaterSim to 3D with wave-maker boundaries for breaking wave modeling
 - [ ] Add new geometry domains (boat hull, etc.) as sibling packages under `computationalEngineering/`
-- [ ] Port pytthon utilities and coding standards from existing projects and cross reference progress to github pages portfolio site
+- [X] Port pytthon utilities
+- [X] Port coding standards from existing projects
+- [ ] Cross reference progress to github pages portfolio site
 
 ## Technology
 

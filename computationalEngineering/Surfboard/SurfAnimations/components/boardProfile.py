@@ -26,9 +26,9 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import 
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import BOARD_COLOR
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- 2D Side-View Profile -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createBoardProfile(
     board: BoardGeometry,
@@ -177,9 +177,9 @@ def positionBoardOnWave(
     return boardMobject
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- 3D Planform Outline -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createBoardOutline3D(
     board: BoardGeometry,

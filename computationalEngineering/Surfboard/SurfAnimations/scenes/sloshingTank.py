@@ -93,9 +93,9 @@ class SloshingTankAnimation(Scene):
         simScale = targetWidth / tankWidth
         offset = np.array([-targetWidth / 2.0, -tankHeight * simScale / 2.0])
 
-        ######################################################################
+        #--------------------------------------------------------------------#
         # Title Card
-        ######################################################################
+        #--------------------------------------------------------------------#
         title = Text(
             'SPH Sloshing Simulation',
             font_size=36,
@@ -113,9 +113,9 @@ class SloshingTankAnimation(Scene):
         self.play(Write(title), run_time=0.8)
         self.play(FadeIn(subtitle), run_time=0.5)
 
-        ######################################################################
+        #--------------------------------------------------------------------#
         # Container walls
-        ######################################################################
+        #--------------------------------------------------------------------#
         walls = createContainerWalls(
             width=tankWidth,
             height=tankHeight,
@@ -125,9 +125,9 @@ class SloshingTankAnimation(Scene):
         )
         self.play(Create(walls), run_time=0.6)
 
-        ######################################################################
+        #--------------------------------------------------------------------#
         # Initial particle field
-        ######################################################################
+        #--------------------------------------------------------------------#
         firstFrame = frames[0]
         positions = np.array(firstFrame['positions'])
         velocities = np.array(firstFrame['velocityMagnitudes'])
@@ -155,9 +155,9 @@ class SloshingTankAnimation(Scene):
         self.play(FadeIn(particleDots), run_time=0.8)
         self.wait(0.3)
 
-        ######################################################################
+        #--------------------------------------------------------------------#
         # Time label
-        ######################################################################
+        #--------------------------------------------------------------------#
         timeLabel = Text(
             f't = {firstFrame["time"]:.3f} s',
             font_size=22,
@@ -165,9 +165,9 @@ class SloshingTankAnimation(Scene):
         ).to_corner(DOWN + RIGHT, buff=0.5)
         self.add(timeLabel)
 
-        ######################################################################
+        #--------------------------------------------------------------------#
         # Animate frames
-        ######################################################################
+        #--------------------------------------------------------------------#
         # Target ~15-20 seconds of animation, skip frames if needed
         targetDuration = 15.0
         frameInterval = max(1, nFrames // int(targetDuration * 30))
@@ -201,9 +201,9 @@ class SloshingTankAnimation(Scene):
 
             self.wait(frameDt)
 
-        ######################################################################
+        #--------------------------------------------------------------------#
         # End card
-        ######################################################################
+        #--------------------------------------------------------------------#
         self.wait(0.5)
         endText = Text(
             'Simulation Complete',

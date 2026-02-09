@@ -20,9 +20,9 @@ from computationalEngineering.Surfboard.SurfPhysics.validation.meshComparison im
 from computationalEngineering.Surfboard.SurfPhysics.validation.distanceMetrics import RegionalDeviation
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Parameter Bounds -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 # Physical bounds for surfboard parameters (all in mm)
 PARAMETER_BOUNDS = {
@@ -40,9 +40,9 @@ PARAMETER_BOUNDS = {
 }
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Direct Parameter Mapper -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class DirectParameterMapper:
     '''

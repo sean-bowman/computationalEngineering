@@ -218,9 +218,9 @@ def convertLengthToMillimeters(self, length: float, unit: str) -> float:
 Use these to organize major sections within files:
 
 ```python
-# ---------------------------------------------------------------------- #
+#----------------------------------------------------------------------#
 # -- Background Job Factory Functions -- #
-# ---------------------------------------------------------------------- #
+#----------------------------------------------------------------------#
 ```
 
 Or the shorter form for subsections:

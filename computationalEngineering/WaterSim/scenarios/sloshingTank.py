@@ -28,9 +28,9 @@ from computationalEngineering.WaterSim.sph.particles import ParticleSystem
 from computationalEngineering.WaterSim.sph.boundaryHandling import BoundaryHandler
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Sloshing Tank Configuration -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 @dataclass
 class SloshingTankConfig:
@@ -100,9 +100,9 @@ class SloshingTankConfig:
         )
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Scenario Creation -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createSloshingTank(
     tankConfig: SloshingTankConfig,
@@ -142,9 +142,9 @@ def createSloshingTank(
     containerMin = np.array([0.0, 0.0])
     containerMax = np.array([w, h])
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Create boundary handler and generate boundary particles
-    ######################################################################
+    #--------------------------------------------------------------------#
     boundaryHandler = BoundaryHandler(
         containerMin=containerMin,
         containerMax=containerMax,
@@ -159,9 +159,9 @@ def createSloshingTank(
     )
     nBoundary = len(boundaryPositions)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Create fluid particles below tilted free surface
-    ######################################################################
+    #--------------------------------------------------------------------#
 
     # Generate candidate grid positions inside the container
     xCoords = np.arange(s / 2.0, w, s)
@@ -182,9 +182,9 @@ def createSloshingTank(
     particleVolume = s ** 2
     fluidMass = const.referenceDensity * particleVolume
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Combine fluid and boundary particles
-    ######################################################################
+    #--------------------------------------------------------------------#
 
     nTotal = nFluid + nBoundary
     positions = np.vstack([fluidPositions, boundaryPositions])
@@ -211,9 +211,9 @@ def createSloshingTank(
         isFluid=isFluid,
     )
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Build simulation config
-    ######################################################################
+    #--------------------------------------------------------------------#
 
     simConfig = SimulationConfig(
         domainMin=containerMin,

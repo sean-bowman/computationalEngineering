@@ -26,9 +26,9 @@ from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
 from computationalEngineering.Surfboard.SurfPhysics.validation.distanceMetrics import DistanceStatistics, RegionalDeviation
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Deviation Visualizer -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class DeviationVisualizer:
     '''

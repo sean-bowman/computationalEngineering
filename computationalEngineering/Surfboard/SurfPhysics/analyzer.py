@@ -114,17 +114,17 @@ class PhysicsAnalyzer:
         else:
             board = BoardGeometry(self._params)
 
-        ##############################################################
+        #--------------------------------------------------------------------#
         # -- Board Geometry -- #
-        ##############################################################
+        #--------------------------------------------------------------------#
         volume = board.computeVolume()
         volumeL = volume * 1e3
         planformArea = board.computePlanformArea()
         wettedArea = board.computeWettedSurfaceArea()
 
-        ##############################################################
+        #--------------------------------------------------------------------#
         # -- Buoyancy -- #
-        ##############################################################
+        #--------------------------------------------------------------------#
         buoyancy = BuoyancyModel(board, self._params)
         boardMass = buoyancy.estimateBoardMass()
         totalMass = boardMass + riderMass
@@ -134,9 +134,9 @@ class PhysicsAnalyzer:
         riderDraft = buoyancy.findEquilibriumDraft(totalMass)
         maxBuoyancy = buoyancy.buoyancyForce(volume)
 
-        ##############################################################
+        #--------------------------------------------------------------------#
         # -- Wave Physics -- #
-        ##############################################################
+        #--------------------------------------------------------------------#
         waveModel = LinearWaveTheory()
         wavelength = waveModel.waveLength(self._waveConditions)
         phaseSpeed = waveModel.waveSpeed(self._waveConditions)
@@ -147,9 +147,9 @@ class PhysicsAnalyzer:
         isBroken = waveModel.isBroken(self._waveConditions)
         surfSpeed = waveModel.surfableWaveSpeed(self._waveConditions)
 
-        ##############################################################
+        #--------------------------------------------------------------------#
         # -- Hydrodynamic Performance -- #
-        ##############################################################
+        #--------------------------------------------------------------------#
         forceBalance = ForceBalance(board, self._params, riderMass)
 
         testSpeeds = [2.0, 3.0, 4.0, 5.0, 6.0, 8.0]
@@ -163,9 +163,9 @@ class PhysicsAnalyzer:
 
         planingSpeed = math.sqrt(const.gravity * board.getLengthM())
 
-        ##############################################################
+        #--------------------------------------------------------------------#
         # -- Console Output -- #
-        ##############################################################
+        #--------------------------------------------------------------------#
         self._printSummary(
             params=self._params,
             volumeL=volumeL,
@@ -192,9 +192,9 @@ class PhysicsAnalyzer:
             planingSpeed=planingSpeed,
         )
 
-        ##############################################################
+        #--------------------------------------------------------------------#
         # -- Build Results -- #
-        ##############################################################
+        #--------------------------------------------------------------------#
         self._results = {
             'params': self._params,
             'waveConditions': self._waveConditions,
@@ -241,9 +241,9 @@ class PhysicsAnalyzer:
 
         return self._results
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # -- Private Helpers -- #
-    ######################################################################
+    #--------------------------------------------------------------------#
 
     def _loadConfig(self, configPath: str) -> dict:
         '''

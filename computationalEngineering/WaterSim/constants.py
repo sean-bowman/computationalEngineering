@@ -12,9 +12,9 @@ Batchelor (1967) -- An introduction to fluid dynamics
 Sean Bowman [02/05/2026]
 '''
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Fluid Properties -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 # Reference fluid density (freshwater at 20C) [kg/m^3]
 referenceDensity: float = 1000.0
@@ -28,9 +28,9 @@ kinematicViscosity: float = 1.0e-6
 # Dynamic viscosity of freshwater [Pa*s]
 dynamicViscosity: float = referenceDensity * kinematicViscosity
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- SPH Numerical Parameters -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 # Speed of sound multiplier: c = speedOfSoundFactor * sqrt(g * H)
 # For WCSPH, c should be at least 10x max fluid velocity

@@ -29,9 +29,9 @@ from computationalEngineering.Surfboard.SurfPhysics.validation.meshAlignment imp
 from computationalEngineering.Surfboard.SurfPhysics.validation.finSegmentation import SegmentedMesh
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Report Data Classes -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 @dataclass
 class MeshProperties:
@@ -93,9 +93,9 @@ class ComparisonReportData:
         }
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Report Generator -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 class ComparisonReportGenerator:
     '''

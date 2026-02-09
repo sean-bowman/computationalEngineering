@@ -26,9 +26,9 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import 
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import WAVE_COLOR, WATER_FILL
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- 2D Wave Line -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createWaveLine(
     waveTheory: LinearWaveTheory,
@@ -121,9 +121,9 @@ def updateWaveLine(
     wave.set_points_as_corners(points)
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- Water Fill -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createWaterFill(
     waveTheory: LinearWaveTheory,
@@ -241,9 +241,9 @@ def updateWaterFill(
     fill.set_points_as_corners(newVertices + [newVertices[0]])
 
 
-######################################################################
+#--------------------------------------------------------------------#
 # -- 3D Wave Surface -- #
-######################################################################
+#--------------------------------------------------------------------#
 
 def createWaveSurface3D(
     waveTheory: LinearWaveTheory,

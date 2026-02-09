@@ -68,9 +68,9 @@ def createAnalysisDashboard(
         horizontal_spacing=0.08,
     )
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Row 1, Col 1: Board Outline
-    ######################################################################
+    #--------------------------------------------------------------------#
     halfWidths = np.array([board.getHalfWidthM(t) * 1000 for t in tValues])
     fig.add_trace(go.Scatter(x=xPositions, y=halfWidths, mode='lines',
                              line=dict(color=theme.BLUE, width=2), showlegend=False),
@@ -81,9 +81,9 @@ def createAnalysisDashboard(
     fig.update_xaxes(title_text='mm from nose', row=1, col=1)
     fig.update_yaxes(title_text='mm', row=1, col=1)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Row 1, Col 2: Rocker Profile
-    ######################################################################
+    #--------------------------------------------------------------------#
     rockerMm = np.array([board.getRockerHeightM(t) * 1000 for t in tValues])
     fig.add_trace(go.Scatter(x=xPositions, y=-rockerMm, mode='lines',
                              line=dict(color=theme.RED, width=2), showlegend=False),
@@ -91,9 +91,9 @@ def createAnalysisDashboard(
     fig.update_xaxes(title_text='mm from nose', row=1, col=2)
     fig.update_yaxes(title_text='mm', row=1, col=2)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Row 2, Col 1: Wave Profile
-    ######################################################################
+    #--------------------------------------------------------------------#
     wavelength = waveModel.waveLength(waveConditions)
     xWave = np.linspace(0, 3 * wavelength, 200)
     eta = np.array([waveModel.surfaceElevation(xi, 0.0, waveConditions) for xi in xWave])
@@ -103,9 +103,9 @@ def createAnalysisDashboard(
     fig.update_xaxes(title_text='x (m)', row=2, col=1)
     fig.update_yaxes(title_text='eta (m)', row=2, col=1)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Row 2, Col 2: Drag Breakdown
-    ######################################################################
+    #--------------------------------------------------------------------#
     breakdown = forces.dragBreakdown(speedRange, trimAngleDeg=5.0)
     fig.add_trace(go.Scatter(x=speedRange, y=breakdown['planing_drag'], mode='lines',
                              name='Planing', fill='tozeroy',
@@ -118,9 +118,9 @@ def createAnalysisDashboard(
     fig.update_xaxes(title_text='Speed (m/s)', row=2, col=2)
     fig.update_yaxes(title_text='Drag (N)', row=2, col=2)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Row 3, Col 1: L/D vs Speed
-    ######################################################################
+    #--------------------------------------------------------------------#
     curves = forces.performanceCurves(minSpeed=0.5, maxSpeed=10.0, nPoints=40)
     fig.add_trace(go.Scatter(x=curves['speed'], y=curves['liftToDrag'], mode='lines',
                              line=dict(color=theme.GREEN, width=2), showlegend=False),
@@ -128,18 +128,18 @@ def createAnalysisDashboard(
     fig.update_xaxes(title_text='Speed (m/s)', row=3, col=1)
     fig.update_yaxes(title_text='L/D', row=3, col=1)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Row 3, Col 2: Trim Angle vs Speed
-    ######################################################################
+    #--------------------------------------------------------------------#
     fig.add_trace(go.Scatter(x=curves['speed'], y=curves['trimAngleDeg'], mode='lines',
                              line=dict(color=theme.PURPLE, width=2), showlegend=False),
                   row=3, col=2)
     fig.update_xaxes(title_text='Speed (m/s)', row=3, col=2)
     fig.update_yaxes(title_text='Trim (deg)', row=3, col=2)
 
-    ######################################################################
+    #--------------------------------------------------------------------#
     # Layout
-    ######################################################################
+    #--------------------------------------------------------------------#
     boardMassKg = forces.boardMassKg
     volumeL = board.computeVolume() * 1e3  # m^3 to liters
     waveSpeed = waveModel.waveSpeed(waveConditions)
