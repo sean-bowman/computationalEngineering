@@ -1,6 +1,7 @@
 # -- SPH Boundary Conditions -- #
 
 '''
+
 Boundary particle generation and enforcement for SPH.
 
 Uses fixed boundary particles arranged in multiple layers along
@@ -19,6 +20,7 @@ Morris et al. (1997) -- Modeling low Reynolds number incompressible
 Monaghan & Kos (1999) -- Solitary waves on a Cretan beach
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from __future__ import annotations
@@ -29,7 +31,9 @@ from computationalEngineering.WaterSim.sph.particles import ParticleSystem
 
 
 class BoundaryHandler:
+
     '''
+
     Manages boundary particles for a rectangular container.
 
     Generates layers of fixed boundary particles along container
@@ -50,6 +54,7 @@ class BoundaryHandler:
         Number of spatial dimensions (2 or 3)
     openTop : bool
         If True, no boundary particles on the top face (default True)
+
     '''
 
     def __init__(
@@ -71,7 +76,9 @@ class BoundaryHandler:
     def generateBoundaryParticles(
         self, referenceDensity: float
     ) -> tuple[np.ndarray, np.ndarray]:
+
         '''
+
         Generate boundary particle positions and masses.
 
         Creates multiple layers of particles along each wall face.
@@ -87,6 +94,7 @@ class BoundaryHandler:
         tuple[np.ndarray, np.ndarray] :
             (positions, masses) of boundary particles
             positions shape: (M, dim), masses shape: (M,)
+
         '''
         if self._dimensions == 2:
             return self._generate2D(referenceDensity)
@@ -96,7 +104,9 @@ class BoundaryHandler:
     def _generate2D(
         self, referenceDensity: float
     ) -> tuple[np.ndarray, np.ndarray]:
+
         '''
+
         Generate 2D boundary particles for a rectangular container.
 
         Walls: left, bottom, right (and optionally top).
@@ -110,6 +120,7 @@ class BoundaryHandler:
         Returns:
         --------
         tuple[np.ndarray, np.ndarray] : (positions, masses)
+
         '''
         s = self._spacing
         xMin, yMin = self._containerMin
@@ -157,7 +168,9 @@ class BoundaryHandler:
     def _generate3D(
         self, referenceDensity: float
     ) -> tuple[np.ndarray, np.ndarray]:
+
         '''
+
         Generate 3D boundary particles for a rectangular container.
 
         Creates layers of particles on floor (z=zMin), left wall (x=xMin),
@@ -177,6 +190,7 @@ class BoundaryHandler:
         Returns:
         --------
         tuple[np.ndarray, np.ndarray] : (positions, masses)
+
         '''
         s = self._spacing
         xMin, yMin, zMin = self._containerMin
@@ -265,7 +279,9 @@ class BoundaryHandler:
         return (positions, masses)
 
     def enforceBoundary(self, particles: ParticleSystem) -> None:
+
         '''
+
         Enforce boundary conditions on fluid particles.
 
         Clamps fluid particle positions to stay within the container
@@ -275,6 +291,7 @@ class BoundaryHandler:
         -----------
         particles : ParticleSystem
             The particle system to enforce boundaries on
+
         '''
         fluidMask = particles.isFluid
         positions = particles.positions

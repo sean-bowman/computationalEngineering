@@ -1,11 +1,13 @@
 # -- Visualization Theme -- #
 
 '''
+
 Centralized dark-mode theme for all SurfPhysics Plotly visualizations.
 
 Change colors or template here to restyle every plot at once.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 # Plotly template

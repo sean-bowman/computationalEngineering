@@ -1,6 +1,7 @@
 # -- Board Geometry Facade -- #
 
 '''
+
 Unified board geometry interface for physics calculations.
 
 Composes Outline, RockerProfile, and CrossSection into a single facade
@@ -10,6 +11,7 @@ needed by the hydrodynamics modules.
 All output in SI units (meters) — converts from mm at the boundary.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -26,23 +28,30 @@ from computationalEngineering.Surfboard.SurfPhysics.units import mmToM
 
 
 class BoardGeometry:
+
     '''
+
     Unified board geometry interface for physics calculations.
 
     Composes Outline, RockerProfile, and CrossSection, providing
     geometry queries in SI meters and numerical integration methods
     for volume, area, and submerged volume.
+
     '''
 
     def __init__(self, params: SurfboardParameters) -> None:
+
         '''
+
         Initialize board geometry from surfboard parameters.
 
         Parameters:
         -----------
         params : SurfboardParameters
             Board dimensions (all in mm)
+
         '''
+
         self._params = params
         self._outline = Outline(params)
         self._rocker = RockerProfile(params)
@@ -58,7 +67,9 @@ class BoardGeometry:
     #--------------------------------------------------------------------#
 
     def getHalfWidthM(self, t: float) -> float:
+
         '''
+
         Half-width in meters at normalized position t.
 
         Parameters:
@@ -69,11 +80,15 @@ class BoardGeometry:
         Returns:
         --------
         float : Half-width in meters
+
         '''
+
         return mmToM(self._outline.getHalfWidth(t))
 
     def getRockerHeightM(self, t: float) -> float:
+
         '''
+
         Rocker height in meters at normalized position t.
 
         Parameters:
@@ -84,11 +99,15 @@ class BoardGeometry:
         Returns:
         --------
         float : Rocker Z-offset in meters (positive = up from flat spot)
+
         '''
+
         return mmToM(self._rocker.getRockerHeight(t))
 
     def getThicknessM(self, t: float) -> float:
+
         '''
+
         Local thickness in meters at normalized position t.
 
         Parameters:
@@ -99,11 +118,15 @@ class BoardGeometry:
         Returns:
         --------
         float : Thickness in meters
+
         '''
+
         return mmToM(self._crossSection.getLocalThickness(t))
 
     def getDeckHeightM(self, t: float, lateralFraction: float) -> float:
+
         '''
+
         Deck height in meters at a given position.
 
         Parameters:
@@ -116,11 +139,15 @@ class BoardGeometry:
         Returns:
         --------
         float : Deck height in meters above center plane
+
         '''
+
         return mmToM(self._crossSection.getDeckHeight(t, lateralFraction))
 
     def getBottomHeightM(self, t: float, lateralFraction: float) -> float:
+
         '''
+
         Bottom height in meters at a given position.
 
         Parameters:
@@ -133,7 +160,9 @@ class BoardGeometry:
         Returns:
         --------
         float : Bottom height in meters below center plane (negative)
+
         '''
+
         return mmToM(self._crossSection.getBottomHeight(t, lateralFraction))
 
     #--------------------------------------------------------------------#
@@ -141,7 +170,9 @@ class BoardGeometry:
     #--------------------------------------------------------------------#
 
     def computeVolume(self, nStationsLength: int = 200, nStationsWidth: int = 50) -> float:
+
         '''
+
         Numerical volume integration using trapezoidal rule.
 
         Integrates the cross-sectional area along the board length.
@@ -158,7 +189,9 @@ class BoardGeometry:
         Returns:
         --------
         float : Board volume in m^3
+
         '''
+
         lengthM = mmToM(self._params.length)
         dt = 1.0 / nStationsLength
 
@@ -200,7 +233,9 @@ class BoardGeometry:
         return totalVolume
 
     def computePlanformArea(self, nStations: int = 200) -> float:
+
         '''
+
         Planform area in m^2 from integrating 2 * halfWidth over length.
 
         Parameters:
@@ -211,7 +246,9 @@ class BoardGeometry:
         Returns:
         --------
         float : Planform area in m^2
+
         '''
+
         lengthM = mmToM(self._params.length)
         dt = 1.0 / nStations
         totalArea = 0.0
@@ -227,7 +264,9 @@ class BoardGeometry:
     def computeWettedSurfaceArea(
         self, nStationsLength: int = 200, nStationsWidth: int = 50
     ) -> float:
+
         '''
+
         Bottom wetted surface area in m^2.
 
         Integrates the bottom surface arc length across width at each station,
@@ -243,7 +282,9 @@ class BoardGeometry:
         Returns:
         --------
         float : Bottom surface area in m^2
+
         '''
+
         lengthM = mmToM(self._params.length)
         dt = 1.0 / nStationsLength
 
@@ -282,7 +323,9 @@ class BoardGeometry:
         return totalArea * lengthM
 
     def estimateDeadriseAngle(self, t: float) -> float:
+
         '''
+
         Estimate the deadrise angle in degrees at a given longitudinal station.
 
         Deadrise is the angle between the bottom surface and the horizontal plane,
@@ -297,7 +340,9 @@ class BoardGeometry:
         Returns:
         --------
         float : Deadrise angle in degrees
+
         '''
+
         halfWidthM = self.getHalfWidthM(t)
         if halfWidthM <= 0.0:
             return 0.0
@@ -319,7 +364,9 @@ class BoardGeometry:
         nStationsLength: int = 200,
         nStationsWidth: int = 50,
     ) -> float:
+
         '''
+
         Volume of the board below a given waterplane height.
 
         The waterplane is defined at height 'draft' above the lowest point
@@ -340,7 +387,9 @@ class BoardGeometry:
         Returns:
         --------
         float : Submerged volume in m^3
+
         '''
+
         lengthM = mmToM(self._params.length)
         trimRad = math.radians(trimAngleDeg)
         dt = 1.0 / nStationsLength
@@ -400,7 +449,9 @@ class BoardGeometry:
         trimAngleDeg: float = 0.0,
         nStations: int = 200,
     ) -> tuple[float, float]:
+
         '''
+
         Compute wetted length and wetted bottom area for a given draft and trim.
 
         Wetted length is the longitudinal extent where the board is below
@@ -419,7 +470,9 @@ class BoardGeometry:
         Returns:
         --------
         tuple[float, float] : (wettedLengthM, wettedAreaM2)
+
         '''
+
         lengthM = mmToM(self._params.length)
         trimRad = math.radians(trimAngleDeg)
         dt = 1.0 / nStations

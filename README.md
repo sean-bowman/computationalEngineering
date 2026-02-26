@@ -284,7 +284,7 @@ At each station along the board, the cross-section defines:
 - [ ] Add new geometry domains (boat hull, etc.) as sibling packages under `computationalEngineering/`
 - [X] Port pytthon utilities
 - [X] Port coding standards from existing projects
-- [ ] Cross reference progress to github pages portfolio site
+- [X] Cross reference progress to github pages portfolio site
 
 ## Technology
 

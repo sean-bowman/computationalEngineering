@@ -1,6 +1,7 @@
 # -- Validation Subpackage -- #
 
 '''
+
 Mesh comparison and geometry validation tools.
 
 Provides SDF-based comparison between generated surfboard geometry
@@ -8,6 +9,7 @@ and reference STL files to assess shape accuracy and guide parameter
 tuning for improved geometry generation.
 
 Sean Bowman [02/05/2026]
+
 '''
 
 # Main orchestrator

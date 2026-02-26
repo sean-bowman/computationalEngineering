@@ -2,10 +2,12 @@
 # -- General Utilities for Computational Engineering -- #
 
 '''
+
 General-purpose geometry generation, curve manipulation, and mathematical
 utility functions for the computational engineering repository.
 
 Sean Bowman [02/09/2026]
+
 '''
 
 # Global imports
@@ -18,6 +20,7 @@ import numpy as np
 def py2cad(filename: str, xData: np.ndarray | list, yData: np.ndarray | list, zData: np.ndarray | list) -> None:
 
     '''
+
     Export a surface mesh to a binary .stl file from raw coordinate arrays.
 
     Takes in arrays containing spatial coordinates of a surface mesh and exports
@@ -40,6 +43,7 @@ def py2cad(filename: str, xData: np.ndarray | list, yData: np.ndarray | list, zD
     Returns:
     --------
     None : A .stl file is created and saved to the specified filename location.
+
     '''
 
     from tqdm import tqdm
@@ -590,6 +594,7 @@ def arcSpline(xPoints: np.ndarray, yPoints: np.ndarray, zPoints: np.ndarray = No
 def filletCurves(radius: float, x1Points: np.ndarray, y1Points: np.ndarray, x2Points: np.ndarray, y2Points: np.ndarray, n: int) -> tuple[np.ndarray, np.ndarray]:
 
     '''
+
     Fillet two arbitrary curves using polynomial fits and a tangent-matching circle.
 
     Finds the intersection of two cubic-spline-interpolated curves, orients the problem
@@ -617,6 +622,7 @@ def filletCurves(radius: float, x1Points: np.ndarray, y1Points: np.ndarray, x2Po
     --------
     tuple[np.ndarray, np.ndarray] : (xOutput, yOutput) coordinates of the
         filleted curve combining both input curves with the fillet arc.
+
     '''
 
     # Local imports
@@ -950,6 +956,7 @@ def rescaleData(rawData: np.ndarray | list, newMax: float = None, newMin: float 
 def bezierCurve(p1: list[float], p4: list[float], theta_1: float, theta_2: float, magnitude: list[float], res: int) -> list[list[float]]:
 
     '''
+
     Create a cubic Bezier curve from start/end points, angles, and magnitudes.
 
     Constructs a cubic Bezier curve by computing interior control points (p2, p3)
@@ -977,6 +984,7 @@ def bezierCurve(p1: list[float], p4: list[float], theta_1: float, theta_2: float
     --------
     list[list[float]] : A two-element list [x, y] where x and y are lists
         of coordinates along the curve.
+
     '''
 
     # Scale the magnitude to the size of the bezier to make it less dependent on the input points
@@ -1002,3 +1010,259 @@ def bezierCurve(p1: list[float], p4: list[float], theta_1: float, theta_2: float
     y = [eqn(0, p2[1]-p1[1], p3[1]-p1[1], p4[1]-p1[1], i)+p1[1] for i in t]
 
     return [x, y]
+
+#----------------------------------------------------------------------#
+# -- File I/O Tools -- #
+#----------------------------------------------------------------------#
+
+def writeFile(filename: str, data: np.ndarray | list, headers: bool = False) -> None:
+
+    '''
+
+    Write array data to a .csv or .txt file.
+
+    Parameters:
+    -----------
+    filename : str
+        Output file path including extension (.csv or .txt).
+    data : np.ndarray | list
+        Data matrix of shape (n, m) to write.
+    headers : bool, optional
+        If True, write default X/Y/Z headers for CSV files (default False).
+
+    Returns:
+    --------
+    None : A file is created at the specified path.
+
+    '''
+
+    import csv
+
+    if '.' not in filename:
+        raise ValueError('Filename must include a file extension (.csv or .txt).')
+
+    if isinstance(data, list):
+        data = np.array(data)
+
+    whichType = filename[-4:]
+
+    match whichType:
+
+        case '.csv':
+
+            with open(filename, 'w', newline='') as csvFile:
+                writer = csv.writer(csvFile)
+                if headers:
+                    writer.writerow(['X', 'Y', 'Z'])
+                writer.writerows(data)
+
+        case '.txt':
+
+            with open(filename, 'w') as txtFile:
+                for i, _ in enumerate(data[:, 0]):
+                    txtFile.write('\t'.join([str(val) for val in list(data[i, :])]) + '\n')
+
+#----------------------------------------------------------------------#
+# -- Plotly Visualization Tools -- #
+#----------------------------------------------------------------------#
+
+def plotly3DGeometry(xData: np.ndarray | list, yData: np.ndarray | list, zData: np.ndarray | list,
+                     title: str = 'Geometry Plot', xLabel: str = 'X', yLabel: str = 'Y', zLabel: str = 'Z',
+                     alpha: float = 1, color: str = 'lightslategray') -> None:
+
+    '''
+
+    Plot a 3D surface geometry with uniform color using Plotly.
+
+    Parameters:
+    -----------
+    xData, yData, zData : np.ndarray | list
+        Surface mesh coordinates.
+    title : str
+        Plot title (default 'Geometry Plot').
+    xLabel, yLabel, zLabel : str
+        Axis labels.
+    alpha : float
+        Surface opacity, 0 to 1 (default 1).
+    color : str
+        Surface color (default 'lightslategray').
+
+    Returns:
+    --------
+    None : Renders an interactive Plotly figure.
+
+    '''
+
+    import plotly.graph_objects as go
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Surface(x=xData, y=yData, z=zData,
+                             colorscale=[[0, color], [1, color]],
+                             opacity=alpha,
+                             showscale=False))
+
+    fig.update_layout(scene=dict(xaxis_title=xLabel,
+                                 yaxis_title=yLabel,
+                                 zaxis_title=zLabel),
+                      title={'text': title, 'x': 0.5, 'xanchor': 'center',
+                             'y': 0.9, 'yanchor': 'top'},
+                      scene_aspectmode='data',
+                      template='plotly_dark')
+
+    fig.show()
+
+def plotlySurface(xData: np.ndarray | list, yData: np.ndarray | list, zData: np.ndarray | list,
+                  colorMap: str = 'Plasma', alpha: float = 1, title: str = 'Surface Plot',
+                  xLabel: str = 'X', yLabel: str = 'Y', zLabel: str = 'Z') -> None:
+
+    '''
+
+    Plot a 3D surface with a colormap using Plotly.
+
+    Parameters:
+    -----------
+    xData, yData, zData : np.ndarray | list
+        Surface mesh coordinates.
+    colorMap : str
+        Plotly colorscale name (default 'Plasma').
+    alpha : float
+        Surface opacity, 0 to 1 (default 1).
+    title : str
+        Plot title (default 'Surface Plot').
+    xLabel, yLabel, zLabel : str
+        Axis labels.
+
+    Returns:
+    --------
+    None : Renders an interactive Plotly figure.
+
+    '''
+
+    import plotly.graph_objects as go
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Surface(x=xData, y=yData, z=zData,
+                             colorscale=colorMap,
+                             opacity=alpha))
+
+    fig.update_layout(scene=dict(xaxis_title=xLabel,
+                                 yaxis_title=yLabel,
+                                 zaxis_title=zLabel),
+                      title={'text': title, 'x': 0.5, 'xanchor': 'center',
+                             'y': 0.9, 'yanchor': 'top'},
+                      scene_aspectmode='data',
+                      template='plotly_dark')
+
+    fig.show()
+
+def plotly3DLine(xData: np.ndarray | list, yData: np.ndarray | list, zData: np.ndarray | list,
+                 title: str = '3D Line Plot', xLabel: str = 'X', yLabel: str = 'Y', zLabel: str = 'Z',
+                 color: str | list = 'cyan', lineWidth: float = 1, lineStyle: str = None,
+                 markerStyle: str = None, markerSize: float = 4, label: str = '3D Line') -> None:
+
+    '''
+
+    Plot a 3D line/scatter using Plotly.
+
+    Parameters:
+    -----------
+    xData, yData, zData : np.ndarray | list
+        Line coordinates.
+    title : str
+        Plot title.
+    xLabel, yLabel, zLabel : str
+        Axis labels.
+    color : str | list
+        Line/marker color.
+    lineWidth : float
+        Line width (default 1).
+    lineStyle : str
+        Dash style ('dash', 'dot', 'dashdot', or None for solid).
+    markerStyle : str
+        Plotly marker symbol (default None).
+    markerSize : float
+        Marker size (default 4).
+    label : str
+        Trace name for the legend.
+
+    Returns:
+    --------
+    None : Renders an interactive Plotly figure.
+
+    '''
+
+    import plotly.graph_objects as go
+
+    fig = go.Figure(data=[go.Scatter3d(x=xData, y=yData, z=zData,
+                                       mode='lines+markers',
+                                       marker=dict(symbol=markerStyle, size=markerSize, color=color),
+                                       line=dict(dash=lineStyle, width=lineWidth, color=color),
+                                       name=label)])
+
+    fig.update_layout(scene=dict(xaxis_title=xLabel,
+                                 yaxis_title=yLabel,
+                                 zaxis_title=zLabel),
+                      title={'text': title, 'x': 0.5, 'xanchor': 'center',
+                             'y': 0.9, 'yanchor': 'top'},
+                      scene_aspectmode='data',
+                      template='plotly_dark')
+
+    fig.show()
+
+def plotly2DLine(xData: np.ndarray | list, yData: np.ndarray | list,
+                 title: str = '2D Line Plot', xLabel: str = 'X', yLabel: str = 'Y',
+                 color: str = 'cyan', lineWidth: float = 1, lineStyle: str = None,
+                 markerStyle: str = None, markerSize: float = 4, fontSize: int = 12,
+                 label: str = '2D Line') -> None:
+
+    '''
+
+    Plot a 2D line/scatter using Plotly.
+
+    Parameters:
+    -----------
+    xData, yData : np.ndarray | list
+        Line coordinates.
+    title : str
+        Plot title.
+    xLabel, yLabel : str
+        Axis labels.
+    color : str
+        Line/marker color (default 'cyan').
+    lineWidth : float
+        Line width (default 1).
+    lineStyle : str
+        Dash style ('dash', 'dot', 'dashdot', or None for solid).
+    markerStyle : str
+        Plotly marker symbol (default None).
+    markerSize : float
+        Marker size (default 4).
+    fontSize : int
+        Font size (default 12).
+    label : str
+        Trace name for the legend.
+
+    Returns:
+    --------
+    None : Renders an interactive Plotly figure.
+
+    '''
+
+    import plotly.graph_objects as go
+
+    fig = go.Figure(data=[go.Scatter(x=xData, y=yData,
+                                     mode='lines+markers',
+                                     marker=dict(symbol=markerStyle, size=markerSize, color=color),
+                                     line=dict(dash=lineStyle, width=lineWidth, color=color),
+                                     name=label)])
+
+    fig.update_layout(xaxis_title=xLabel,
+                      yaxis_title=yLabel,
+                      title={'text': title, 'x': 0.5, 'xanchor': 'center',
+                             'y': 0.9, 'yanchor': 'top'},
+                      template='plotly_dark',
+                      font=dict(size=fontSize))
+
+    fig.show()

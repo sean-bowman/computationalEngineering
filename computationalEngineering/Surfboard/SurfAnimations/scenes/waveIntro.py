@@ -1,6 +1,7 @@
 # -- Wave Physics Introduction Scene -- #
 
 '''
+
 Manim animation introducing linear wave theory concepts.
 
 Sequence (~30 seconds):
@@ -12,6 +13,7 @@ Sequence (~30 seconds):
 6. Wave classification and energy
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import os
@@ -43,13 +45,15 @@ from computationalEngineering.Surfboard.SurfAnimations.components.velocityField 
     createVelocityField, createParticleOrbits,
 )
 
-
 class WavePhysicsIntro(Scene):
+
     '''
+
     Animation introducing linear (Airy) wave theory.
 
     Shows a propagating wave with labeled properties, particle
     orbital motions, and a velocity field visualization.
+
     '''
 
     def construct(self) -> None:

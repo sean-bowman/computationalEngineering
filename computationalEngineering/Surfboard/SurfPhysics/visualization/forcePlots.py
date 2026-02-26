@@ -1,9 +1,11 @@
 # -- Hydrodynamic Force Visualizations -- #
 
 '''
+
 Plotly-based interactive plots for hydrodynamic force analysis.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -15,13 +17,14 @@ from plotly.subplots import make_subplots
 from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
 from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
 
-
 def plotDragBreakdown(
     forceBalance: ForceBalance,
     speedRange: np.ndarray | None = None,
     trimAngleDeg: float = 5.0,
 ) -> go.Figure:
+
     '''
+
     Stacked area chart of drag components vs speed.
 
     Parameters:
@@ -36,6 +39,7 @@ def plotDragBreakdown(
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     if speedRange is None:
         speedRange = np.linspace(0.5, 10.0, 50)
@@ -70,12 +74,13 @@ def plotDragBreakdown(
 
     return fig
 
-
 def plotLiftVsSpeed(
     forceBalance: ForceBalance,
     speedRange: np.ndarray | None = None,
 ) -> go.Figure:
+
     '''
+
     Buoyancy + planing lift vs speed with weight reference line.
 
     Parameters:
@@ -88,6 +93,7 @@ def plotLiftVsSpeed(
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     if speedRange is None:
         speedRange = np.linspace(0.5, 10.0, 50)
@@ -121,12 +127,13 @@ def plotLiftVsSpeed(
 
     return fig
 
-
 def plotLiftToDrag(
     forceBalance: ForceBalance,
     speedRange: np.ndarray | None = None,
 ) -> go.Figure:
+
     '''
+
     Lift-to-drag ratio vs speed. Peak L/D indicates optimal surfing speed.
 
     Parameters:
@@ -139,6 +146,7 @@ def plotLiftToDrag(
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     if speedRange is None:
         speedRange = np.linspace(0.5, 10.0, 50)
@@ -175,12 +183,13 @@ def plotLiftToDrag(
 
     return fig
 
-
 def plotPlaningEquilibrium(
     forceBalance: ForceBalance,
     speedRange: np.ndarray | None = None,
 ) -> go.Figure:
+
     '''
+
     Trim angle, wetted length, and drag vs speed.
 
     Parameters:
@@ -193,6 +202,7 @@ def plotPlaningEquilibrium(
     Returns:
     --------
     go.Figure : Plotly figure with 3 subplots
+
     '''
     if speedRange is None:
         speedRange = np.linspace(0.5, 10.0, 50)

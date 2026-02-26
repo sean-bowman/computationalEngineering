@@ -1,10 +1,12 @@
 # -- Combined Analysis Dashboard -- #
 
 '''
+
 Multi-panel Plotly dashboard combining board geometry, wave physics,
 and hydrodynamic force analysis into a single interactive layout.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -21,13 +23,14 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory impor
 from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
 from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
 
-
 def createAnalysisDashboard(
     params: SurfboardParameters,
     waveConditions: WaveConditions,
     riderMassKg: float = 75.0,
 ) -> go.Figure:
+
     '''
+
     Create a 6-panel analysis dashboard.
 
     Layout:
@@ -47,6 +50,7 @@ def createAnalysisDashboard(
     Returns:
     --------
     go.Figure : Plotly figure with 6 subplots
+
     '''
     board = BoardGeometry(params)
     waveModel = LinearWaveTheory()

@@ -1,6 +1,7 @@
 # -- STL Mesh Board Geometry -- #
 
 '''
+
 Board geometry derived from an STL mesh file exported by the C# generator.
 
 Uses trimesh for mesh loading, repair, and volume/area computations.
@@ -8,6 +9,7 @@ Provides an alternative to the parametric BoardGeometry for validation
 and when accurate voxel-based volumes are needed.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -23,15 +25,20 @@ except ImportError:
 
 
 class MeshBoardGeometry:
+
     '''
+
     Board geometry derived from an STL mesh file.
 
     Provides volume, surface area, and submerged volume queries
     from the actual mesh data rather than parametric reconstruction.
+
     '''
 
     def __init__(self, stlFilePath: str) -> None:
+
         '''
+
         Load an STL mesh file and prepare it for geometry queries.
 
         Applies automatic repair (hole filling, normal fixing) since
@@ -41,7 +48,9 @@ class MeshBoardGeometry:
         -----------
         stlFilePath : str
             Path to the STL file
+
         '''
+
         if trimesh is None:
             raise ImportError(
                 'trimesh is required for STL mesh loading. '
@@ -65,29 +74,39 @@ class MeshBoardGeometry:
         return self._meshM.is_watertight
 
     def computeVolume(self) -> float:
+
         '''
+
         Exact volume in m^3 from the mesh.
 
         Returns:
         --------
         float : Volume in m^3 (returns 0 if mesh is not watertight)
+
         '''
+
         if not self._meshM.is_watertight:
             return 0.0
         return float(self._meshM.volume)
 
     def computeSurfaceArea(self) -> float:
+
         '''
+
         Total surface area in m^2.
 
         Returns:
         --------
         float : Surface area in m^2
+
         '''
+
         return float(self._meshM.area)
 
     def computeSubmergedVolume(self, waterplaneZ: float) -> float:
+
         '''
+
         Volume below a horizontal plane at a given Z height.
 
         Uses trimesh slice_plane to cut the mesh at the waterplane
@@ -101,7 +120,9 @@ class MeshBoardGeometry:
         Returns:
         --------
         float : Submerged volume in m^3
+
         '''
+
         # Slice the mesh at the waterplane (plane normal = +Z, point on plane)
         planeOrigin = np.array([0.0, 0.0, waterplaneZ])
         planeNormal = np.array([0.0, 0.0, 1.0])
@@ -123,7 +144,9 @@ class MeshBoardGeometry:
         return 0.0
 
     def getCrossSectionAtX(self, xPositionM: float) -> Optional[np.ndarray]:
+
         '''
+
         Slice the mesh at a given X position and return the 2D cross-section.
 
         Parameters:
@@ -135,7 +158,9 @@ class MeshBoardGeometry:
         --------
         Optional[np.ndarray] : Array of (y, z) vertices defining the cross-section,
                                or None if no intersection
+
         '''
+
         planeOrigin = np.array([xPositionM, 0.0, 0.0])
         planeNormal = np.array([1.0, 0.0, 0.0])
 
@@ -155,11 +180,15 @@ class MeshBoardGeometry:
         return None
 
     def getBoundingBox(self) -> tuple[np.ndarray, np.ndarray]:
+
         '''
+
         Get the axis-aligned bounding box in meters.
 
         Returns:
         --------
         tuple[np.ndarray, np.ndarray] : (min_corner, max_corner), each shape (3,)
+
         '''
+
         return (self._meshM.bounds[0].copy(), self._meshM.bounds[1].copy())

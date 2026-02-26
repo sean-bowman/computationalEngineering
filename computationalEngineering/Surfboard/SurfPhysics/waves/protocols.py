@@ -1,12 +1,14 @@
 # -- Wave Model Protocol -- #
 
 '''
+
 Abstract protocol defining the interface that any wave model must satisfy.
 
 Allows swapping LinearWaveTheory for higher-order models (Stokes, Cnoidal)
 without changing consumer code.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -17,11 +19,14 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import 
 
 
 class WaveModel(Protocol):
+
     '''
+
     Protocol for wave physics models.
 
     Any concrete wave model (linear, Stokes, cnoidal) must implement
     these methods to be used by the analysis pipeline.
+
     '''
 
     def waveSpeed(self, waveConditions: WaveConditions) -> float:

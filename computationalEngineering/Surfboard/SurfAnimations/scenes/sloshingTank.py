@@ -1,6 +1,7 @@
 # -- Sloshing Tank Animation Scene -- #
 
 '''
+
 Manim animation showing SPH sloshing tank simulation.
 
 Loads pre-computed frame data from JSON exports and animates
@@ -12,6 +13,7 @@ Usage:
     manim render -qm SurfAnimations/scenes/sloshingTank.py SloshingTankAnimation
 
 Sean Bowman [02/05/2026]
+
 '''
 
 import json
@@ -39,7 +41,9 @@ from computationalEngineering.Surfboard.SurfAnimations.components.containerWalls
 
 
 class SloshingTankAnimation(Scene):
+
     '''
+
     Animated sloshing tank SPH simulation.
 
     Loads exported frame JSON data and plays back the particle
@@ -48,9 +52,11 @@ class SloshingTankAnimation(Scene):
 
     To use: export simulation data with WaterSim, then render
     this scene with the exported JSON path.
+
     '''
 
     def construct(self) -> None:
+
         '''Build and play the animation sequence.'''
 
         # --- Configuration --- #
@@ -214,7 +220,9 @@ class SloshingTankAnimation(Scene):
         self.wait(1.5)
 
     def _findLatestExport(self, dataDir: str) -> str | None:
+
         '''
+
         Find the most recently exported simulation JSON file.
 
         Parameters:
@@ -225,6 +233,7 @@ class SloshingTankAnimation(Scene):
         Returns:
         --------
         str | None : Path to the most recent file, or None
+
         '''
         if not os.path.isdir(dataDir):
             return None

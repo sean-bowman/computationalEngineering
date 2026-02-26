@@ -1,6 +1,7 @@
 # -- Animation Render Script -- #
 
 '''
+
 CLI tool for rendering SurfAnimations Manim scenes.
 
 Usage:
@@ -12,6 +13,7 @@ Usage:
     python SurfAnimations/render.py --all --quality low
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import argparse
@@ -19,7 +21,6 @@ import os
 import shutil
 import subprocess
 import sys
-
 
 #--------------------------------------------------------------------#
 # -- Scene Registry -- #
@@ -66,9 +67,12 @@ QUALITY_FLAGS = {
 #--------------------------------------------------------------------#
 
 def _ensureFfmpegPath() -> None:
+
     '''
+
     Add conda Library/bin to PATH if ffmpeg is not already findable.
     This is needed on Windows when using conda-installed ffmpeg.
+
     '''
     if shutil.which('ffmpeg') is not None:
         return
@@ -90,14 +94,15 @@ def _ensureFfmpegPath() -> None:
     print('  Warning: ffmpeg not found. Video rendering may fail.')
     print('  Install with: conda install -c conda-forge ffmpeg')
 
-
 def _projectRoot() -> str:
+
     '''Get the project root directory.'''
     return os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 
-
 def renderScene(sceneName: str, quality: str = 'high') -> bool:
+
     '''
+
     Render a single Manim scene.
 
     Parameters:
@@ -110,6 +115,7 @@ def renderScene(sceneName: str, quality: str = 'high') -> bool:
     Returns:
     --------
     bool : True if rendering succeeded, False otherwise
+
     '''
     if sceneName not in SCENES:
         print(f'Error: Unknown scene "{sceneName}"')
@@ -146,9 +152,10 @@ def renderScene(sceneName: str, quality: str = 'high') -> bool:
         print(f'\nFailed to render {sceneName}: {e}')
         return False
 
-
 def renderAll(quality: str = 'high') -> dict:
+
     '''
+
     Render all registered scenes.
 
     Parameters:
@@ -159,6 +166,7 @@ def renderAll(quality: str = 'high') -> dict:
     Returns:
     --------
     dict : Mapping of scene name to success (bool)
+
     '''
     _ensureFfmpegPath()
     results = {}

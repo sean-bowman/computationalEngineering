@@ -1,12 +1,14 @@
 # -- Manim Animation Theme -- #
 
 '''
+
 Centralized color theme for all SurfAnimations Manim scenes.
 
 Mirrors the SurfPhysics visualization theme (theme.py) for visual
 consistency across Plotly dashboards, Three.js viewer, and Manim animations.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 from manim import ManimColor

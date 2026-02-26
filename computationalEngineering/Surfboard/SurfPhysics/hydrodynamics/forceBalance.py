@@ -1,10 +1,12 @@
 # -- Combined Force Balance Solver -- #
 
 '''
+
 Brings together buoyancy, friction, planing, and fin forces to compute
 the total force state and find equilibrium conditions across speed ranges.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -22,11 +24,14 @@ from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.fins import Fi
 
 
 class ForceBalance:
+
     '''
+
     Combined force and moment balance for a surfboard at speed.
 
     Composes buoyancy, friction, planing, and fin models to compute
     the total force state and generate performance curves.
+
     '''
 
     def __init__(
@@ -35,7 +40,9 @@ class ForceBalance:
         params: SurfboardParameters,
         riderMassKg: float = 75.0,
     ) -> None:
+
         '''
+
         Initialize force balance model.
 
         Parameters:
@@ -46,7 +53,9 @@ class ForceBalance:
             Board parameters
         riderMassKg : float
             Rider mass in kg
+
         '''
+
         self._board = board
         self._params = params
         self._buoyancy = BuoyancyModel(board, params)
@@ -80,7 +89,9 @@ class ForceBalance:
         trimAngleDeg: float,
         yawAngleDeg: float = 0.0,
     ) -> dict[str, ForceResult]:
+
         '''
+
         Compute all forces at a given speed, trim, and yaw.
 
         Parameters:
@@ -95,7 +106,9 @@ class ForceBalance:
         Returns:
         --------
         dict[str, ForceResult] : Named force components
+
         '''
+
         results: dict[str, ForceResult] = {}
 
         # Weight (downward)
@@ -128,7 +141,9 @@ class ForceBalance:
         return results
 
     def totalDrag(self, speed: float, trimAngleDeg: float) -> float:
+
         '''
+
         Sum of all drag components in Newtons.
 
         Parameters:
@@ -141,7 +156,9 @@ class ForceBalance:
         Returns:
         --------
         float : Total drag in Newtons
+
         '''
+
         forces = self.computeForcesAtState(speed, trimAngleDeg)
         return (
             forces['planing_drag'].force
@@ -150,7 +167,9 @@ class ForceBalance:
         )
 
     def totalLift(self, speed: float, trimAngleDeg: float) -> float:
+
         '''
+
         Sum of buoyancy + planing lift in Newtons.
 
         Parameters:
@@ -163,14 +182,18 @@ class ForceBalance:
         Returns:
         --------
         float : Total upward force in Newtons
+
         '''
+
         forces = self.computeForcesAtState(speed, trimAngleDeg)
         return forces['buoyancy'].force + forces['planing_lift'].force
 
     def dragBreakdown(
         self, speedRange: np.ndarray, trimAngleDeg: float = 5.0
     ) -> dict[str, np.ndarray]:
+
         '''
+
         Drag breakdown across a speed range at a fixed trim.
 
         Parameters:
@@ -183,7 +206,9 @@ class ForceBalance:
         Returns:
         --------
         dict[str, np.ndarray] : Component name -> array of drag values
+
         '''
+
         breakdown: dict[str, list[float]] = {
             'planing_drag': [],
             'form_drag': [],
@@ -205,7 +230,9 @@ class ForceBalance:
         return {k: np.array(v) for k, v in breakdown.items()}
 
     def findEquilibrium(self, speed: float) -> PlaningState:
+
         '''
+
         Find equilibrium planing state at a given speed.
 
         Parameters:
@@ -216,7 +243,9 @@ class ForceBalance:
         Returns:
         --------
         PlaningState : Equilibrium state
+
         '''
+
         return self._planing.findPlaningEquilibrium(speed, self._totalWeightN)
 
     def performanceCurves(
@@ -225,7 +254,9 @@ class ForceBalance:
         maxSpeed: float = 10.0,
         nPoints: int = 50,
     ) -> dict[str, np.ndarray]:
+
         '''
+
         Compute equilibrium states across a speed range.
 
         Parameters:
@@ -241,7 +272,9 @@ class ForceBalance:
         --------
         dict[str, np.ndarray] : Arrays keyed by 'speed', 'trimAngleDeg',
             'wettedLengthM', 'liftToDrag', 'dragN', 'liftN'
+
         '''
+
         speeds = np.linspace(minSpeed, maxSpeed, nPoints)
         states = self._planing.sweepSpeed(speeds, self._totalWeightN)
 

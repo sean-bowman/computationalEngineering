@@ -81,6 +81,8 @@ This is a docstring.
 '''
 ```
 
+Between classes, methods, functions, sections of code, single lines of whitespace is preferred to keep the collapsed headers compact. However, for docstrings, providing one line of whitespace between the signature, first line of text in the comments, and final lines of text before the closing of the docstring is preferred.
+
 ---
 
 ## Documentation
@@ -109,7 +111,9 @@ Classes should have comprehensive docstrings that explain purpose, parameters, a
 
 ```python
 class WaveCondition:
+
     '''
+
     Wave state classification based on depth-to-wavelength ratio.
 
     States:
@@ -120,6 +124,7 @@ class WaveCondition:
     BREAKING : H/d > 0.78 - Wave has exceeded breaking threshold
 
     Sean Bowman - [12/30/2025]
+
     '''
 ```
 
@@ -196,7 +201,9 @@ Public methods should document parameters and return values:
 
 ```python
 def convertLengthToMillimeters(self, length: float, unit: str) -> float:
+
     '''
+
     Converts a length value from a specified unit to millimeters.
 
     Parameters:
@@ -251,6 +258,7 @@ The documentation principles above apply across all languages. Here's how they t
 
 ```python
 '''
+
 Brief description of module/class/function.
 
 Parameters:
@@ -261,6 +269,7 @@ stationFraction : float
 Returns:
 --------
 float : The half-width in millimeters
+
 '''
 ```
 
@@ -387,7 +396,12 @@ except ImportError:
 
 ```python
 class Example:
-    '''Class docstring...'''
+
+    '''
+    
+    Class docstring...
+    
+    '''
 
     # -- Constructor -- #
     def __init__(self):
@@ -396,16 +410,34 @@ class Example:
 
     # -- Private Helper Methods -- #
     def _validateInputs(self):
-        '''Private validation logic.'''
+
+        '''
+        
+        Private validation logic.
+        
+        '''
+
         pass
 
     # -- Public Methods -- #
     def setInputs(self, inputs: dict) -> None:
-        '''Public method for setting inputs.'''
+
+        '''
+        
+        Public method for setting inputs.
+        
+        '''
+
         pass
 
     def calculate(self) -> float:
-        '''Main calculation method.'''
+
+        '''
+        
+        Main calculation method.
+        
+        '''
+
         pass
 ```
 
@@ -415,16 +447,35 @@ For complex calculations, define helper functions within the method that uses th
 
 ```python
 def rockerProfile(self, tailKickAngle: float = 'default'):
-    '''Generate the rocker curve geometry.'''
+
+    '''
+    
+    Generate the rocker curve geometry.
+    
+    '''
 
     def calculateCrossSection(stationFraction) -> float:
-        '''Calculate cross-section area at a given station.'''
+
+        '''
+        
+        Calculate cross-section area at a given station.
+        
+        '''
+
         crossSection = (1 / stationFraction) * (...)
+
         return crossSection
 
     def calculateHydrodynamics(x, z) -> np.ndarray:
-        '''Calculate hydrodynamic properties along the board.'''
+
+        '''
+        
+        Calculate hydrodynamic properties along the board.
+        
+        '''
+
         # Uses calculateCrossSection internally
+
         pass
 
     # Main method logic using helpers
@@ -443,13 +494,16 @@ Create a private `_validateInputs()` method to check inputs before expensive cal
 
 ```python
 def _validateInputs(self) -> None:
+
     '''
+
     Validate input properties before calculations.
 
     Raises:
     -------
     TypeError : If inputs are not the expected type
     ValueError : If inputs are outside valid ranges
+
     '''
 
     # Type validation - use isinstance() for type checking
@@ -461,10 +515,13 @@ def _validateInputs(self) -> None:
         raise ValueError(f'prop1 must be non-negative, got {self.prop1}')
 
 def _validateMathyParams(self, mathyParams: dict) -> None:
+
     '''
+
     Validate that mathyParams matches the expected format exactly.
 
     Expected format: {'param1': <numeric>, 'param2': <numeric>}
+
     '''
 
     requiredKeys = {'param1', 'param2'}
@@ -504,7 +561,12 @@ Use try-except blocks for operations that may fail at runtime (file I/O, externa
 
 ```python
 def loadConfiguration(self, configPath: str) -> dict:
-    '''Load configuration from file with proper error handling.'''
+
+    '''
+    
+    Load configuration from file with proper error handling.
+    
+    '''
 
     try:
         with open(configPath, 'r') as f:
@@ -540,17 +602,23 @@ finally:
 
 For domain-specific errors, consider defining custom exception classes:
 
-| Exception Type | Use Case |
-| --- | --- |
-| `InvalidInputError` | Input validation failures with parameter context |
-| `ConvergenceFailureError` | Iterative solver failures |
-| `GeometricConstraintError` | Board geometry constraint violations |
+| Exception Type               | Use Case                                         |
+| ---------------------------- | ------------------------------------------------ |
+| `InvalidInputError`        | Input validation failures with parameter context |
+| `ConvergenceFailureError`  | Iterative solver failures                        |
+| `GeometricConstraintError` | Board geometry constraint violations             |
 
 Example custom exception with context:
 
 ```python
 class InvalidInputError(ValueError):
-    '''Custom exception for input validation with context.'''
+
+    '''
+    
+    Custom exception for input validation with context.
+    
+    '''
+
     def __init__(self, message, parameterName=None, value=None, validRange=None):
         self.parameterName = parameterName
         self.value = value
@@ -650,16 +718,16 @@ All other languages in this repository (Python, C++, C#, JavaScript) follow the 
 
 ## Quick Reference
 
-| Element    | Convention     | Example                | Exceptions                |
-| ---------- | -------------- | ---------------------- | ------------------------- |
-| Variables  | camelCase      | `waveHeight`           | Rust, FORTRAN: snake_case |
-| Functions  | camelCase      | `calculateBuoyancy()`  | Rust, FORTRAN: snake_case |
-| Classes    | PascalCase     | `WaveCondition`        |                           |
-| Private    | _camelCase     | `_validateInputs()`    |                           |
-| Constants  | camelCase      | `maxCpuCores`          |                           |
-| Strings    | single quotes  | `'EPS'`                |                           |
-| Docstrings | triple single  | `'''...'''`            |                           |
-| Units      | inline comment | `# [m]`                |                           |
+| Element    | Convention     | Example                 | Exceptions                |
+| ---------- | -------------- | ----------------------- | ------------------------- |
+| Variables  | camelCase      | `waveHeight`          | Rust, FORTRAN: snake_case |
+| Functions  | camelCase      | `calculateBuoyancy()` | Rust, FORTRAN: snake_case |
+| Classes    | PascalCase     | `WaveCondition`       |                           |
+| Private    | _camelCase     | `_validateInputs()`   |                           |
+| Constants  | camelCase      | `maxCpuCores`         |                           |
+| Strings    | single quotes  | `'EPS'`               |                           |
+| Docstrings | triple single  | `'''...'''`           |                           |
+| Units      | inline comment | `# [m]`               |                           |
 
 ---
 

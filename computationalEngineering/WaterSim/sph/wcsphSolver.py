@@ -1,6 +1,7 @@
 # -- Weakly Compressible SPH Solver -- #
 
 '''
+
 WCSPH solver for incompressible free-surface flows.
 
 Implements the weakly compressible SPH method where pressure is
@@ -32,6 +33,7 @@ Batchelor (1967) -- An introduction to fluid dynamics
 Morris et al. (1997) -- Modeling low Reynolds number incompressible flows
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from __future__ import annotations
@@ -48,9 +50,10 @@ from computationalEngineering.WaterSim.sph.neighborSearch import SpatialHashGrid
 from computationalEngineering.WaterSim.sph.boundaryHandling import BoundaryHandler
 from computationalEngineering.WaterSim.sph.timeIntegration import SymplecticEuler
 
-
 class WcsphSolver:
+
     '''
+
     Weakly Compressible SPH solver.
 
     Manages the full time-stepping loop: neighbor search, density
@@ -68,6 +71,7 @@ class WcsphSolver:
         Smoothing kernel (defaults to CubicSplineKernel)
     boundaryHandler : BoundaryHandler | None
         Boundary handler (defaults to None, uses clamping only)
+
     '''
 
     def __init__(
@@ -109,13 +113,16 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def initialize(self, particles: ParticleSystem) -> None:
+
         '''
+
         Set up initial conditions and compute initial density.
 
         Parameters:
         -----------
         particles : ParticleSystem
             Initial particle system (fluid + boundary particles)
+
         '''
         self._particles = particles
         self._time = 0.0
@@ -132,12 +139,15 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def step(self) -> SimulationState:
+
         '''
+
         Advance one time step using the WCSPH algorithm.
 
         Returns:
         --------
         SimulationState : Simulation state after the step
+
         '''
         p = self._particles
 
@@ -181,7 +191,9 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def _computeDensity(self) -> None:
+
         '''
+
         Compute particle densities using SPH summation.
 
         rho_i = sum_j m_j * W(|r_i - r_j|, h)
@@ -191,6 +203,7 @@ class WcsphSolver:
 
         Vectorized: kernel evaluation for all pairs at once,
         then scatter-add using np.add.at.
+
         '''
         p = self._particles
         h = self._config.smoothingLength
@@ -220,7 +233,9 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def _computePressure(self) -> None:
+
         '''
+
         Compute pressure from density using the Tait equation of state.
 
         p = B * ((rho / rho_0)^gamma - 1)
@@ -230,6 +245,7 @@ class WcsphSolver:
         The Tait EOS with gamma = 7 enforces near-incompressibility
         by producing large pressure changes for small density deviations.
         Negative pressures are clamped to zero to prevent tensile instability.
+
         '''
         p = self._particles
         rho0 = self._config.referenceDensity
@@ -246,7 +262,9 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def _computeAccelerations(self) -> None:
+
         '''
+
         Compute particle accelerations from pressure, viscosity, and gravity.
 
         a_i = -(1/rho_i) * grad(p_i) + viscous_term + g
@@ -262,6 +280,7 @@ class WcsphSolver:
 
         Vectorized: all pair computations done with NumPy arrays,
         then scatter-added to particle accelerations.
+
         '''
         p = self._particles
         h = self._config.smoothingLength
@@ -344,7 +363,9 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def _computeAdaptiveTimeStep(self) -> float:
+
         '''
+
         Compute adaptive time step using CFL condition.
 
         dt = CFL * min(dt_cfl, dt_force)
@@ -355,6 +376,7 @@ class WcsphSolver:
         Returns:
         --------
         float : Adaptive time step [s]
+
         '''
         h = self._config.smoothingLength
         maxVel = self._particles.maxSpeed()
@@ -378,12 +400,15 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def _applyXsphCorrection(self) -> None:
+
         '''
+
         Apply XSPH velocity correction for smoother particle trajectories.
 
         v_i += epsilon * sum_j (m_j / rho_avg) * (v_j - v_i) * W_ij
 
         Vectorized using NumPy batch operations.
+
         '''
         p = self._particles
         h = self._config.smoothingLength
@@ -423,12 +448,15 @@ class WcsphSolver:
     #--------------------------------------------------------------------#
 
     def _applyDensityFilter(self) -> None:
+
         '''
+
         Apply Shepard density re-initialization to correct drift.
 
         rho_i = sum_j m_j * W_ij / sum_j (m_j / rho_j) * W_ij
 
         Vectorized using NumPy batch operations.
+
         '''
         p = self._particles
         h = self._config.smoothingLength
@@ -468,6 +496,7 @@ class WcsphSolver:
 
     @property
     def currentState(self) -> SimulationState:
+
         '''Current simulation state snapshot.'''
         p = self._particles
         gravMag = abs(self._config.gravity[1])
@@ -484,15 +513,18 @@ class WcsphSolver:
 
     @property
     def particles(self) -> ParticleSystem:
+
         '''Access the particle system.'''
         return self._particles
 
     @property
     def time(self) -> float:
+
         '''Current simulation time [s].'''
         return self._time
 
     @property
     def speedOfSound(self) -> float:
+
         '''Artificial speed of sound [m/s].'''
         return self._speedOfSound

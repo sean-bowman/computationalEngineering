@@ -1,6 +1,7 @@
 # -- SurfAnimations Package -- #
 
 '''
+
 Manim-based physics animation module.
 
 Provides animated visualizations of wave theory, surfboard
@@ -11,6 +12,7 @@ API usage:
     renderScene('wave_intro', quality='high')
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from computationalEngineering.Surfboard.SurfAnimations.render import renderScene, renderAll, SCENES

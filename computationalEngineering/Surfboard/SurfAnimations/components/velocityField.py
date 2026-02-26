@@ -1,12 +1,14 @@
 # -- Velocity Field Components -- #
 
 '''
+
 Manim mobjects for rendering wave-induced velocity fields.
 
 Generates quiver-style arrow grids showing the orbital velocity
 pattern beneath a propagating wave, with color mapping by magnitude.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import os
@@ -20,7 +22,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
 from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import BLUE, CYAN
-
 
 #--------------------------------------------------------------------#
 # -- 2D Velocity Quiver Field -- #
@@ -42,7 +43,9 @@ def createVelocityField(
     colorLow: ManimColor = BLUE,
     colorHigh: ManimColor = CYAN,
 ) -> VGroup:
+
     '''
+
     Create a 2D velocity quiver field below the wave surface.
 
     Samples the velocity field on a grid of (x, z) points and creates
@@ -82,6 +85,7 @@ def createVelocityField(
     Returns:
     --------
     VGroup : Collection of velocity arrows
+
     '''
     arrows = VGroup()
 
@@ -160,7 +164,9 @@ def updateVelocityField(
     scaleFactor: float = 0.8,
     maxArrowLength: float = 0.6,
 ) -> VGroup:
+
     '''
+
     Create a new velocity field VGroup at a new time value.
 
     Rather than updating arrows in-place (complex with variable
@@ -181,6 +187,7 @@ def updateVelocityField(
     Returns:
     --------
     VGroup : New velocity field arrows
+
     '''
     return createVelocityField(
         waveTheory, wc, t,
@@ -190,7 +197,6 @@ def updateVelocityField(
         scaleFactor=scaleFactor,
         maxArrowLength=maxArrowLength,
     )
-
 
 #--------------------------------------------------------------------#
 # -- Particle Orbital Paths -- #
@@ -206,7 +212,9 @@ def createParticleOrbits(
     strokeWidth: float = 1.5,
     opacity: float = 0.6,
 ) -> VGroup:
+
     '''
+
     Create circular/elliptical orbital paths at different depths.
 
     Traces particle trajectories by integrating the velocity field
@@ -235,6 +243,7 @@ def createParticleOrbits(
     Returns:
     --------
     VGroup : Collection of orbit path VMobjects
+
     '''
     from manim import VMobject
 

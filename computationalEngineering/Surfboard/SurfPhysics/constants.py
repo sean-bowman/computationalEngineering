@@ -1,12 +1,14 @@
 # -- Physical Constants for Surfboard Physics -- #
 
 '''
+
 Physical and environmental constants for surfboard hydrodynamic analysis.
 Mirrors SurfboardGeometry/Utils/Constants.cs with additional wave physics constants.
 
 All values in SI units unless otherwise noted.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 #--------------------------------------------------------------------#

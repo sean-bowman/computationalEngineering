@@ -1,6 +1,7 @@
 # -- Optimization Module -- #
 
 '''
+
 Parameter optimization for matching generated geometry to reference meshes.
 
 Provides two-phase optimization:
@@ -8,6 +9,7 @@ Provides two-phase optimization:
 2. Nelder-Mead simplex fine-tuning for sub-millimeter accuracy
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from computationalEngineering.Surfboard.SurfPhysics.optimization.parameterOptimizer import (
@@ -20,7 +22,6 @@ from computationalEngineering.Surfboard.SurfPhysics.optimization.directMapper im
     PARAMETER_BOUNDS,
 )
 from computationalEngineering.Surfboard.SurfPhysics.optimization.coordinateTransformer import CoordinateTransformer
-
 
 __all__ = [
     'ParameterOptimizer',

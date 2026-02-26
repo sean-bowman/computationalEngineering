@@ -1,6 +1,7 @@
 # -- Computational Engineering Package -- #
 
 '''
+
 Master package for the Computational Engineering toolkit.
 
 Domain-specific sub-packages:
@@ -11,4 +12,5 @@ Shared tools:
     - PicoGK: LEAP 71 voxel-based geometry kernel (C# submodule)
 
 Sean Bowman [02/08/2026]
+
 '''

@@ -1,12 +1,14 @@
 # -- Surfboard Rocker Profile -- #
 
 '''
+
 Computes the rocker profile (Z-offset of the bottom surface along the board length).
 
 Direct port of SurfboardGeometry/Surfboard/RockerProfile.cs.
 Uses composite power curves with a flat spot at 60% from the nose.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -17,7 +19,9 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import S
 
 
 class RockerProfile:
+
     '''
+
     Surfboard rocker profile — vertical offset of the bottom surface.
 
     The lowest point (flat spot) is at Z = 0, located at 60% from the nose.
@@ -25,24 +29,31 @@ class RockerProfile:
 
     Nose region (t < 0.60): z = noseRocker * pow(1 - t/0.60, 2.5)
     Tail region (t >= 0.60): z = tailRocker * pow((t - 0.60)/0.40, 2.0)
+
     '''
 
     def __init__(self, params: SurfboardParameters) -> None:
+
         '''
+
         Initialize rocker profile from surfboard parameters.
 
         Parameters:
         -----------
         params : SurfboardParameters
             Board dimensions including rocker heights
+
         '''
+
         self._params = params
 
         # The flat spot is typically at ~60% from the nose
         self._flatSpotT: float = 0.60
 
     def getRockerHeight(self, t: float) -> float:
+
         '''
+
         Get the Z-offset (rocker height) at a normalized longitudinal position.
 
         Parameters:
@@ -53,7 +64,9 @@ class RockerProfile:
         Returns:
         --------
         float : Z-offset in mm (0 = flat spot, positive = upward)
+
         '''
+
         t = max(0.0, min(1.0, t))
 
         if t <= self._flatSpotT:

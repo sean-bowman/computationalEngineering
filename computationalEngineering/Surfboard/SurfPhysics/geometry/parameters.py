@@ -1,12 +1,14 @@
 # -- Surfboard Parameters Dataclass -- #
 
 '''
+
 Parametric surfboard dimensions matching the C# SurfboardParameters.cs.
 
 All spatial dimensions stored in millimeters to match the C# convention.
 Conversion to SI meters happens at the computation boundary in BoardGeometry.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -18,12 +20,15 @@ from dataclasses import dataclass, field, asdict
 
 @dataclass
 class SurfboardParameters:
+
     '''
+
     Parameters defining a parametric surfboard shape.
     All dimensions in millimeters.
 
     Mirrors SurfboardGeometry/Surfboard/SurfboardParameters.cs exactly.
     Factory classmethods provide the same presets (Shortboard, Longboard, Fish).
+
     '''
 
     #--------------------------------------------------------------------#
@@ -124,10 +129,14 @@ class SurfboardParameters:
 
     @property
     def approxVolumeLiters(self) -> float:
+
         '''
+
         Approximate board volume [liters] using ellipsoid estimation.
         V = (4/3) * pi * (L/2) * (W/2) * (T/2) * packingFactor / 1e6
+
         '''
+
         return (
             (4.0 / 3.0) * math.pi
             * (self.length / 2.0)
@@ -147,18 +156,26 @@ class SurfboardParameters:
     #--------------------------------------------------------------------#
     @classmethod
     def shortboard(cls) -> SurfboardParameters:
+
         '''
+
         Standard performance shortboard (6\'0" x 19.5" x 2.44").
         High-performance board for experienced surfers in good waves.
+
         '''
+
         return cls()
 
     @classmethod
     def longboard(cls) -> SurfboardParameters:
+
         '''
+
         Classic longboard (9\'0" x 22.5" x 3").
         Traditional longboard for nose riding and glide.
+
         '''
+
         return cls(
             length=2743.0,           # 9'0"
             maxWidth=570.0,          # 22.5"
@@ -176,10 +193,14 @@ class SurfboardParameters:
 
     @classmethod
     def fish(cls) -> SurfboardParameters:
+
         '''
+
         Round Nose Fish / RNF (5\'6" x 21" x 2.56").
         Wide, flat, and fast with swallow tail and twin fins.
+
         '''
+
         return cls(
             length=1676.0,           # 5'6"
             maxWidth=533.0,          # 21"
@@ -203,14 +224,18 @@ class SurfboardParameters:
     # -- JSON I/O -- #
     #--------------------------------------------------------------------#
     def toJson(self, filePath: str) -> None:
+
         '''
+
         Export parameters to JSON file for C# interop.
 
         Parameters:
         -----------
         filePath : str
             Output file path
+
         '''
+
         data = {
             'boardType': self.defaultFinConfiguration,
             'dimensions': {
@@ -250,7 +275,9 @@ class SurfboardParameters:
 
     @classmethod
     def fromJson(cls, filePath: str) -> SurfboardParameters:
+
         '''
+
         Load parameters from a JSON file.
 
         Parameters:
@@ -261,7 +288,9 @@ class SurfboardParameters:
         Returns:
         --------
         SurfboardParameters : Loaded parameters
+
         '''
+
         with open(filePath, 'r') as f:
             data = json.load(f)
 

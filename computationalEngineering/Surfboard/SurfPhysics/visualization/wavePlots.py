@@ -1,9 +1,11 @@
 # -- Wave Physics Visualizations -- #
 
 '''
+
 Plotly-based interactive plots for wave physics analysis.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -17,14 +19,15 @@ from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
 from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
 from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory import LinearWaveTheory
 
-
 def plotWaveProfile(
     waveConditions: WaveConditions,
     waveModel: LinearWaveTheory,
     xRange: tuple[float, float] = (0, 50),
     timeS: float = 0.0,
 ) -> go.Figure:
+
     '''
+
     Plot surface elevation eta(x) at a given time.
 
     Parameters:
@@ -41,6 +44,7 @@ def plotWaveProfile(
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     x = np.linspace(xRange[0], xRange[1], 500)
     eta = np.array([waveModel.surfaceElevation(xi, timeS, waveConditions) for xi in x])
@@ -77,13 +81,14 @@ def plotWaveProfile(
 
     return fig
 
-
 def plotWaveKinematics(
     waveConditions: WaveConditions,
     waveModel: LinearWaveTheory,
     xPositionM: float = 0.0,
 ) -> go.Figure:
+
     '''
+
     Velocity and pressure profiles under the wave at a fixed x position.
 
     Parameters:
@@ -98,6 +103,7 @@ def plotWaveKinematics(
     Returns:
     --------
     go.Figure : Plotly figure with 3 subplots (u, w, p vs z)
+
     '''
     d = waveConditions.depth
     zValues = np.linspace(-d, 0, 100)
@@ -144,12 +150,13 @@ def plotWaveKinematics(
 
     return fig
 
-
 def plotBreakingCriteria(
     depthRange: np.ndarray | None = None,
     periodRange: np.ndarray | None = None,
 ) -> go.Figure:
+
     '''
+
     Plot maximum wave height vs depth showing breaking envelopes.
 
     Parameters:
@@ -162,6 +169,7 @@ def plotBreakingCriteria(
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     if depthRange is None:
         depthRange = np.linspace(0.5, 10.0, 100)

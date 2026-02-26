@@ -1,6 +1,7 @@
 # -- SPH Particle Field Components -- #
 
 '''
+
 Reusable Manim mobjects for rendering SPH particle fields.
 
 Provides functions to create groups of colored dots representing
@@ -8,6 +9,7 @@ SPH particles, with color mapping by velocity magnitude or
 other scalar fields. Supports frame-by-frame animation updates.
 
 Sean Bowman [02/05/2026]
+
 '''
 
 import os
@@ -23,7 +25,6 @@ from manim import (
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import BLUE, RED, CYAN, WHITE
-
 
 #--------------------------------------------------------------------#
 # -- Particle Field Creation -- #
@@ -41,7 +42,9 @@ def createParticleField(
     scale: float = 1.0,
     offset: np.ndarray | None = None,
 ) -> VGroup:
+
     '''
+
     Create a group of Manim dots representing SPH particles.
 
     Positions are mapped from simulation coordinates to Manim
@@ -74,6 +77,7 @@ def createParticleField(
     Returns:
     --------
     VGroup : Group of colored dots
+
     '''
     colorMin = colorMin or CYAN
     colorMax = colorMax or RED
@@ -104,7 +108,6 @@ def createParticleField(
 
     return dots
 
-
 #--------------------------------------------------------------------#
 # -- Particle Field Update -- #
 #--------------------------------------------------------------------#
@@ -120,7 +123,9 @@ def updateParticleField(
     scale: float = 1.0,
     offset: np.ndarray | None = None,
 ) -> None:
+
     '''
+
     Update existing dot positions and colors from new frame data.
 
     Modifies the dots in-place for efficient animation. The number
@@ -146,6 +151,7 @@ def updateParticleField(
         Scale factor: Manim units per simulation meter
     offset : np.ndarray | None
         Translation offset in Manim units
+
     '''
     colorMin = colorMin or CYAN
     colorMax = colorMax or RED
@@ -166,7 +172,6 @@ def updateParticleField(
         dotGroup[i].move_to(np.array([x, y, 0.0]))
         dotGroup[i].set_color(colors[i])
 
-
 #--------------------------------------------------------------------#
 # -- Helper Functions -- #
 #--------------------------------------------------------------------#
@@ -179,7 +184,9 @@ def _computeColors(
     scalarMax: float | None,
     nParticles: int,
 ) -> list:
+
     '''
+
     Compute per-particle colors from a scalar field.
 
     Parameters:
@@ -196,6 +203,7 @@ def _computeColors(
     Returns:
     --------
     list : Per-particle ManimColor values
+
     '''
     if scalarField is None or len(scalarField) == 0:
         return [colorMin] * nParticles

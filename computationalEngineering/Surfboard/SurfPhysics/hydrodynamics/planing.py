@@ -1,6 +1,7 @@
 # -- Planing Lift and Drag Model -- #
 
 '''
+
 Planing hull hydrodynamic model adapted from Savitsky (1964).
 
 The Savitsky method predicts lift, drag, wetted area, and center of
@@ -17,6 +18,7 @@ Paine, F. -- The Science of Surfing (Cambridge University Press)
 Matveev (2024) -- Bottom modifications for planing boards
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -35,17 +37,22 @@ from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.friction impor
 
 
 class PlaningModel:
+
     '''
+
     Planing lift and drag model adapted from Savitsky (1964).
 
     Predicts hydrodynamic lift, drag, and equilibrium conditions for
     a surfboard at planing speeds. The Savitsky formulas are adapted
     for non-prismatic surfboard geometry by averaging deadrise and beam
     over the wetted region.
+
     '''
 
     def __init__(self, board: BoardGeometry, params: SurfboardParameters) -> None:
+
         '''
+
         Initialize planing model.
 
         Parameters:
@@ -54,13 +61,17 @@ class PlaningModel:
             Board geometry for shape queries
         params : SurfboardParameters
             Board parameters
+
         '''
+
         self._board = board
         self._params = params
         self._friction = FrictionDragModel()
 
     def _effectiveBeam(self, wettedLengthFraction: float = 0.5) -> float:
+
         '''
+
         Effective beam (width) in meters, averaged over the wetted region.
 
         For planing, the wetted region is typically the aft portion of the board.
@@ -74,7 +85,9 @@ class PlaningModel:
         Returns:
         --------
         float : Effective beam in meters
+
         '''
+
         # Sample the width over the wetted region (from tail backward)
         nSamples = 20
         totalWidth = 0.0
@@ -86,7 +99,9 @@ class PlaningModel:
         return totalWidth / nSamples
 
     def _effectiveDeadrise(self, wettedLengthFraction: float = 0.5) -> float:
+
         '''
+
         Effective deadrise angle in degrees, averaged over the wetted region.
 
         Parameters:
@@ -97,7 +112,9 @@ class PlaningModel:
         Returns:
         --------
         float : Average deadrise angle in degrees
+
         '''
+
         nSamples = 10
         totalAngle = 0.0
 
@@ -115,7 +132,9 @@ class PlaningModel:
         beamM: float,
         deadriseDeg: float = 0.0,
     ) -> float:
+
         '''
+
         Savitsky lift coefficient for a planing surface.
 
         For zero deadrise:
@@ -146,7 +165,9 @@ class PlaningModel:
         Returns:
         --------
         float : Lift coefficient (dimensionless)
+
         '''
+
         if speed <= 0.0 or beamM <= 0.0 or trimAngleDeg <= 0.0 or wettedLengthM <= 0.0:
             return 0.0
 
@@ -174,7 +195,9 @@ class PlaningModel:
         return max(0.0, cl)
 
     def computePlaningLift(self, speed: float, trimAngleDeg: float) -> ForceResult:
+
         '''
+
         Hydrodynamic planing lift force.
 
         L = 0.5 * rho * V^2 * beam^2 * CL
@@ -189,7 +212,9 @@ class PlaningModel:
         Returns:
         --------
         ForceResult : Planing lift force
+
         '''
+
         if speed <= 0.0 or trimAngleDeg <= 0.0:
             return ForceResult(force=0.0, description='Planing lift: 0 N (no speed/trim)')
 
@@ -212,7 +237,9 @@ class PlaningModel:
     def computePlaningDrag(
         self, speed: float, trimAngleDeg: float, liftForce: float
     ) -> ForceResult:
+
         '''
+
         Total planing drag = friction + pressure + spray.
 
         Pressure drag: D_pressure = lift * tan(trimAngle)
@@ -230,7 +257,9 @@ class PlaningModel:
         Returns:
         --------
         ForceResult : Total planing drag
+
         '''
+
         if speed <= 0.0 or trimAngleDeg <= 0.0:
             return ForceResult(force=0.0, description='Planing drag: 0 N')
 
@@ -268,7 +297,9 @@ class PlaningModel:
     def findPlaningEquilibrium(
         self, speed: float, totalWeightN: float
     ) -> PlaningState:
+
         '''
+
         Find the trim angle where lift equals weight.
 
         Solves for the equilibrium trim angle at a given speed using
@@ -284,7 +315,9 @@ class PlaningModel:
         Returns:
         --------
         PlaningState : Equilibrium state
+
         '''
+
         if speed <= 0.5:
             # Below planing speed — displacement mode
             return PlaningState(
@@ -350,7 +383,9 @@ class PlaningModel:
     def sweepSpeed(
         self, speedRange: np.ndarray, totalWeightN: float
     ) -> list[PlaningState]:
+
         '''
+
         Compute planing equilibrium at each speed in the range.
 
         Parameters:
@@ -363,11 +398,15 @@ class PlaningModel:
         Returns:
         --------
         list[PlaningState] : Equilibrium state at each speed
+
         '''
+
         return [self.findPlaningEquilibrium(v, totalWeightN) for v in speedRange]
 
     def planingThresholdSpeed(self, totalWeightN: float) -> float:
+
         '''
+
         Estimate the minimum speed for planing onset.
 
         Based on Froude number criterion: Fn = V / sqrt(g * L) ~ 1.0
@@ -381,6 +420,8 @@ class PlaningModel:
         Returns:
         --------
         float : Planing threshold speed in m/s
+
         '''
+
         lengthM = self._board.getLengthM()
         return math.sqrt(const.gravity * lengthM)

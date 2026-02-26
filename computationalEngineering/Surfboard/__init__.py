@@ -1,6 +1,7 @@
 # -- Surfboard Package -- #
 
 '''
+
 Surfboard design, physics, and visualization toolkit.
 
 Parametric surfboard geometry generation, hydrodynamic analysis,
@@ -18,6 +19,7 @@ Sub-modules:
     - SurfViewer: Three.js interactive web viewer
 
 Sean Bowman [02/08/2026]
+
 '''
 
 # Parametric geometry

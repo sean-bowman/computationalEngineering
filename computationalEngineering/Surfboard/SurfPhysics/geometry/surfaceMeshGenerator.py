@@ -1,7 +1,7 @@
-
 # -- Parametric Surface Mesh Generator -- #
 
 '''
+
 Generates a watertight triangulated surface mesh from the parametric surfboard model.
 
 Stitches cross-section contours from nose to tail into a closed mesh,
@@ -19,6 +19,7 @@ The algorithm:
 All geometry is in millimeters (matching the project coordinate system).
 
 Sean Bowman [02/07/2026]
+
 '''
 
 from __future__ import annotations
@@ -54,7 +55,9 @@ _TIP_THRESHOLD_MM = 0.1
 
 
 class SurfaceMeshGenerator:
+
     '''
+
     Generates a watertight triangulated surface mesh from the parametric
     surfboard model by stitching cross-section contours from nose to tail.
 
@@ -71,6 +74,7 @@ class SurfaceMeshGenerator:
     >>> params = SurfboardParameters.shortboard()
     >>> gen = SurfaceMeshGenerator(params, nLongitudinal=300, nLateral=60)
     >>> gen.exportStl('shortboard.stl')
+
     '''
 
     def __init__(
@@ -79,7 +83,9 @@ class SurfaceMeshGenerator:
         nLongitudinal: int = 300,
         nLateral: int = 60,
     ) -> None:
+
         '''
+
         Initialize the mesh generator from surfboard parameters.
 
         Parameters:
@@ -93,7 +99,9 @@ class SurfaceMeshGenerator:
             Number of sample points across the half-width for each
             surface (deck and bottom). More points = smoother
             cross-section contour resolution.
+
         '''
+
         if trimesh is None:
             raise ImportError(
                 'trimesh is required for surface mesh generation. '
@@ -118,7 +126,9 @@ class SurfaceMeshGenerator:
         params: SurfboardParameters,
         preset: str = 'standard',
     ) -> SurfaceMeshGenerator:
+
         '''
+
         Create a mesh generator using a named resolution preset.
 
         Parameters:
@@ -131,7 +141,9 @@ class SurfaceMeshGenerator:
         Returns:
         --------
         SurfaceMeshGenerator : Configured generator instance
+
         '''
+
         if preset not in RESOLUTION_PRESETS:
             raise ValueError(
                 f'Unknown preset \'{preset}\'. '
@@ -142,7 +154,9 @@ class SurfaceMeshGenerator:
 
     @property
     def pointsPerContour(self) -> int:
+
         '''
+
         Number of unique vertices in each cross-section contour ring.
 
         The contour traces the full board perimeter at a station:
@@ -152,7 +166,9 @@ class SurfaceMeshGenerator:
         Returns:
         --------
         int : M = 4 * nLateral - 2
+
         '''
+
         return 4 * self._nLateral - 2
 
     #--------------------------------------------------------------------#
@@ -160,7 +176,9 @@ class SurfaceMeshGenerator:
     #--------------------------------------------------------------------#
 
     def generate(self) -> trimesh.Trimesh:
+
         '''
+
         Generate the complete surfboard surface mesh.
 
         Samples cross-section contours at each longitudinal station,
@@ -169,7 +187,9 @@ class SurfaceMeshGenerator:
         Returns:
         --------
         trimesh.Trimesh : Watertight triangulated surface mesh (vertices in mm)
+
         '''
+
         stations = self._sampleStations()
         vertices, faces = self._buildMesh(stations)
 
@@ -184,19 +204,25 @@ class SurfaceMeshGenerator:
         return mesh
 
     def getMesh(self) -> trimesh.Trimesh:
+
         '''
+
         Get the generated mesh, creating it on first access.
 
         Returns:
         --------
         trimesh.Trimesh : The surface mesh
+
         '''
+
         if self._mesh is None:
             self.generate()
         return self._mesh
 
     def exportStl(self, filePath: str, binary: bool = True) -> None:
+
         '''
+
         Export the surfboard mesh as an STL file.
 
         Parameters:
@@ -205,13 +231,17 @@ class SurfaceMeshGenerator:
             Output file path (should end in .stl)
         binary : bool
             If True, write binary STL (smaller). If False, write ASCII STL.
+
         '''
+
         mesh = self.getMesh()
         fileType = 'stl' if binary else 'stl_ascii'
         mesh.export(filePath, file_type=fileType)
 
     def computeVolume(self) -> float:
+
         '''
+
         Compute the mesh volume in mm^3.
 
         Useful for validation against BoardGeometry.computeVolume().
@@ -219,20 +249,26 @@ class SurfaceMeshGenerator:
         Returns:
         --------
         float : Volume in mm^3 (0 if mesh is not watertight)
+
         '''
+
         mesh = self.getMesh()
         if not mesh.is_watertight:
             return 0.0
         return float(abs(mesh.volume))
 
     def computeVolumeLiters(self) -> float:
+
         '''
+
         Compute the mesh volume in liters.
 
         Returns:
         --------
         float : Volume in liters
+
         '''
+
         return self.computeVolume() / 1_000_000.0
 
     #--------------------------------------------------------------------#
@@ -240,7 +276,9 @@ class SurfaceMeshGenerator:
     #--------------------------------------------------------------------#
 
     def _sampleStations(self) -> list[dict]:
+
         '''
+
         Sample cross-section contours at each longitudinal station.
 
         At each station, queries the parametric model for the half-width,
@@ -255,7 +293,9 @@ class SurfaceMeshGenerator:
             - 'x': x position in mm
             - 'isTip': True if the station is a degenerate tip point
             - 'contour': np.ndarray of shape (M, 3) or (1, 3) for tips
+
         '''
+
         tValues = np.linspace(0.0, 1.0, self._nLongitudinal)
         stations = []
 
@@ -286,7 +326,9 @@ class SurfaceMeshGenerator:
     def _buildContour(
         self, t: float, x: float, hw: float, rz: float
     ) -> np.ndarray:
+
         '''
+
         Build a closed cross-section contour at a given station.
 
         The contour traces the full perimeter of the cross-section as a
@@ -319,7 +361,9 @@ class SurfaceMeshGenerator:
         Returns:
         --------
         np.ndarray : Contour vertices, shape (M, 3) where M = 4*nLateral - 2
+
         '''
+
         n = self._nLateral
         lfs = np.linspace(0.0, 1.0, n)
         points = []
@@ -398,7 +442,9 @@ class SurfaceMeshGenerator:
         entryDeckZ: float,
         entryMidZ: float,
     ) -> float:
+
         '''
+
         Get deck height with rail rounding applied.
 
         For lf values inside the blend zone (lf > lfBlend), the deck height
@@ -424,7 +470,9 @@ class SurfaceMeshGenerator:
         Returns:
         --------
         float : Deck height in mm relative to center plane
+
         '''
+
         if effectiveRadius > 0.0 and lf > lfBlend:
             blendT = (lf - lfBlend) / (1.0 - lfBlend)
             railFactor = math.sqrt(max(0.0, 1.0 - blendT * blendT))
@@ -442,7 +490,9 @@ class SurfaceMeshGenerator:
         entryBottomZ: float,
         entryMidZ: float,
     ) -> float:
+
         '''
+
         Get bottom height with rail rounding applied.
 
         Mirror of _railRoundedDeck for the bottom surface.
@@ -465,7 +515,9 @@ class SurfaceMeshGenerator:
         Returns:
         --------
         float : Bottom height in mm relative to center plane
+
         '''
+
         if effectiveRadius > 0.0 and lf > lfBlend:
             blendT = (lf - lfBlend) / (1.0 - lfBlend)
             railFactor = math.sqrt(max(0.0, 1.0 - blendT * blendT))
@@ -480,7 +532,9 @@ class SurfaceMeshGenerator:
     def _buildMesh(
         self, stations: list[dict]
     ) -> tuple[np.ndarray, np.ndarray]:
+
         '''
+
         Assemble the complete mesh from sampled station contours.
 
         Combines quad-strip triangulation between adjacent contours
@@ -496,7 +550,9 @@ class SurfaceMeshGenerator:
         --------
         tuple[np.ndarray, np.ndarray] :
             (vertices shape (V, 3), faces shape (F, 3))
+
         '''
+
         # Collect vertices and faces as Python lists for flexible appending,
         # then convert to numpy arrays at the end
         vertexList: list[list[float]] = []
@@ -565,7 +621,9 @@ class SurfaceMeshGenerator:
         nPointsA: int,
         nPointsB: int,
     ) -> None:
+
         '''
+
         Triangulate a quad strip between two contour rings of equal size.
 
         Each pair of corresponding edges on the two rings forms a quad,
@@ -583,7 +641,9 @@ class SurfaceMeshGenerator:
             Number of vertices in contour A
         nPointsB : int
             Number of vertices in contour B
+
         '''
+
         # Use the smaller contour size if they differ (safety fallback —
         # in normal operation all contours have the same M points)
         n = min(nPointsA, nPointsB)
@@ -608,7 +668,9 @@ class SurfaceMeshGenerator:
         nContourPoints: int,
         tipBeforeContour: bool,
     ) -> None:
+
         '''
+
         Fan-triangulate from a single tip vertex to a contour ring.
 
         Used when a station collapses to a single point (nose or tail tip)
@@ -627,7 +689,9 @@ class SurfaceMeshGenerator:
         tipBeforeContour : bool
             True if the tip is on the nose side (before the contour in X).
             Affects face winding for consistent outward normals.
+
         '''
+
         for j in range(nContourPoints):
             jNext = (j + 1) % nContourPoints
 
@@ -648,7 +712,9 @@ class SurfaceMeshGenerator:
         nPoints: int,
         facingNose: bool,
     ) -> None:
+
         '''
+
         Close an open terminal contour ring with a planar fan cap.
 
         Computes the centroid of the contour, adds it as a new vertex,
@@ -669,7 +735,9 @@ class SurfaceMeshGenerator:
         facingNose : bool
             True if the cap should face toward the nose (-X direction).
             False for a tail-facing cap (+X direction).
+
         '''
+
         # Compute centroid of the contour ring
         centroid = np.zeros(3)
         for i in range(nPoints):

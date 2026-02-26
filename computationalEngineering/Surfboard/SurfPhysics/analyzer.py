@@ -1,6 +1,7 @@
 # -- Physics Analyzer -- #
 
 '''
+
 Top-level physics analysis class for surfboard hydrodynamics.
 
 Encapsulates the full SurfPhysics pipeline: board geometry construction,
@@ -8,6 +9,7 @@ buoyancy analysis, wave physics, and hydrodynamic performance computation.
 Reads configuration from JSON files and stores structured results.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 from __future__ import annotations
@@ -26,15 +28,17 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory impor
 from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.buoyancy import BuoyancyModel
 from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
 
-
 class PhysicsAnalyzer:
+
     '''
+
     Surfboard hydrodynamic physics analysis.
 
     Reads a JSON configuration file, constructs board geometry,
     and runs the full analysis pipeline (buoyancy, wave physics,
     hydrodynamic performance). Results are stored as a structured
     dictionary accessible via the results property.
+
     '''
 
     def __init__(self) -> None:
@@ -44,7 +48,9 @@ class PhysicsAnalyzer:
 
     @property
     def results(self) -> dict:
+
         '''
+
         Structured analysis results.
 
         Keys:
@@ -60,6 +66,7 @@ class PhysicsAnalyzer:
         Raises:
         -------
         RuntimeError : If runAnalysis() has not been called yet
+
         '''
         if self._results is None:
             raise RuntimeError('No results available. Call runAnalysis() first.')
@@ -67,16 +74,20 @@ class PhysicsAnalyzer:
 
     @property
     def params(self) -> SurfboardParameters | None:
+
         '''Board parameters from the last analysis run.'''
         return self._params
 
     @property
     def waveConditions(self) -> WaveConditions | None:
+
         '''Wave conditions from the last analysis run.'''
         return self._waveConditions
 
     def runAnalysis(self, configPath: str) -> dict:
+
         '''
+
         Run the full physics analysis pipeline from a JSON config.
 
         Reads "board", "waves", "rider", and "analysis" sections from
@@ -91,6 +102,7 @@ class PhysicsAnalyzer:
         Returns:
         --------
         dict : Structured analysis results (also stored in self.results)
+
         '''
         config = self._loadConfig(configPath)
         self._params = self._buildBoardParams(config)
@@ -246,7 +258,9 @@ class PhysicsAnalyzer:
     #--------------------------------------------------------------------#
 
     def _loadConfig(self, configPath: str) -> dict:
+
         '''
+
         Load and flatten relevant config sections from JSON.
 
         Parameters:
@@ -257,6 +271,7 @@ class PhysicsAnalyzer:
         Returns:
         --------
         dict : Flattened config values
+
         '''
         with open(configPath, 'r') as f:
             data = json.load(f)
@@ -285,7 +300,9 @@ class PhysicsAnalyzer:
         }
 
     def _buildBoardParams(self, config: dict) -> SurfboardParameters:
+
         '''
+
         Build SurfboardParameters from config values.
 
         Selects a preset board or loads custom parameters, then
@@ -303,6 +320,7 @@ class PhysicsAnalyzer:
         Raises:
         -------
         ValueError : If boardType is not recognized
+
         '''
         boardType = config['boardType']
         customFile = config.get('customParametersFile')
@@ -359,6 +377,7 @@ class PhysicsAnalyzer:
         equilibriumStates: list,
         planingSpeed: float,
     ) -> None:
+
         '''Print formatted analysis summary to console.'''
 
         print()

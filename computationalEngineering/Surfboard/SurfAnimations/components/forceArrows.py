@@ -1,12 +1,14 @@
 # -- Force Arrow Components -- #
 
 '''
+
 Manim mobjects for rendering force vector arrows with labels.
 
 Creates styled arrows representing weight, buoyancy, planing lift,
 and drag forces on a surfboard, with magnitude labels in Newtons.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import math
@@ -32,7 +34,6 @@ from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import (
 # Calibrated so ~830N (typical weight) produces ~2.5 Manim unit arrow
 FORCE_SCALE = 0.003
 
-
 #--------------------------------------------------------------------#
 # -- Single Force Arrow (2D) -- #
 #--------------------------------------------------------------------#
@@ -48,7 +49,9 @@ def createForceArrow(
     strokeWidth: float = 5,
     fontSize: float = 18,
 ) -> VGroup:
+
     '''
+
     Create a 2D force arrow with a magnitude label.
 
     Parameters:
@@ -75,6 +78,7 @@ def createForceArrow(
     Returns:
     --------
     VGroup : Arrow + text label
+
     '''
     # Compute arrow length (capped)
     arrowLength = min(abs(magnitudeN) * scaleFactor, maxLength)
@@ -114,7 +118,6 @@ def createForceArrow(
 
     return VGroup(arrow, labelText)
 
-
 #--------------------------------------------------------------------#
 # -- Force Balance Group (2D) -- #
 #--------------------------------------------------------------------#
@@ -127,7 +130,9 @@ def createForceBalance(
     scaleFactor: float = FORCE_SCALE,
     fontSize: float = 18,
 ) -> dict:
+
     '''
+
     Create a complete set of force arrows for a board in equilibrium.
 
     Returns a dict of VGroups keyed by force name, so individual
@@ -151,6 +156,7 @@ def createForceBalance(
     Returns:
     --------
     dict : Keys 'weight', 'buoyancy', 'lift', 'drag' -> VGroup
+
     '''
     origin = np.array(boardCenter, dtype=float)
     trimRad = math.radians(trimAngleDeg)
@@ -211,7 +217,6 @@ def createForceBalance(
 
     return forces
 
-
 #--------------------------------------------------------------------#
 # -- 3D Force Arrows -- #
 #--------------------------------------------------------------------#
@@ -224,7 +229,9 @@ def createForceArrow3D(
     scaleFactor: float = FORCE_SCALE,
     maxLength: float = 3.0,
 ) -> Arrow3D:
+
     '''
+
     Create a 3D force arrow for ThreeDScene.
 
     Parameters:
@@ -245,6 +252,7 @@ def createForceArrow3D(
     Returns:
     --------
     Arrow3D : 3D arrow
+
     '''
     arrowLength = min(abs(magnitudeN) * scaleFactor, maxLength)
     if arrowLength < 0.1:
@@ -264,14 +272,15 @@ def createForceArrow3D(
     )
     return arrow
 
-
 def createForceBalance3D(
     planingState: PlaningState,
     totalWeightN: float,
     boardCenter: np.ndarray,
     scaleFactor: float = FORCE_SCALE,
 ) -> dict:
+
     '''
+
     Create 3D force arrows for ThreeDScene.
 
     Parameters:
@@ -288,6 +297,7 @@ def createForceBalance3D(
     Returns:
     --------
     dict : Keys 'weight', 'buoyancy', 'lift', 'drag' -> Arrow3D
+
     '''
     origin = np.array(boardCenter, dtype=float)
     forces = {}

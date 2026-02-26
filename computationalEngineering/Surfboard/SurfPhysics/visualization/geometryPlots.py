@@ -1,9 +1,11 @@
 # -- Board Geometry Visualizations -- #
 
 '''
+
 Plotly-based interactive plots for surfboard geometry.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -17,9 +19,10 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import S
 from computationalEngineering.Surfboard.SurfPhysics.units import mToMm
 from computationalEngineering.Surfboard.SurfPhysics.visualization import theme
 
-
 def plotOutline(board: BoardGeometry, params: SurfboardParameters) -> go.Figure:
+
     '''
+
     Top-down planform outline showing both rails.
 
     Parameters:
@@ -32,6 +35,7 @@ def plotOutline(board: BoardGeometry, params: SurfboardParameters) -> go.Figure:
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     nPoints = 200
     tValues = np.linspace(0, 1, nPoints)
@@ -79,9 +83,10 @@ def plotOutline(board: BoardGeometry, params: SurfboardParameters) -> go.Figure:
 
     return fig
 
-
 def plotRockerProfile(board: BoardGeometry, params: SurfboardParameters) -> go.Figure:
+
     '''
+
     Side-view rocker curve.
 
     Parameters:
@@ -94,6 +99,7 @@ def plotRockerProfile(board: BoardGeometry, params: SurfboardParameters) -> go.F
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     nPoints = 200
     tValues = np.linspace(0, 1, nPoints)
@@ -129,13 +135,14 @@ def plotRockerProfile(board: BoardGeometry, params: SurfboardParameters) -> go.F
 
     return fig
 
-
 def plotCrossSections(
     board: BoardGeometry,
     params: SurfboardParameters,
     stations: list[float] | None = None,
 ) -> go.Figure:
+
     '''
+
     Cross-sectional profiles at multiple longitudinal stations.
 
     Parameters:
@@ -150,6 +157,7 @@ def plotCrossSections(
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     if stations is None:
         stations = [0.1, 0.25, 0.4, 0.6, 0.8, 0.95]
@@ -199,9 +207,10 @@ def plotCrossSections(
 
     return fig
 
-
 def plotBoardOverview(board: BoardGeometry, params: SurfboardParameters) -> go.Figure:
+
     '''
+
     Combined 4-subplot board geometry overview.
 
     Parameters:
@@ -214,6 +223,7 @@ def plotBoardOverview(board: BoardGeometry, params: SurfboardParameters) -> go.F
     Returns:
     --------
     go.Figure : Plotly figure
+
     '''
     fig = make_subplots(
         rows=2, cols=2,

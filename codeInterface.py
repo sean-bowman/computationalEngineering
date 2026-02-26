@@ -2,26 +2,26 @@
 # -- Code Interface (Entry-Point) -- #
 
 '''
+
 Lightweight entry point for the Computational Engineering Toolkit.
 
-Demonstrates the Surfboard module via wildcard import:
-    1. Create board parameters from presets
-    2. Generate a parametric surface mesh
-    3. Compute volume and export STL
-    4. Run reverse-engineering validation
-    5. Visualize the 3D mesh in Plotly
+Demonstrates the RocketNozzle module:
+    1. Load JSON config or pass dict
+    2. Generate MOC contour + converging section
+    3. Generate regen cooling channels + volutes
+    4. Run coupled heat transfer model
+    5. Export STL + TXT
 
 Usage:
     python codeInterface.py
 
-Sean Bowman [02/08/2026]
+Sean Bowman [02/09/2026]
+
 '''
 
 import os
 
-import plotly.graph_objects as go
-
-from computationalEngineering.Surfboard import *
+from computationalEngineering.RocketNozzle import RocketNozzle
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -29,143 +29,49 @@ os.system('cls' if os.name == 'nt' else 'clear')
 # -- Configuration -- #
 #--------------------------------------------------------------------#
 
-boardPreset = 'shortboard'      # 'shortboard', 'longboard', or 'fish'
-meshResolution = 'standard'     # 'draft', 'standard', or 'high'
+configPath = 'computationalEngineering/RocketNozzle/configs/exampleNozzle.json'
 
 #--------------------------------------------------------------------#
-# -- Generate Board -- #
+# -- Generate Nozzle -- #
 #--------------------------------------------------------------------#
 
-presets = {
-    'shortboard': SurfboardParameters.shortboard,
-    'longboard': SurfboardParameters.longboard,
-    'fish': SurfboardParameters.fish,
-}
-
-params = presets[boardPreset]()
-board = BoardGeometry(params)
-
-print('=' * 60)
-print('  SURFBOARD MODULE SHOWCASE')
-print('=' * 60)
-params.printSummary()
-
-
-#--------------------------------------------------------------------#
-# -- Surface Mesh -- #
-#--------------------------------------------------------------------#
-
-print('\nGenerating surface mesh...')
-resSettings = RESOLUTION_PRESETS[meshResolution]
-gen = SurfaceMeshGenerator(params, **resSettings)
-mesh = gen.generate()
-
-meshVolL = gen.computeVolumeLiters()
-paramVolL = board.computeVolume() * 1000
-
-print(f'  Resolution:  {meshResolution} '
-      f'({resSettings["nLongitudinal"]} x {resSettings["nLateral"]})')
-print(f'  Vertices:    {len(mesh.vertices):,}')
-print(f'  Faces:       {len(mesh.faces):,}')
-print(f'  Watertight:  {mesh.is_watertight}')
-print(f'  Mesh Volume: {meshVolL:.2f} L')
-print(f'  Param Volume:{paramVolL:.2f} L (integration)')
-print(f'  Difference:  {abs(meshVolL - paramVolL) / paramVolL * 100:.3f}%')
-
-# Export STL
-outputDir = 'computationalEngineering/Surfboard/SurfboardGeometry/Output'
-os.makedirs(outputDir, exist_ok=True)
-stlPath = os.path.join(outputDir, f'{boardPreset}_parametric.stl')
-gen.exportStl(stlPath)
-print(f'\n  Exported: {stlPath}')
-
-
-#--------------------------------------------------------------------#
-# -- Reverse Engineering Validation -- #
-#--------------------------------------------------------------------#
+nozzle = RocketNozzle()
+nozzle.generate(configPath=configPath)
 
 print('\n' + '=' * 60)
-print('  REVERSE ENGINEERING VALIDATION')
+print('  ROCKET NOZZLE DESIGN SUMMARY')
 print('=' * 60)
 
-re = ReverseEngineer(
-    stlPath,
-    expectedLengthMm=params.length,
-    removeFins=False,
-    autoTransform=False,
-)
+print(f'\n  Gas Properties:')
+print(f'    gamma:                {nozzle.chamberGamma}')
+print(f'    R (gas constant):     {nozzle.chamberRGasConstant:.2f} J/kg-K')
+print(f'    T0 (stagnation):      {nozzle.chamberStagnationTemperature:.0f} K')
+print(f'    Pc (chamber):         {nozzle.chamberPressure / 1e6:.2f} MPa')
 
-profiles = re.extractProfiles(nStations=300, nLateralSamples=50)
-fittedParams = re.fitParameters(profiles)
+print(f'\n  Nozzle Geometry:')
+print(f'    Thrust:               {nozzle.thrust:.0f} N')
+print(f'    Exit Mach:            {nozzle.exitMachNumber:.4f}')
+print(f'    Expansion Ratio:      {nozzle.expansionRatio:.1f}')
+print(f'    Throat Area:          {nozzle.throatArea * 1e4:.2f} cm^2')
+print(f'    Length Fraction:      {nozzle.lengthFraction}')
+print(f'    Contour Points:       {len(nozzle.xNozzleWall)}')
 
-fields = [
-    ('Length', 'length'), ('Max Width', 'maxWidth'),
-    ('Max Thickness', 'maxThickness'), ('Nose Rocker', 'noseRocker'),
-    ('Tail Rocker', 'tailRocker'), ('Deck Crown', 'deckCrown'),
-    ('Concave', 'bottomConcave'),
-]
+if nozzle.makeCoolingChannels == 'on':
+    print(f'\n  Regenerative Cooling:')
+    print(f'    Channels:             {nozzle.nChannel}')
+    print(f'    Channel Type:         {nozzle.channelType}')
+    print(f'    Hot Wall Thickness:   {nozzle.hotWallThickness * 1e3:.1f} mm')
+    print(f'    Shell Thickness:      {nozzle.shellThickness * 1e3:.1f} mm')
+    print(f'    Material:             {nozzle.material}')
+    print(f'    Coolant:              {nozzle.coolant}')
+    print(f'    Coolant Inlet T:      {nozzle.coolantInitialTemperature:.0f} K')
+    print(f'    Coolant Inlet P:      {nozzle.coolantInitialPressure / 1e6:.1f} MPa')
+    print(f'    Coolant Mass Flow:    {nozzle.coolantMassFlow:.1f} kg/s')
 
-print(f'\n  {"Parameter":<16s}  {"Fitted":>8s}  {"Original":>8s}  {"Diff":>6s}')
-print('  ' + '-' * 46)
-for label, attr in fields:
-    fitted = getattr(fittedParams, attr)
-    original = getattr(params, attr)
-    print(f'  {label:<16s}  {fitted:8.1f}  {original:8.1f}  {fitted - original:+6.1f}')
-
-comparison = re.compareToParametric(fittedParams, profiles)
-print(f'\n  Curve RMS Errors:')
-print(f'    Outline:    {comparison["outlineRmsMm"]:.2f} mm')
-print(f'    Rocker:     {comparison["rockerRmsMm"]:.2f} mm')
-print(f'    Thickness:  {comparison["thicknessRmsMm"]:.2f} mm')
-
-
-#--------------------------------------------------------------------#
-# -- 3D Visualization -- #
-#--------------------------------------------------------------------#
-
-print('\nOpening 3D visualization...')
-
-plotMesh = mesh
-if len(mesh.faces) > 80000:
-    try:
-        plotMesh = mesh.simplify_quadric_decimation(80000)
-    except Exception:
-        plotMesh = mesh
-
-verts = plotMesh.vertices
-faces = plotMesh.faces
-
-fig = go.Figure(data=[
-    go.Mesh3d(
-        x=verts[:, 0], y=verts[:, 1], z=verts[:, 2],
-        i=faces[:, 0], j=faces[:, 1], k=faces[:, 2],
-        color='#4fc3f7',
-        opacity=0.85,
-        flatshading=False,
-        lighting=dict(
-            ambient=0.3, diffuse=0.7, specular=0.3,
-            roughness=0.5, fresnel=0.2,
-        ),
-        lightposition=dict(x=1000, y=500, z=2000),
-        hoverinfo='skip',
-    ),
-])
-
-fig.update_layout(
-    title=f'{boardPreset.title()} — {len(mesh.vertices):,} verts, {meshVolL:.1f}L',
-    scene=dict(
-        xaxis_title='X — Length (mm)',
-        yaxis_title='Y — Width (mm)',
-        zaxis_title='Z — Height (mm)',
-        aspectmode='data',
-        camera=dict(eye=dict(x=1.5, y=0.8, z=0.6), up=dict(x=0, y=0, z=1)),
-    ),
-    template='plotly_dark',
-    height=700,
-    width=1000,
-)
-
-fig.show()
+if nozzle.makeInletVolute == 'on' or nozzle.makeReturnVolute == 'on':
+    print(f'\n  Volutes:')
+    print(f'    Inlet Volute:         {nozzle.makeInletVolute}')
+    print(f'    Return Volute:        {nozzle.makeReturnVolute}')
 
 print('\n' + '=' * 60)
 print('  Done.')

@@ -1,6 +1,7 @@
 # -- Board on Wave Scenes -- #
 
 '''
+
 Manim animations showing a surfboard riding a wave.
 
 Contains two scene classes:
@@ -8,6 +9,7 @@ Contains two scene classes:
 - BoardOnWavePerspective: 2.5D ThreeDScene with 3D wave surface and board outline
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import math
@@ -52,17 +54,19 @@ from computationalEngineering.Surfboard.SurfAnimations.components.forceArrows im
 )
 from computationalEngineering.Surfboard.SurfAnimations.components.velocityField import createVelocityField
 
-
 #--------------------------------------------------------------------#
 # -- Scene A: 2D Side View -- #
 #--------------------------------------------------------------------#
 
 class BoardOnWaveSideView(Scene):
+
     '''
+
     2D side-view animation of a shortboard riding a wave.
 
     Shows the board profile on the wave face with force vectors
     (weight, buoyancy, planing lift, drag) and velocity field.
+
     '''
 
     def construct(self) -> None:
@@ -283,17 +287,19 @@ class BoardOnWaveSideView(Scene):
         )
         self.wait(0.5)
 
-
 #--------------------------------------------------------------------#
 # -- Scene B: 2.5D Perspective View -- #
 #--------------------------------------------------------------------#
 
 class BoardOnWavePerspective(ThreeDScene):
+
     '''
+
     2.5D perspective animation of a surfboard riding a wave.
 
     Shows a 3D wave surface with the board planform outline
     tracking the wave, 3D force arrows, and camera orbit.
+
     '''
 
     def construct(self) -> None:

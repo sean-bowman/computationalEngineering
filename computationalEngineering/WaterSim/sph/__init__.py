@@ -1,12 +1,14 @@
 # -- SPH Engine Package -- #
 
 '''
+
 Core Smoothed Particle Hydrodynamics (SPH) engine.
 
 Provides kernel functions, particle systems, neighbor search,
 boundary handling, time integration, and the WCSPH solver.
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from computationalEngineering.WaterSim.sph.protocols import SimulationConfig, SimulationState

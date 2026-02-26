@@ -1,12 +1,15 @@
+
 # -- Geometry Generator -- #
 
 '''
+
 Python wrapper for the C# SurfboardGeometry STL generator.
 
 Invokes the .NET CLI tool as a subprocess to produce voxel-based
 surfboard geometry as STL mesh files.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 from __future__ import annotations
@@ -15,14 +18,16 @@ import json
 import os
 import subprocess
 
-
 class GeometryGenerator:
+
     '''
+
     Python wrapper for the C# SurfboardGeometry module.
 
     Reads board and geometry settings from a JSON config file,
     then invokes `dotnet run --project SurfboardGeometry/` to
     generate an STL mesh file.
+
     '''
 
     def __init__(self) -> None:
@@ -34,16 +39,20 @@ class GeometryGenerator:
 
     @property
     def outputPath(self) -> str | None:
+
         '''Path to the last generated STL file.'''
         return self._outputPath
 
     @property
     def boardType(self) -> str | None:
+
         '''Board type used in the last generation.'''
         return self._boardType
 
     def generateFromConfig(self, configPath: str) -> str:
+
         '''
+
         Generate surfboard STL geometry from a JSON configuration file.
 
         Reads the "board" and "geometry" sections of the config to
@@ -63,6 +72,7 @@ class GeometryGenerator:
         -------
         subprocess.CalledProcessError : If dotnet run fails
         FileNotFoundError : If output STL is not found after generation
+
         '''
         config = self._loadConfig(configPath)
 
@@ -119,7 +129,9 @@ class GeometryGenerator:
         return stlPath
 
     def _loadConfig(self, configPath: str) -> dict:
+
         '''
+
         Load and flatten relevant config sections from JSON.
 
         Parameters:
@@ -131,6 +143,7 @@ class GeometryGenerator:
         --------
         dict : Flattened config with keys: boardType, finConfiguration,
                voxelSize, outputDir
+
         '''
         with open(configPath, 'r') as f:
             data = json.load(f)

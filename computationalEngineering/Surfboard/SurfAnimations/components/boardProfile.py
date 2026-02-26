@@ -1,6 +1,7 @@
 # -- Board Profile Components -- #
 
 '''
+
 Manim mobjects for rendering surfboard profiles in 2D side-view
 and 3D planform outline.
 
@@ -8,6 +9,7 @@ Queries BoardGeometry for rocker, deck, and bottom heights to build
 closed polygons representing the board cross-section profile.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import math
@@ -25,7 +27,6 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory impor
 from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import BOARD_COLOR
 
-
 #--------------------------------------------------------------------#
 # -- 2D Side-View Profile -- #
 #--------------------------------------------------------------------#
@@ -38,7 +39,9 @@ def createBoardProfile(
     strokeWidth: float = 1.5,
     nStations: int = 200,
 ) -> Polygon:
+
     '''
+
     Create a 2D side-view board profile (centerline cross-section).
 
     The profile shows the board from the side: deck on top, bottom below,
@@ -63,6 +66,7 @@ def createBoardProfile(
     Returns:
     --------
     Polygon : Closed board profile shape centered at origin
+
     '''
     if color is None:
         color = BOARD_COLOR
@@ -99,14 +103,16 @@ def createBoardProfile(
 
     return boardShape
 
-
 def getBoardCenterOffset(board: BoardGeometry) -> np.ndarray:
+
     '''
+
     Get the center point of the board profile in local coordinates.
 
     Returns:
     --------
     np.ndarray : [centerX, centerY, 0] in meters
+
     '''
     lengthM = board.getLengthM()
     # Center at 40% from nose (thickest point / wide point)
@@ -118,7 +124,6 @@ def getBoardCenterOffset(board: BoardGeometry) -> np.ndarray:
     centerY = (deck + bottom) / 2.0
     return np.array([centerX, centerY, 0])
 
-
 def positionBoardOnWave(
     boardMobject: VMobject,
     board: BoardGeometry,
@@ -129,7 +134,9 @@ def positionBoardOnWave(
     trimAngleDeg: float = 0.0,
     draftM: float = 0.0,
 ) -> VMobject:
+
     '''
+
     Position a board profile on the wave surface.
 
     Places the board at position boardX on the wave, rotated by
@@ -157,6 +164,7 @@ def positionBoardOnWave(
     Returns:
     --------
     VMobject : The board mobject (modified in-place)
+
     '''
     # Wave elevation at board position
     eta = waveTheory.surfaceElevation(boardX, t, wc)
@@ -176,7 +184,6 @@ def positionBoardOnWave(
 
     return boardMobject
 
-
 #--------------------------------------------------------------------#
 # -- 3D Planform Outline -- #
 #--------------------------------------------------------------------#
@@ -189,7 +196,9 @@ def createBoardOutline3D(
     fillOpacity: float = 0.6,
     nStations: int = 200,
 ) -> Polygon:
+
     '''
+
     Create a 3D planform outline for ThreeDScene.
 
     Shows the board from above as a filled shape lying on the XY plane
@@ -213,6 +222,7 @@ def createBoardOutline3D(
     Returns:
     --------
     Polygon : 3D board planform shape
+
     '''
     if color is None:
         color = BOARD_COLOR
@@ -252,7 +262,6 @@ def createBoardOutline3D(
 
     return boardOutline
 
-
 def positionBoardOnWave3D(
     boardMobject: VMobject,
     board: BoardGeometry,
@@ -262,7 +271,9 @@ def positionBoardOnWave3D(
     t: float,
     draftM: float = 0.0,
 ) -> VMobject:
+
     '''
+
     Position a 3D board outline on the wave surface.
 
     Parameters:
@@ -285,6 +296,7 @@ def positionBoardOnWave3D(
     Returns:
     --------
     VMobject : Modified board mobject
+
     '''
     eta = waveTheory.surfaceElevation(boardX, t, wc)
     boardMobject.move_to(np.array([boardX, 0, eta - draftM]))

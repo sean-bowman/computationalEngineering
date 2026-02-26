@@ -1,6 +1,7 @@
 # -- Fin Force Model -- #
 
 '''
+
 Fin lift and drag using thin airfoil theory with finite-wing corrections.
 
 At surfing speeds (2-8 m/s) and typical fin chord Reynolds numbers
@@ -15,6 +16,7 @@ Thin airfoil theory: dCl/d_alpha = 2*pi (2D)
 Finite wing correction: dCL/d_alpha = 2*pi*AR / (AR + 2)
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -29,7 +31,9 @@ from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols impo
 
 @dataclass
 class FinParameters:
+
     '''
+
     Physical parameters for a single fin.
 
     Parameters:
@@ -44,6 +48,7 @@ class FinParameters:
         Outward tilt angle in degrees
     lateralOffsetM : float
         Lateral distance from centerline in meters
+
     '''
 
     heightM: float
@@ -72,19 +77,24 @@ class FinParameters:
 
 
 class FinForceModel:
+
     '''
+
     Fin lift and drag model using thin airfoil theory.
 
     Computes forces on individual fins and sums them for the
     full fin configuration (thruster, twin, quad, single).
+
     '''
 
     def __init__(self, finConfig: str, params: SurfboardParameters) -> None:
+
         '''
+
         Initialize fin force model for a given configuration.
 
         Fin dimensions are extracted from the C# FinSystem.cs scaling rules:
-        all dimensions scale with boardLength / 1828 (normalized to 6\'0" shortboard).
+        all dimensions scale with boardLength / 1828 (normalized to 6'0" shortboard).
 
         Parameters:
         -----------
@@ -92,7 +102,9 @@ class FinForceModel:
             Fin configuration: 'thruster', 'twin', 'quad', or 'single'
         params : SurfboardParameters
             Board parameters for dimensional scaling
+
         '''
+
         self._config = finConfig
         self._params = params
         self._fins: list[FinParameters] = []
@@ -148,7 +160,9 @@ class FinForceModel:
             ))
 
     def liftCurveSlope(self, fin: FinParameters) -> float:
+
         '''
+
         Finite-wing lift curve slope.
 
         2D thin airfoil: dCl/d_alpha = 2*pi
@@ -162,7 +176,9 @@ class FinForceModel:
         Returns:
         --------
         float : Lift curve slope in 1/rad
+
         '''
+
         ar = fin.aspectRatio
         if ar <= 0.0:
             return 0.0
@@ -171,7 +187,9 @@ class FinForceModel:
     def computeFinLift(
         self, speed: float, angleOfAttackDeg: float, fin: FinParameters
     ) -> ForceResult:
+
         '''
+
         Lift force on a single fin.
 
         L = 0.5 * rho * V^2 * S * CL
@@ -191,7 +209,9 @@ class FinForceModel:
         Returns:
         --------
         ForceResult : Fin lift force
+
         '''
+
         if speed <= 0.0:
             return ForceResult(force=0.0, description='Fin lift: 0 N')
 
@@ -211,7 +231,9 @@ class FinForceModel:
         self, speed: float, angleOfAttackDeg: float, fin: FinParameters,
         liftCoeff: float = 0.0
     ) -> ForceResult:
+
         '''
+
         Drag force on a single fin.
 
         CD = CD0 + CL^2 / (pi * e * AR)
@@ -232,7 +254,9 @@ class FinForceModel:
         Returns:
         --------
         ForceResult : Fin drag force
+
         '''
+
         if speed <= 0.0:
             return ForceResult(force=0.0, description='Fin drag: 0 N')
 
@@ -258,7 +282,9 @@ class FinForceModel:
     def totalFinSystemForce(
         self, speed: float, yawAngleDeg: float, rollAngleDeg: float = 0.0
     ) -> tuple[ForceResult, ForceResult]:
+
         '''
+
         Total side force and drag from all fins in the configuration.
 
         Accounts for cant angle projecting fin forces into body axes.
@@ -276,7 +302,9 @@ class FinForceModel:
         Returns:
         --------
         tuple[ForceResult, ForceResult] : (totalSideForce, totalDragForce)
+
         '''
+
         totalSide = 0.0
         totalDrag = 0.0
 

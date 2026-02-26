@@ -1,12 +1,14 @@
 # -- Static Buoyancy Model -- #
 
 '''
+
 Static buoyancy and mass estimation for surfboards.
 
 Computes board mass from material properties, Archimedes buoyancy force,
 and equilibrium waterline using root-finding.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -20,15 +22,20 @@ from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols impo
 
 
 class BuoyancyModel:
+
     '''
+
     Static buoyancy and mass estimation.
 
     Computes Archimedes buoyancy force and board mass from
     material properties and geometry.
+
     '''
 
     def __init__(self, board: BoardGeometry, params: SurfboardParameters) -> None:
+
         '''
+
         Initialize buoyancy model.
 
         Parameters:
@@ -37,7 +44,9 @@ class BuoyancyModel:
             Board geometry for volume/area calculations
         params : SurfboardParameters
             Board parameters including foam type
+
         '''
+
         self._board = board
         self._params = params
 
@@ -61,7 +70,9 @@ class BuoyancyModel:
         return self._surfaceArea
 
     def estimateBoardMass(self) -> float:
+
         '''
+
         Estimate board mass from material properties.
 
         mass = foamDensity * coreVolume + fiberglassDensity * shellVolume
@@ -71,7 +82,9 @@ class BuoyancyModel:
         Returns:
         --------
         float : Board mass in kg
+
         '''
+
         if self._boardMass is not None:
             return self._boardMass
 
@@ -93,7 +106,9 @@ class BuoyancyModel:
         return self._boardMass
 
     def buoyancyForce(self, submergedVolume: float) -> float:
+
         '''
+
         Archimedes buoyancy force.
 
         F_b = rho_water * g * V_submerged
@@ -106,11 +121,15 @@ class BuoyancyModel:
         Returns:
         --------
         float : Buoyancy force in Newtons (upward)
+
         '''
+
         return const.seawaterDensity * const.gravity * submergedVolume
 
     def findEquilibriumDraft(self, totalMassKg: float) -> float:
+
         '''
+
         Find the draft where buoyancy equals weight.
 
         Uses scipy.optimize.brentq on:
@@ -125,7 +144,9 @@ class BuoyancyModel:
         --------
         float : Equilibrium draft in meters (height of waterline above
                 the lowest point of the board)
+
         '''
+
         totalWeight = totalMassKg * const.gravity
 
         # Maximum possible draft is the total board height
@@ -154,7 +175,9 @@ class BuoyancyModel:
         return equilibriumDraft
 
     def paddleDraftWithRider(self, riderMassKg: float = 75.0) -> float:
+
         '''
+
         Draft when paddling (board + rider weight supported by buoyancy).
 
         Parameters:
@@ -165,14 +188,18 @@ class BuoyancyModel:
         Returns:
         --------
         float : Draft in meters
+
         '''
+
         boardMass = self.estimateBoardMass()
         return self.findEquilibriumDraft(boardMass + riderMassKg)
 
     def computeBuoyancyForce(
         self, draft: float, trimAngleDeg: float = 0.0
     ) -> ForceResult:
+
         '''
+
         Compute buoyancy force at a given draft and trim.
 
         Parameters:
@@ -185,7 +212,9 @@ class BuoyancyModel:
         Returns:
         --------
         ForceResult : Buoyancy force result
+
         '''
+
         subVol = self._board.computeSubmergedVolume(draft, trimAngleDeg)
         force = self.buoyancyForce(subVol)
         return ForceResult(

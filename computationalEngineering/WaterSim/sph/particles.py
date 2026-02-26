@@ -1,6 +1,7 @@
 # -- SPH Particle System -- #
 
 '''
+
 Dataclass representing the SPH particle system state.
 
 Stores positions, velocities, accelerations, densities, pressures,
@@ -9,6 +10,7 @@ Both fluid and boundary particles are stored together, distinguished
 by the isFluid boolean mask.
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from __future__ import annotations
@@ -17,10 +19,11 @@ from dataclasses import dataclass
 
 import numpy as np
 
-
 @dataclass
 class ParticleSystem:
+
     '''
+
     SPH particle system state.
 
     All arrays have shape (nParticles, nDimensions) for vector
@@ -44,6 +47,7 @@ class ParticleSystem:
         Particle masses [kg], shape (N,)
     isFluid : np.ndarray
         Boolean mask: True for fluid, False for boundary, shape (N,)
+
     '''
 
     positions: np.ndarray
@@ -56,36 +60,44 @@ class ParticleSystem:
 
     @property
     def nParticles(self) -> int:
+
         '''Total number of particles (fluid + boundary).'''
         return self.positions.shape[0]
 
     @property
     def nFluid(self) -> int:
+
         '''Number of fluid particles.'''
         return int(np.sum(self.isFluid))
 
     @property
     def nBoundary(self) -> int:
+
         '''Number of boundary particles.'''
         return self.nParticles - self.nFluid
 
     @property
     def dimensions(self) -> int:
+
         '''Number of spatial dimensions (2 or 3).'''
         return self.positions.shape[1]
 
     @property
     def fluidMask(self) -> np.ndarray:
+
         '''Boolean mask for fluid particles.'''
         return self.isFluid
 
     @property
     def boundaryMask(self) -> np.ndarray:
+
         '''Boolean mask for boundary particles.'''
         return ~self.isFluid
 
     def kineticEnergy(self) -> float:
+
         '''
+
         Total kinetic energy of fluid particles.
 
         KE = (1/2) * sum_i m_i * |v_i|^2
@@ -93,6 +105,7 @@ class ParticleSystem:
         Returns:
         --------
         float : Kinetic energy [J]
+
         '''
         fluidVels = self.velocities[self.isFluid]
         fluidMasses = self.masses[self.isFluid]
@@ -100,7 +113,9 @@ class ParticleSystem:
         return 0.5 * np.sum(fluidMasses * speedsSq)
 
     def potentialEnergy(self, gravity: float = 9.81) -> float:
+
         '''
+
         Total gravitational potential energy of fluid particles.
 
         PE = sum_i m_i * g * y_i
@@ -116,6 +131,7 @@ class ParticleSystem:
         Returns:
         --------
         float : Potential energy [J]
+
         '''
         fluidPositions = self.positions[self.isFluid]
         fluidMasses = self.masses[self.isFluid]
@@ -124,12 +140,15 @@ class ParticleSystem:
         return np.sum(fluidMasses * gravity * heights)
 
     def maxSpeed(self) -> float:
+
         '''
+
         Maximum velocity magnitude among fluid particles.
 
         Returns:
         --------
         float : Maximum speed [m/s]
+
         '''
         fluidVels = self.velocities[self.isFluid]
         if len(fluidVels) == 0:
@@ -138,7 +157,9 @@ class ParticleSystem:
         return float(np.max(speeds))
 
     def maxDensityError(self, referenceDensity: float) -> float:
+
         '''
+
         Maximum relative density error among fluid particles.
 
         Returns max |rho_i - rho_0| / rho_0
@@ -151,6 +172,7 @@ class ParticleSystem:
         Returns:
         --------
         float : Maximum relative density error (dimensionless)
+
         '''
         fluidDensities = self.densities[self.isFluid]
         if len(fluidDensities) == 0:
@@ -166,7 +188,9 @@ class ParticleSystem:
         spacing: float,
         referenceDensity: float,
     ) -> ParticleSystem:
+
         '''
+
         Create a uniform particle grid filling a rectangular domain.
 
         Particles are placed on a regular grid with the given spacing.
@@ -187,6 +211,7 @@ class ParticleSystem:
         Returns:
         --------
         ParticleSystem : Initialized particle system with all fluid particles
+
         '''
         dimensions = len(domainMin)
 

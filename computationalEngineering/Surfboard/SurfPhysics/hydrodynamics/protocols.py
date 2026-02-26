@@ -1,9 +1,11 @@
 # -- Hydrodynamic Force Protocols -- #
 
 '''
+
 Abstract protocols and result dataclasses for hydrodynamic force models.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -16,7 +18,9 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardG
 
 @dataclass
 class ForceResult:
+
     '''
+
     Result of a single force computation.
 
     Parameters:
@@ -27,6 +31,7 @@ class ForceResult:
         Moment about center of gravity in N*m
     description : str
         Human-readable description of the force component
+
     '''
 
     force: float
@@ -36,7 +41,9 @@ class ForceResult:
 
 @dataclass
 class PlaningState:
+
     '''
+
     Planing equilibrium state at a given speed.
 
     Parameters:
@@ -57,6 +64,7 @@ class PlaningState:
         Lift-to-drag ratio (dimensionless)
     isPlaning : bool
         True if the board is in the planing regime
+
     '''
 
     speed: float

@@ -1,6 +1,7 @@
 # -- Linear (Airy) Wave Theory -- #
 
 '''
+
 Linear wave theory implementation following Dean & Dalrymple.
 
 Implements the WaveModel protocol using small-amplitude (Airy) wave theory.
@@ -23,6 +24,7 @@ Airy wave theory: https://en.wikipedia.org/wiki/Airy_wave_theory
 NTNU course notes: https://folk.ntnu.no/oivarn/hercules_ntnu/LWTcourse/lwt_new_2000_Part_A.pdf
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -34,11 +36,14 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import 
 
 
 class LinearWaveTheory:
+
     '''
+
     Linear (Airy) wave theory model.
 
     Provides wave kinematics, dynamics, energy, and breaking criteria
     based on small-amplitude wave theory. Satisfies the WaveModel protocol.
+
     '''
 
     #--------------------------------------------------------------------#
@@ -46,7 +51,9 @@ class LinearWaveTheory:
     #--------------------------------------------------------------------#
 
     def solveDispersionRelation(self, omega: float, depth: float) -> float:
+
         '''
+
         Solve omega^2 = g * k * tanh(k * d) for wavenumber k.
 
         Uses Newton-Raphson iteration with deep-water initial guess.
@@ -62,7 +69,9 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Wavenumber k [rad/m]
+
         '''
+
         g = c.gravity
 
         # Deep-water initial guess: k0 = omega^2 / g
@@ -92,7 +101,9 @@ class LinearWaveTheory:
     #--------------------------------------------------------------------#
 
     def waveLength(self, waveConditions: WaveConditions) -> float:
+
         '''
+
         Wavelength L = 2*pi/k [m].
 
         Parameters:
@@ -103,13 +114,17 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Wavelength in meters
+
         '''
+
         omega = waveConditions.angularFrequency
         k = self.solveDispersionRelation(omega, waveConditions.depth)
         return 2.0 * math.pi / k
 
     def waveSpeed(self, waveConditions: WaveConditions) -> float:
+
         '''
+
         Phase speed c = omega/k [m/s].
 
         Parameters:
@@ -120,13 +135,17 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Phase speed in m/s
+
         '''
+
         omega = waveConditions.angularFrequency
         k = self.solveDispersionRelation(omega, waveConditions.depth)
         return omega / k
 
     def groupSpeed(self, waveConditions: WaveConditions) -> float:
+
         '''
+
         Group velocity cg = c/2 * (1 + 2kd/sinh(2kd)) [m/s].
 
         In deep water: cg = c/2
@@ -140,7 +159,9 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Group velocity in m/s
+
         '''
+
         omega = waveConditions.angularFrequency
         d = waveConditions.depth
         k = self.solveDispersionRelation(omega, d)
@@ -163,7 +184,9 @@ class LinearWaveTheory:
     def surfaceElevation(
         self, x: float, t: float, waveConditions: WaveConditions
     ) -> float:
+
         '''
+
         Surface elevation eta(x, t) = (H/2) * cos(kx - omega*t) [m].
 
         Parameters:
@@ -178,7 +201,9 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Surface elevation in meters
+
         '''
+
         omega = waveConditions.angularFrequency
         k = self.solveDispersionRelation(omega, waveConditions.depth)
         return waveConditions.amplitude * math.cos(k * x - omega * t)
@@ -186,7 +211,9 @@ class LinearWaveTheory:
     def velocityField(
         self, x: float, z: float, t: float, waveConditions: WaveConditions
     ) -> tuple[float, float]:
+
         '''
+
         Velocity components (u, w) at a point under the wave.
 
         u = (H/2)*omega * cosh(k*(z+d))/sinh(k*d) * cos(kx - wt)
@@ -206,7 +233,9 @@ class LinearWaveTheory:
         Returns:
         --------
         tuple[float, float] : (u, w) velocity components in m/s
+
         '''
+
         omega = waveConditions.angularFrequency
         d = waveConditions.depth
         k = self.solveDispersionRelation(omega, d)
@@ -229,7 +258,9 @@ class LinearWaveTheory:
     def accelerationField(
         self, x: float, z: float, t: float, waveConditions: WaveConditions
     ) -> tuple[float, float]:
+
         '''
+
         Acceleration components (du/dt, dw/dt) at a point under the wave.
 
         Parameters:
@@ -246,7 +277,9 @@ class LinearWaveTheory:
         Returns:
         --------
         tuple[float, float] : (ax, az) acceleration components in m/s^2
+
         '''
+
         omega = waveConditions.angularFrequency
         d = waveConditions.depth
         k = self.solveDispersionRelation(omega, d)
@@ -269,7 +302,9 @@ class LinearWaveTheory:
     def pressure(
         self, x: float, z: float, t: float, waveConditions: WaveConditions
     ) -> float:
+
         '''
+
         Total pressure at a point under the wave.
 
         p = -rho*g*z + rho*g*(H/2) * cosh(k*(z+d))/cosh(k*d) * cos(kx - wt)
@@ -290,7 +325,9 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Pressure in Pa
+
         '''
+
         omega = waveConditions.angularFrequency
         d = waveConditions.depth
         k = self.solveDispersionRelation(omega, d)
@@ -316,7 +353,9 @@ class LinearWaveTheory:
     #--------------------------------------------------------------------#
 
     def energyDensity(self, waveConditions: WaveConditions) -> float:
+
         '''
+
         Wave energy per unit surface area: E = (1/8) * rho * g * H^2 [J/m^2].
 
         Parameters:
@@ -327,14 +366,18 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Energy density in J/m^2
+
         '''
+
         rho = c.seawaterDensity
         g = c.gravity
         h = waveConditions.height
         return (1.0 / 8.0) * rho * g * h * h
 
     def energyFlux(self, waveConditions: WaveConditions) -> float:
+
         '''
+
         Energy flux (power per unit crest width): P = E * cg [W/m].
 
         Parameters:
@@ -345,7 +388,9 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Energy flux in W/m
+
         '''
+
         return self.energyDensity(waveConditions) * self.groupSpeed(waveConditions)
 
     #--------------------------------------------------------------------#
@@ -353,7 +398,9 @@ class LinearWaveTheory:
     #--------------------------------------------------------------------#
 
     def isDepthLimitedBreaking(self, waveConditions: WaveConditions) -> bool:
+
         '''
+
         Check depth-limited breaking: H/d > 0.78 (McCowan 1894).
 
         Parameters:
@@ -364,11 +411,15 @@ class LinearWaveTheory:
         Returns:
         --------
         bool : True if depth-limited breaking occurs
+
         '''
+
         return waveConditions.height / waveConditions.depth > c.breakingDepthRatio
 
     def isSteepnessLimitedBreaking(self, waveConditions: WaveConditions) -> bool:
+
         '''
+
         Check steepness-limited breaking: H/L > 1/7 (Miche 1944).
 
         Parameters:
@@ -379,14 +430,18 @@ class LinearWaveTheory:
         Returns:
         --------
         bool : True if steepness-limited breaking occurs
+
         '''
+
         wavelength = self.waveLength(waveConditions)
         if wavelength <= 0.0:
             return False
         return waveConditions.height / wavelength > c.breakingSteepnessRatio
 
     def isBroken(self, waveConditions: WaveConditions) -> bool:
+
         '''
+
         Check if the wave has broken (either depth or steepness limited).
 
         Parameters:
@@ -397,7 +452,9 @@ class LinearWaveTheory:
         Returns:
         --------
         bool : True if the wave has broken
+
         '''
+
         return (
             self.isDepthLimitedBreaking(waveConditions)
             or self.isSteepnessLimitedBreaking(waveConditions)
@@ -408,7 +465,9 @@ class LinearWaveTheory:
     #--------------------------------------------------------------------#
 
     def depthClassification(self, waveConditions: WaveConditions) -> str:
+
         '''
+
         Classify the water depth relative to wavelength.
 
         Deep water: d/L > 0.5 (tanh(kd) ~ 1, waves don't feel the bottom)
@@ -423,7 +482,9 @@ class LinearWaveTheory:
         Returns:
         --------
         str : 'deep', 'intermediate', or 'shallow'
+
         '''
+
         wavelength = self.waveLength(waveConditions)
         if wavelength <= 0.0:
             return 'deep'
@@ -442,7 +503,9 @@ class LinearWaveTheory:
     #--------------------------------------------------------------------#
 
     def surfableWaveSpeed(self, waveConditions: WaveConditions) -> float:
+
         '''
+
         Speed a surfer must match to ride the wave.
 
         For a breaking wave, this is approximately the phase speed
@@ -457,7 +520,9 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Surfable wave speed in m/s
+
         '''
+
         g = c.gravity
 
         # Breaking depth from H/d = 0.78
@@ -469,7 +534,9 @@ class LinearWaveTheory:
     def minimumSurfingSpeed(
         self, waveConditions: WaveConditions, boardAngleDeg: float = 30.0
     ) -> float:
+
         '''
+
         Minimum paddling speed to catch the wave.
 
         The surfer must match the wave speed component along their
@@ -486,6 +553,8 @@ class LinearWaveTheory:
         Returns:
         --------
         float : Minimum speed in m/s
+
         '''
+
         waveSpeed = self.surfableWaveSpeed(waveConditions)
         return waveSpeed * math.cos(math.radians(boardAngleDeg))

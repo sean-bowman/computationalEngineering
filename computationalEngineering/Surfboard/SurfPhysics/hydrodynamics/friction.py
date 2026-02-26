@@ -1,6 +1,7 @@
 # -- Frictional Drag Model -- #
 
 '''
+
 Frictional drag using flat-plate analogy and ITTC 1957 friction line.
 
 The ITTC 1957 model-ship correlation line is the standard method for
@@ -14,6 +15,7 @@ ITTC Recommended Procedures: https://ittc.info/media/2021/75-02-02-02.pdf
 Falk et al. (2020) -- CFD surfboard drag methodology
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -25,15 +27,20 @@ from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.protocols impo
 
 
 class FrictionDragModel:
+
     '''
+
     Frictional drag using the ITTC 1957 correlation line.
 
     At surfing speeds (2-8 m/s) with typical board lengths (1.5-2.7 m),
     Reynolds numbers are in the range 3e6 to 2e7, fully turbulent.
+
     '''
 
     def computeReynoldsNumber(self, speed: float, characteristicLength: float) -> float:
+
         '''
+
         Reynolds number Re = V * L / nu.
 
         Parameters:
@@ -46,13 +53,17 @@ class FrictionDragModel:
         Returns:
         --------
         float : Reynolds number (dimensionless)
+
         '''
+
         if speed <= 0.0 or characteristicLength <= 0.0:
             return 0.0
         return speed * characteristicLength / const.seawaterKinematicViscosity
 
     def frictionCoefficient(self, reynoldsNumber: float) -> float:
+
         '''
+
         Skin friction coefficient from ITTC 1957 or Blasius.
 
         ITTC 1957 (turbulent, Re > 1e5):
@@ -69,7 +80,9 @@ class FrictionDragModel:
         Returns:
         --------
         float : Friction coefficient (dimensionless)
+
         '''
+
         if reynoldsNumber <= 0.0:
             return 0.0
 
@@ -87,7 +100,9 @@ class FrictionDragModel:
     def computeFrictionDrag(
         self, speed: float, wettedArea: float, characteristicLength: float
     ) -> ForceResult:
+
         '''
+
         Compute frictional drag force.
 
         D_f = 0.5 * rho * V^2 * S_wet * Cf
@@ -104,7 +119,9 @@ class FrictionDragModel:
         Returns:
         --------
         ForceResult : Friction drag force
+
         '''
+
         if speed <= 0.0 or wettedArea <= 0.0:
             return ForceResult(force=0.0, description='Friction drag: 0 N (no speed/area)')
 
@@ -121,7 +138,9 @@ class FrictionDragModel:
     def computeFormDrag(
         self, speed: float, frontalArea: float, formFactor: float = 0.1
     ) -> ForceResult:
+
         '''
+
         Compute form (pressure) drag.
 
         D_p = 0.5 * rho * V^2 * A_frontal * Cd_form
@@ -141,7 +160,9 @@ class FrictionDragModel:
         Returns:
         --------
         ForceResult : Form drag force
+
         '''
+
         if speed <= 0.0 or frontalArea <= 0.0:
             return ForceResult(force=0.0, description='Form drag: 0 N')
 

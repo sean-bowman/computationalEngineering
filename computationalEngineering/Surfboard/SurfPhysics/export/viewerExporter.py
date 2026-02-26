@@ -2,6 +2,7 @@
 # -- Viewer Data Exporter -- #
 
 '''
+
 Exports surfboard analysis results as JSON for the Three.js interactive viewer.
 
 Consumes the structured results dictionary from PhysicsAnalyzer and the
@@ -10,6 +11,7 @@ containing everything the viewer needs: board parameters, sampled surface
 geometry, physics results, force vectors, and waterline position.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 from __future__ import annotations
@@ -27,14 +29,16 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import S
 from computationalEngineering.Surfboard.SurfPhysics.export.meshSampler import sampleParametricSurface
 from computationalEngineering.Surfboard.SurfPhysics.units import mToMm
 
-
 class ViewerExporter:
+
     '''
+
     Exports analysis results as JSON for the Three.js 3D viewer.
 
     Produces a single JSON file per board configuration containing
     parametric surface geometry, physics data, and force vector
     information for rendering and overlay display.
+
     '''
 
     def exportForViewer(
@@ -46,7 +50,9 @@ class ViewerExporter:
         nLongitudinal: int = 100,
         nLateral: int = 25,
     ) -> str:
+
         '''
+
         Export analysis results as JSON for the Three.js viewer.
 
         Parameters:
@@ -69,6 +75,7 @@ class ViewerExporter:
         Returns:
         --------
         str : Path to the exported JSON file
+
         '''
         params: SurfboardParameters = results['params']
         board = BoardGeometry(params)
@@ -128,7 +135,9 @@ class ViewerExporter:
     #--------------------------------------------------------------------#
 
     def _inferBoardType(self, params: SurfboardParameters) -> str:
+
         '''
+
         Infer the board type name from parameters.
 
         Compares against known presets to determine the type.
@@ -142,6 +151,7 @@ class ViewerExporter:
         Returns:
         --------
         str : Board type identifier
+
         '''
         presetLengths = {
             'shortboard': 1828.0,
@@ -159,7 +169,9 @@ class ViewerExporter:
         params: SurfboardParameters,
         stlDir: str,
     ) -> str | None:
+
         '''
+
         Find the matching STL file for the given board configuration.
 
         Checks for fin-configuration-specific files first, then
@@ -177,6 +189,7 @@ class ViewerExporter:
         Returns:
         --------
         str | None : STL filename if found, None otherwise
+
         '''
         # Try fin-configuration-specific name first
         candidates = [
@@ -200,7 +213,9 @@ class ViewerExporter:
         params: SurfboardParameters,
         results: dict,
     ) -> dict:
+
         '''
+
         Build the parameters section of the export JSON.
 
         Parameters:
@@ -213,6 +228,7 @@ class ViewerExporter:
         Returns:
         --------
         dict : Parameters section
+
         '''
         boardData = results.get('board', {})
 
@@ -238,7 +254,9 @@ class ViewerExporter:
         board: BoardGeometry,
         params: SurfboardParameters,
     ) -> dict:
+
         '''
+
         Build the physics section of the export JSON.
 
         Includes buoyancy data, waterline position, wave conditions,
@@ -257,6 +275,7 @@ class ViewerExporter:
         Returns:
         --------
         dict : Physics section
+
         '''
         buoyancyData = results.get('buoyancy', {})
         wavesData = results.get('waves', {})
@@ -321,7 +340,9 @@ class ViewerExporter:
         params: SurfboardParameters,
         waterplaneZMm: float,
     ) -> dict:
+
         '''
+
         Compute force vector origins and directions for the physics overlay.
 
         Force vectors are positioned relative to the board coordinate system
@@ -341,6 +362,7 @@ class ViewerExporter:
         Returns:
         --------
         dict : Force vector definitions with origin, direction, magnitude
+
         '''
         buoyancyData = results.get('buoyancy', {})
         totalWeightN = buoyancyData.get('totalWeightN', 0.0)
@@ -408,7 +430,9 @@ class ViewerExporter:
         }
 
     def _encodeStlBase64(self, stlPath: str) -> str:
+
         '''
+
         Read an STL file and return its contents as a base64 string.
 
         Parameters:
@@ -419,6 +443,7 @@ class ViewerExporter:
         Returns:
         --------
         str : Base64-encoded STL data
+
         '''
         with open(stlPath, 'rb') as f:
             rawBytes = f.read()
@@ -426,7 +451,9 @@ class ViewerExporter:
 
     @staticmethod
     def _arrayToRoundedList(arr, decimals: int = 2) -> list:
+
         '''
+
         Convert a numpy array or list to a rounded Python list.
 
         Parameters:
@@ -439,6 +466,7 @@ class ViewerExporter:
         Returns:
         --------
         list : Rounded values
+
         '''
         if isinstance(arr, np.ndarray):
             return [round(float(v), decimals) for v in arr]
@@ -448,7 +476,9 @@ class ViewerExporter:
 
     @staticmethod
     def _jsonSerializer(obj):
+
         '''
+
         Custom JSON serializer for numpy types and other non-serializable objects.
 
         Parameters:
@@ -463,6 +493,7 @@ class ViewerExporter:
         Raises:
         -------
         TypeError : If the object type is not handled
+
         '''
         if isinstance(obj, np.integer):
             return int(obj)

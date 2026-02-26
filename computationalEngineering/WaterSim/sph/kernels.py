@@ -1,6 +1,7 @@
 # -- SPH Smoothing Kernels -- #
 
 '''
+
 Smoothing kernel functions for SPH interpolation.
 
 Implements the cubic spline (M4) kernel in 2D with its gradient.
@@ -20,6 +21,7 @@ Monaghan & Lattanzio (1985) -- A refined particle method for
     astrophysical problems
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from __future__ import annotations
@@ -29,16 +31,18 @@ from typing import Protocol
 
 import numpy as np
 
-
 #--------------------------------------------------------------------#
 # -- Kernel Protocol -- #
 #--------------------------------------------------------------------#
 
 class SphKernel(Protocol):
+
     '''Protocol for SPH smoothing kernel functions.'''
 
     def evaluate(self, r: float, h: float) -> float:
+
         '''
+
         Evaluate kernel W(r, h).
 
         Parameters:
@@ -51,11 +55,14 @@ class SphKernel(Protocol):
         Returns:
         --------
         float : Kernel value [1/m^dim]
+
         '''
         ...
 
     def gradient(self, rVec: np.ndarray, r: float, h: float) -> np.ndarray:
+
         '''
+
         Evaluate kernel gradient nabla_W(r, h).
 
         The gradient points from particle j toward particle i
@@ -73,11 +80,13 @@ class SphKernel(Protocol):
         Returns:
         --------
         np.ndarray : Gradient vector [1/m^(dim+1)]
+
         '''
         ...
 
     @property
     def dimensions(self) -> int:
+
         '''Number of spatial dimensions (2 or 3).'''
         ...
 
@@ -87,7 +96,9 @@ class SphKernel(Protocol):
 #--------------------------------------------------------------------#
 
 class CubicSplineKernel:
+
     '''
+
     Cubic spline (M4) smoothing kernel.
 
     The most widely used SPH kernel. Piecewise cubic polynomial
@@ -107,6 +118,7 @@ class CubicSplineKernel:
     -----------
     dimensions : int
         Number of spatial dimensions (2 or 3)
+
     '''
 
     def __init__(self, dimensions: int = 2) -> None:
@@ -114,11 +126,14 @@ class CubicSplineKernel:
 
     @property
     def dimensions(self) -> int:
+
         '''Number of spatial dimensions.'''
         return self._dimensions
 
     def _normalization(self, h: float) -> float:
+
         '''
+
         Compute normalization constant sigma for given h.
 
         Parameters:
@@ -129,6 +144,7 @@ class CubicSplineKernel:
         Returns:
         --------
         float : Normalization constant sigma
+
         '''
         if self._dimensions == 2:
             return 10.0 / (7.0 * math.pi * h * h)
@@ -136,7 +152,9 @@ class CubicSplineKernel:
             return 1.0 / (math.pi * h * h * h)
 
     def evaluate(self, r: float, h: float) -> float:
+
         '''
+
         Evaluate cubic spline kernel W(r, h).
 
         Parameters:
@@ -149,6 +167,7 @@ class CubicSplineKernel:
         Returns:
         --------
         float : Kernel value [1/m^dim]
+
         '''
         q = r / h
         sigma = self._normalization(h)
@@ -165,7 +184,9 @@ class CubicSplineKernel:
             return 0.0
 
     def gradientMagnitude(self, r: float, h: float) -> float:
+
         '''
+
         Compute the scalar part of the kernel gradient: dW/dr.
 
         The full gradient is: grad_W = (dW/dr) * (rVec / r)
@@ -180,6 +201,7 @@ class CubicSplineKernel:
         Returns:
         --------
         float : dW/dr [1/m^(dim+1)]
+
         '''
         q = r / h
         sigma = self._normalization(h)
@@ -201,7 +223,9 @@ class CubicSplineKernel:
             return 0.0
 
     def gradient(self, rVec: np.ndarray, r: float, h: float) -> np.ndarray:
+
         '''
+
         Evaluate kernel gradient vector nabla_W.
 
         grad_W = (dW/dr) * (rVec / |rVec|)
@@ -218,6 +242,7 @@ class CubicSplineKernel:
         Returns:
         --------
         np.ndarray : Gradient vector [1/m^(dim+1)]
+
         '''
         if r < 1e-12:
             return np.zeros_like(rVec)
@@ -230,7 +255,9 @@ class CubicSplineKernel:
     #--------------------------------------------------------------------#
 
     def evaluateBatch(self, distances: np.ndarray, h: float) -> np.ndarray:
+
         '''
+
         Evaluate kernel W(r, h) for an array of distances.
 
         Fully vectorized using NumPy -- no Python loops.
@@ -245,6 +272,7 @@ class CubicSplineKernel:
         Returns:
         --------
         np.ndarray : Kernel values, shape (N,)
+
         '''
         q = distances / h
         sigma = self._normalization(h)
@@ -264,7 +292,9 @@ class CubicSplineKernel:
         return result
 
     def gradientMagnitudeBatch(self, distances: np.ndarray, h: float) -> np.ndarray:
+
         '''
+
         Compute dW/dr for an array of distances.
 
         Fully vectorized using NumPy.
@@ -279,6 +309,7 @@ class CubicSplineKernel:
         Returns:
         --------
         np.ndarray : dW/dr values, shape (N,)
+
         '''
         q = distances / h
         sigma = self._normalization(h)
@@ -300,7 +331,9 @@ class CubicSplineKernel:
     def gradientBatch(
         self, drVecs: np.ndarray, distances: np.ndarray, h: float
     ) -> np.ndarray:
+
         '''
+
         Evaluate kernel gradient vectors for an array of particle pairs.
 
         grad_W_k = (dW/dr)_k * (dr_k / |dr_k|)
@@ -319,6 +352,7 @@ class CubicSplineKernel:
         Returns:
         --------
         np.ndarray : Gradient vectors, shape (N, dim)
+
         '''
         dwdr = self.gradientMagnitudeBatch(distances, h)
 
@@ -333,13 +367,14 @@ class CubicSplineKernel:
 
         return gradients
 
-
 #--------------------------------------------------------------------#
 # -- Wendland C2 (Quintic) Kernel -- #
 #--------------------------------------------------------------------#
 
 class WendlandC2Kernel:
+
     '''
+
     Wendland C2 (quintic) smoothing kernel.
 
     A compactly supported radial basis function with C2 continuity.
@@ -360,6 +395,7 @@ class WendlandC2Kernel:
     -----------
     dimensions : int
         Number of spatial dimensions (2 or 3)
+
     '''
 
     def __init__(self, dimensions: int = 2) -> None:
@@ -367,11 +403,14 @@ class WendlandC2Kernel:
 
     @property
     def dimensions(self) -> int:
+
         '''Number of spatial dimensions.'''
         return self._dimensions
 
     def _normalization(self, h: float) -> float:
+
         '''
+
         Compute normalization constant sigma for given h.
 
         Parameters:
@@ -382,6 +421,7 @@ class WendlandC2Kernel:
         Returns:
         --------
         float : Normalization constant sigma
+
         '''
         if self._dimensions == 2:
             return 7.0 / (4.0 * math.pi * h * h)
@@ -389,7 +429,9 @@ class WendlandC2Kernel:
             return 21.0 / (16.0 * math.pi * h * h * h)
 
     def evaluate(self, r: float, h: float) -> float:
+
         '''
+
         Evaluate Wendland C2 kernel W(r, h).
 
         W(q) = sigma * (1 - q/2)^4 * (2*q + 1)  for q < 2
@@ -404,6 +446,7 @@ class WendlandC2Kernel:
         Returns:
         --------
         float : Kernel value [1/m^dim]
+
         '''
         q = r / h
         if q >= 2.0:
@@ -414,7 +457,9 @@ class WendlandC2Kernel:
         return sigma * (oneMinusHalfQ ** 4) * (2.0 * q + 1.0)
 
     def gradientMagnitude(self, r: float, h: float) -> float:
+
         '''
+
         Compute the scalar part of the kernel gradient: dW/dr.
 
         dW/dq = sigma * [-2*(1-q/2)^3*(2*q+1) + 2*(1-q/2)^4]
@@ -433,6 +478,7 @@ class WendlandC2Kernel:
         Returns:
         --------
         float : dW/dr [1/m^(dim+1)]
+
         '''
         q = r / h
         if q < 1e-12 or q >= 2.0:
@@ -444,7 +490,9 @@ class WendlandC2Kernel:
         return dwdq / h
 
     def gradient(self, rVec: np.ndarray, r: float, h: float) -> np.ndarray:
+
         '''
+
         Evaluate kernel gradient vector nabla_W.
 
         grad_W = (dW/dr) * (rVec / |rVec|)
@@ -461,6 +509,7 @@ class WendlandC2Kernel:
         Returns:
         --------
         np.ndarray : Gradient vector [1/m^(dim+1)]
+
         '''
         if r < 1e-12:
             return np.zeros_like(rVec)
@@ -473,7 +522,9 @@ class WendlandC2Kernel:
     #--------------------------------------------------------------------#
 
     def evaluateBatch(self, distances: np.ndarray, h: float) -> np.ndarray:
+
         '''
+
         Evaluate kernel W(r, h) for an array of distances.
 
         Fully vectorized using NumPy -- no Python loops.
@@ -488,6 +539,7 @@ class WendlandC2Kernel:
         Returns:
         --------
         np.ndarray : Kernel values, shape (N,)
+
         '''
         q = distances / h
         sigma = self._normalization(h)
@@ -503,7 +555,9 @@ class WendlandC2Kernel:
         return result
 
     def gradientMagnitudeBatch(self, distances: np.ndarray, h: float) -> np.ndarray:
+
         '''
+
         Compute dW/dr for an array of distances.
 
         Fully vectorized using NumPy.
@@ -518,6 +572,7 @@ class WendlandC2Kernel:
         Returns:
         --------
         np.ndarray : dW/dr values, shape (N,)
+
         '''
         q = distances / h
         sigma = self._normalization(h)
@@ -536,7 +591,9 @@ class WendlandC2Kernel:
     def gradientBatch(
         self, drVecs: np.ndarray, distances: np.ndarray, h: float
     ) -> np.ndarray:
+
         '''
+
         Evaluate kernel gradient vectors for an array of particle pairs.
 
         grad_W_k = (dW/dr)_k * (dr_k / |dr_k|)
@@ -555,6 +612,7 @@ class WendlandC2Kernel:
         Returns:
         --------
         np.ndarray : Gradient vectors, shape (N, dim)
+
         '''
         dwdr = self.gradientMagnitudeBatch(distances, h)
 
@@ -569,13 +627,14 @@ class WendlandC2Kernel:
 
         return gradients
 
-
 #--------------------------------------------------------------------#
 # -- Kernel Factory -- #
 #--------------------------------------------------------------------#
 
 def createKernel(kernelType: str, dimensions: int = 2) -> SphKernel:
+
     '''
+
     Create a kernel instance by type name.
 
     Parameters:
@@ -592,6 +651,7 @@ def createKernel(kernelType: str, dimensions: int = 2) -> SphKernel:
     Raises:
     -------
     ValueError : If kernel type is unknown
+
     '''
     if kernelType == 'cubicSpline':
         return CubicSplineKernel(dimensions)

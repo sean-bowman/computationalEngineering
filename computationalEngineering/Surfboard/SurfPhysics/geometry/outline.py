@@ -1,6 +1,7 @@
 # -- Surfboard Planform Outline -- #
 
 '''
+
 Computes the surfboard planform outline (half-width at each longitudinal station).
 
 Direct port of SurfboardGeometry/Surfboard/Outline.cs.
@@ -8,6 +9,7 @@ Uses a two-piece power curve split at the wide point, with exponents
 calibrated from NoseWidth and TailWidth measurements.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -18,7 +20,9 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import S
 
 
 class Outline:
+
     '''
+
     Surfboard planform outline — half-width at each longitudinal station.
 
     The board is symmetric about its centerline, so only the half-width is
@@ -31,17 +35,22 @@ class Outline:
 
     Exponents are calibrated so the curve passes through the NoseWidth
     and TailWidth measurements at their respective 305mm stations.
+
     '''
 
     def __init__(self, params: SurfboardParameters) -> None:
+
         '''
+
         Initialize outline from surfboard parameters.
 
         Parameters:
         -----------
         params : SurfboardParameters
             Board dimensions including outline control points
+
         '''
+
         self._params = params
 
         # Normalized wide point position (0 = nose, 1 = tail)
@@ -125,7 +134,9 @@ class Outline:
         )
 
     def getHalfWidth(self, t: float) -> float:
+
         '''
+
         Get the half-width of the board at a normalized longitudinal position.
 
         Uses two power curves (nose and tail) with cubic Hermite blending
@@ -139,7 +150,9 @@ class Outline:
         Returns:
         --------
         float : Half-width in mm at the given position
+
         '''
+
         t = max(0.0, min(1.0, t))
 
         if t <= 0.0:
@@ -185,7 +198,9 @@ class Outline:
         m0: float,
         m1: float,
     ) -> float:
+
         '''
+
         Cubic Hermite interpolation between two endpoints with specified slopes.
 
         Evaluates the Hermite spline at position t within [t0, t1].
@@ -212,7 +227,9 @@ class Outline:
         Returns:
         --------
         float : Interpolated value at t
+
         '''
+
         dt = t1 - t0
         s = (t - t0) / dt  # normalized parameter [0, 1]
 

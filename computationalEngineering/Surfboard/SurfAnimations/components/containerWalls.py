@@ -1,12 +1,14 @@
 # -- Container Wall Components -- #
 
 '''
+
 Reusable Manim mobjects for rendering rectangular container walls.
 
 Provides functions to create open-top tank outlines for
 SPH sloshing tank visualization.
 
 Sean Bowman [02/05/2026]
+
 '''
 
 import os
@@ -19,7 +21,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import WHITE
 
-
 def createContainerWalls(
     width: float,
     height: float,
@@ -28,7 +29,9 @@ def createContainerWalls(
     color = None,
     strokeWidth: float = 3.0,
 ) -> VGroup:
+
     '''
+
     Create container walls (open-top rectangle) in Manim coordinates.
 
     Draws three lines: left wall, bottom, and right wall.
@@ -52,6 +55,7 @@ def createContainerWalls(
     Returns:
     --------
     VGroup : Left wall + bottom + right wall
+
     '''
     color = color or WHITE
     off = offset if offset is not None else np.array([0.0, 0.0])

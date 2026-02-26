@@ -1,6 +1,7 @@
 # -- SurfPhysics Analysis Runner -- #
 
 '''
+
 Command-line entry point for running surfboard physics analyses.
 
 Loads board parameters (from JSON or preset), configures wave conditions,
@@ -14,6 +15,7 @@ Usage:
     python -m SurfPhysics --rider-mass 80
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -33,8 +35,8 @@ from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.buoyancy impor
 from computationalEngineering.Surfboard.SurfPhysics.hydrodynamics.forceBalance import ForceBalance
 from computationalEngineering.Surfboard.SurfPhysics.visualization.dashboard import createAnalysisDashboard
 
-
 def buildParser() -> argparse.ArgumentParser:
+
     '''Build the CLI argument parser.'''
     parser = argparse.ArgumentParser(
         description='SurfPhysics -- Surfboard physics analysis',
@@ -73,8 +75,8 @@ def buildParser() -> argparse.ArgumentParser:
 
     return parser
 
-
 def loadBoard(args: argparse.Namespace) -> SurfboardParameters:
+
     '''Load board parameters from args.'''
     if args.json:
         return SurfboardParameters.fromJson(args.json)
@@ -86,14 +88,15 @@ def loadBoard(args: argparse.Namespace) -> SurfboardParameters:
     }
     return presets[args.board]()
 
-
 def runAnalysis(
     params: SurfboardParameters,
     waveConditions: WaveConditions,
     riderMassKg: float = 75.0,
     showDashboard: bool = True,
 ) -> None:
+
     '''
+
     Run the full analysis pipeline.
 
     1. Construct BoardGeometry from parameters
@@ -113,6 +116,7 @@ def runAnalysis(
         Rider mass in kg
     showDashboard : bool
         Whether to generate and show the interactive dashboard
+
     '''
     print()
     print('=' * 62)
@@ -243,8 +247,8 @@ def runAnalysis(
     print('  Analysis complete.')
     print('=' * 62)
 
-
 def main() -> None:
+
     '''CLI entry point.'''
     parser = buildParser()
     args = parser.parse_args()
@@ -262,7 +266,6 @@ def main() -> None:
         riderMassKg=args.rider_mass,
         showDashboard=not args.no_dashboard,
     )
-
 
 if __name__ == '__main__':
     main()

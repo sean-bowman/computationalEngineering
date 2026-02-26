@@ -1,6 +1,7 @@
 # -- Performance Comparison Scene -- #
 
 '''
+
 Manim animation comparing three surfboard types riding the same wave.
 
 Shows shortboard, longboard, and fish side-by-side with force vectors,
@@ -16,6 +17,7 @@ Sequence (~45 seconds):
 7. Summary insight
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import math
@@ -53,12 +55,12 @@ from computationalEngineering.Surfboard.SurfAnimations.components.waveSurface im
 from computationalEngineering.Surfboard.SurfAnimations.components.boardProfile import createBoardProfile, positionBoardOnWave
 from computationalEngineering.Surfboard.SurfAnimations.components.forceArrows import createForceBalance
 
-
 #--------------------------------------------------------------------#
 # -- Board Data Container -- #
 #--------------------------------------------------------------------#
 
 class _BoardData:
+
     '''Internal container for computed board data.'''
 
     def __init__(self, name, params, color):
@@ -75,32 +77,38 @@ class _BoardData:
         self.shape = None
 
     def computeEquilibrium(self, speed: float) -> None:
+
         '''Compute planing state at the given speed.'''
         self.state = self.forceBalance.findEquilibrium(speed)
 
     def lengthFt(self) -> float:
+
         '''Board length in feet (for display).'''
         return self.params.length / 304.8
 
     def widthIn(self) -> float:
+
         '''Board width in inches (for display).'''
         return self.params.maxWidth / 25.4
 
     def thicknessIn(self) -> float:
+
         '''Board thickness in inches (for display).'''
         return self.params.maxThickness / 25.4
-
 
 #--------------------------------------------------------------------#
 # -- Performance Comparison Scene -- #
 #--------------------------------------------------------------------#
 
 class PerformanceComparison(Scene):
+
     '''
+
     Multi-board comparison animation.
 
     Compares shortboard, longboard, and fish side-by-side,
     showing force balance differences and performance metrics.
+
     '''
 
     def construct(self) -> None:

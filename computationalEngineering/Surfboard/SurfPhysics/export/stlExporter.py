@@ -2,6 +2,7 @@
 # -- STL Export Wrapper -- #
 
 '''
+
 Convenience wrapper for exporting parametric surfboard geometry as STL files.
 
 Wraps SurfaceMeshGenerator with higher-level methods for exporting presets,
@@ -9,6 +10,7 @@ custom parameter sets, and optionally running validation against a reference
 STL in a single call.
 
 Sean Bowman [02/07/2026]
+
 '''
 
 from __future__ import annotations
@@ -33,9 +35,10 @@ _PRESET_FACTORIES = {
     'fish': SurfboardParameters.fish,
 }
 
-
 class StlExporter:
+
     '''
+
     Exports parametric surfboard geometry as STL files.
 
     Wraps SurfaceMeshGenerator with convenience methods for quick
@@ -46,6 +49,7 @@ class StlExporter:
     >>> exporter = StlExporter()
     >>> exporter.exportPreset('shortboard', 'output/')
     >>> exporter.exportBoard(customParams, 'output/custom.stl')
+
     '''
 
     def exportBoard(
@@ -55,7 +59,9 @@ class StlExporter:
         resolution: str = 'standard',
         binary: bool = True,
     ) -> str:
+
         '''
+
         Export a surfboard from parameters to an STL file.
 
         Parameters:
@@ -72,6 +78,7 @@ class StlExporter:
         Returns:
         --------
         str : Path to the exported STL file
+
         '''
         gen = SurfaceMeshGenerator.fromPreset(params, resolution)
         gen.exportStl(outputPath, binary=binary)
@@ -91,7 +98,9 @@ class StlExporter:
         resolution: str = 'standard',
         binary: bool = True,
     ) -> str:
+
         '''
+
         Export a named board preset to an STL file.
 
         Parameters:
@@ -108,6 +117,7 @@ class StlExporter:
         Returns:
         --------
         str : Path to the exported STL file
+
         '''
         if presetName not in _PRESET_FACTORIES:
             raise ValueError(
@@ -129,7 +139,9 @@ class StlExporter:
         outputDir: str,
         resolution: str = 'standard',
     ) -> dict:
+
         '''
+
         Export a board and compare it against a reference STL.
 
         Generates the parametric mesh, exports it, then runs the
@@ -153,6 +165,7 @@ class StlExporter:
             - 'volumeLiters': board volume
             - 'watertight': whether mesh is watertight
             - 'comparison': comparison metrics dict (if available)
+
         '''
         outDir = Path(outputDir)
         outDir.mkdir(parents=True, exist_ok=True)
@@ -193,7 +206,9 @@ class StlExporter:
         outputDir: str,
         resolution: str = 'standard',
     ) -> list[str]:
+
         '''
+
         Export all available board presets as STL files.
 
         Parameters:
@@ -206,6 +221,7 @@ class StlExporter:
         Returns:
         --------
         list[str] : Paths to all exported STL files
+
         '''
         paths = []
         for presetName in _PRESET_FACTORIES:

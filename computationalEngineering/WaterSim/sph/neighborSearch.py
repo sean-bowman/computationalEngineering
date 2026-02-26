@@ -1,6 +1,7 @@
 # -- Spatial Hash Grid for Neighbor Search -- #
 
 '''
+
 Cell-linked list spatial hashing for O(N) neighbor search in SPH.
 
 Divides the domain into uniform grid cells of size equal to the
@@ -17,6 +18,7 @@ Ihmsen et al. (2011) -- Parallel Neighbor-Search for SPH
 Green (2010) -- Particle Simulation using CUDA
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from __future__ import annotations
@@ -25,20 +27,23 @@ from typing import Protocol
 
 import numpy as np
 
-
 #--------------------------------------------------------------------#
 # -- Neighbor Search Protocol -- #
 #--------------------------------------------------------------------#
 
 class NeighborSearch(Protocol):
+
     '''Protocol for neighbor search algorithms.'''
 
     def build(self, positions: np.ndarray) -> None:
+
         '''Build spatial data structure from particle positions.'''
         ...
 
     def queryPairs(self, radius: float) -> tuple[np.ndarray, np.ndarray]:
+
         '''
+
         Find all particle pairs within the given radius.
 
         Returns:
@@ -46,16 +51,18 @@ class NeighborSearch(Protocol):
         tuple[np.ndarray, np.ndarray] :
             (i_indices, j_indices) where particle i and j are neighbors.
             Each pair appears once with i < j.
+
         '''
         ...
-
 
 #--------------------------------------------------------------------#
 # -- Spatial Hash Grid -- #
 #--------------------------------------------------------------------#
 
 class SpatialHashGrid:
+
     '''
+
     Uniform grid spatial hashing for 2D/3D neighbor search.
 
     Cell size equals the kernel support radius. Particles are
@@ -71,6 +78,7 @@ class SpatialHashGrid:
         Grid cell size [m], should equal the kernel support radius
     dimensions : int
         Number of spatial dimensions (2 or 3)
+
     '''
 
     def __init__(self, cellSize: float, dimensions: int = 2) -> None:
@@ -83,7 +91,9 @@ class SpatialHashGrid:
         self._halfStencil = self._computeHalfStencil()
 
     def build(self, positions: np.ndarray) -> None:
+
         '''
+
         Build the spatial hash grid from particle positions.
 
         Bins all particles into grid cells based on their
@@ -93,6 +103,7 @@ class SpatialHashGrid:
         -----------
         positions : np.ndarray
             Particle positions, shape (N, dim)
+
         '''
         self._positions = positions
         self._cells.clear()
@@ -113,7 +124,9 @@ class SpatialHashGrid:
         self._cells = {k: np.array(v, dtype=np.int32) for k, v in cellDict.items()}
 
     def queryPairs(self, radius: float) -> tuple[np.ndarray, np.ndarray]:
+
         '''
+
         Find all unique particle pairs (i, j) within the given radius.
 
         Uses half-stencil traversal to ensure each pair is found exactly
@@ -129,6 +142,7 @@ class SpatialHashGrid:
         --------
         tuple[np.ndarray, np.ndarray] :
             (iIndices, jIndices) arrays of neighbor pair indices
+
         '''
         if self._positions is None:
             return (np.array([], dtype=np.int32), np.array([], dtype=np.int32))
@@ -202,7 +216,9 @@ class SpatialHashGrid:
         return (iAll, jAll)
 
     def _computeHalfStencil(self) -> list[tuple[int, ...]]:
+
         '''
+
         Compute the half-stencil: neighbor offsets that avoid double-counting.
 
         For the full 3x3 (2D) or 3x3x3 (3D) stencil, we only keep offsets
@@ -213,6 +229,7 @@ class SpatialHashGrid:
         Returns:
         --------
         list[tuple[int, ...]] : Half-stencil offsets
+
         '''
         if self._dimensions == 2:
             # 4 neighbors in the "positive half" of the 3x3 stencil

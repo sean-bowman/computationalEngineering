@@ -1,6 +1,7 @@
 # -- Surfboard Cross-Section Profile -- #
 
 '''
+
 Computes the cross-sectional profile (deck and bottom heights) at each station.
 
 Direct port of SurfboardGeometry/Surfboard/CrossSection.cs.
@@ -8,6 +9,7 @@ Defines the thickness distribution, deck crown dome, and bottom concave
 channel at any point on the board surface.
 
 Sean Bowman [02/03/2026]
+
 '''
 
 from __future__ import annotations
@@ -18,7 +20,9 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import S
 
 
 class CrossSection:
+
     '''
+
     Surfboard cross-section — deck and bottom heights at any (t, lateralFraction).
 
     For a given longitudinal position t and lateral position (0 = center, 1 = rail),
@@ -29,21 +33,28 @@ class CrossSection:
     - Thickest at 40% from nose (100% of maxThickness)
     - Thin at nose (35% of max) and tail (45% of max)
     - Cosine interpolation for smooth transitions
+
     '''
 
     def __init__(self, params: SurfboardParameters) -> None:
+
         '''
+
         Initialize cross-section from surfboard parameters.
 
         Parameters:
         -----------
         params : SurfboardParameters
             Board dimensions including crown and concave
+
         '''
+
         self._params = params
 
     def getDeckHeight(self, t: float, lateralFraction: float) -> float:
+
         '''
+
         Get the deck height (top surface Z) at a given position.
 
         The deck profile is a cosine dome that peaks at the centerline
@@ -59,7 +70,9 @@ class CrossSection:
         Returns:
         --------
         float : Deck height in mm above the center plane (positive = up)
+
         '''
+
         t = max(0.0, min(1.0, t))
         lateralFraction = max(0.0, min(1.0, lateralFraction))
 
@@ -73,7 +86,9 @@ class CrossSection:
         return halfThick + crownContribution
 
     def getBottomHeight(self, t: float, lateralFraction: float) -> float:
+
         '''
+
         Get the bottom height (bottom surface Z) at a given position.
 
         The bottom surface includes optional single concave — a cosine valley
@@ -89,7 +104,9 @@ class CrossSection:
         Returns:
         --------
         float : Bottom height in mm below center plane (negative = down)
+
         '''
+
         t = max(0.0, min(1.0, t))
         lateralFraction = max(0.0, min(1.0, lateralFraction))
 
@@ -105,7 +122,9 @@ class CrossSection:
         return -(halfThick + concaveContribution)
 
     def getLocalThickness(self, t: float) -> float:
+
         '''
+
         Get the local board thickness at a normalized longitudinal position.
 
         Thickness distribution:
@@ -122,7 +141,9 @@ class CrossSection:
         Returns:
         --------
         float : Thickness in mm
+
         '''
+
         # Thickest point at 40% from nose
         thickestPointT = 0.40
 
@@ -142,7 +163,9 @@ class CrossSection:
         return self._params.maxThickness * fraction
 
     def _getLocalCrown(self, t: float) -> float:
+
         '''
+
         Get the deck crown height at a normalized longitudinal position.
 
         Crown is greatest at ~45% from nose and fades toward nose and tail
@@ -156,7 +179,9 @@ class CrossSection:
         Returns:
         --------
         float : Crown height in mm
+
         '''
+
         peakT = 0.45
         distance = abs(t - peakT)
         maxDistance = max(peakT, 1.0 - peakT)
@@ -168,7 +193,9 @@ class CrossSection:
         )
 
     def _getLocalConcave(self, t: float) -> float:
+
         '''
+
         Get the bottom concave depth at a normalized longitudinal position.
 
         Concave is at full strength between 25% and 75% of board length,
@@ -182,7 +209,9 @@ class CrossSection:
         Returns:
         --------
         float : Concave depth in mm
+
         '''
+
         startFade = 0.25
         endFade = 0.75
 
@@ -197,7 +226,9 @@ class CrossSection:
 
     @staticmethod
     def _cosineInterpolate(a: float, b: float, t: float) -> float:
+
         '''
+
         Cosine interpolation between two values for smooth transitions.
 
         Parameters:
@@ -212,6 +243,8 @@ class CrossSection:
         Returns:
         --------
         float : Interpolated value
+
         '''
+
         blend = (1.0 - math.cos(t * math.pi)) / 2.0
         return a + (b - a) * blend

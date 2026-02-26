@@ -1,12 +1,14 @@
 # -- Deviation Exporter -- #
 
 '''
+
 Exports mesh comparison results as JSON for the Three.js deviation heatmap.
 
 Converts ComparisonResult from MeshComparisonAnalyzer into a format suitable
 for vertex-colored rendering in the viewer.
 
 Sean Bowman [02/05/2026]
+
 '''
 
 from __future__ import annotations
@@ -30,11 +32,14 @@ except ImportError:
 #--------------------------------------------------------------------#
 
 class DeviationExporter:
+
     '''
+
     Exports mesh comparison results for Three.js deviation visualization.
 
     Produces a JSON file containing the reference mesh geometry and
     per-vertex deviation values for colormap rendering.
+
     '''
 
     def exportDeviationData(
@@ -44,7 +49,9 @@ class DeviationExporter:
         filename: str = 'deviationData.json',
         decimateFactor: float = 0.1,
     ) -> str:
+
         '''
+
         Export comparison results as JSON for the Three.js heatmap.
 
         Parameters:
@@ -61,6 +68,7 @@ class DeviationExporter:
         Returns:
         --------
         str : Path to the exported JSON file
+
         '''
         if trimesh is None:
             raise ImportError('trimesh is required for deviation export')
@@ -142,7 +150,9 @@ class DeviationExporter:
         filename: str = 'deviationData.json',
         decimateFactor: float = 0.1,
     ) -> str:
+
         '''
+
         Export deviation data directly from two meshes.
 
         This is a convenience method for when you have meshes but not
@@ -164,6 +174,7 @@ class DeviationExporter:
         Returns:
         --------
         str : Path to the exported JSON file
+
         '''
         if trimesh is None:
             raise ImportError('trimesh is required for deviation export')
@@ -221,7 +232,9 @@ class DeviationExporter:
         queryMesh: 'trimesh.Trimesh',
         referenceMesh: 'trimesh.Trimesh',
     ) -> np.ndarray:
+
         '''
+
         Compute signed distances from query mesh vertices to reference mesh.
 
         Parameters:
@@ -234,6 +247,7 @@ class DeviationExporter:
         Returns:
         --------
         np.ndarray : Signed distances in mm for each query vertex
+
         '''
         # Find closest points on reference mesh
         closest, distancesSq, triangleIds = referenceMesh.nearest.on_surface(
@@ -255,7 +269,9 @@ class DeviationExporter:
         return distances
 
     def _computeStats(self, distances: np.ndarray) -> dict:
+
         '''
+
         Compute deviation statistics.
 
         Parameters:
@@ -266,6 +282,7 @@ class DeviationExporter:
         Returns:
         --------
         dict : Statistics dictionary
+
         '''
         return {
             'minMm': float(np.min(distances)),
@@ -275,7 +292,9 @@ class DeviationExporter:
         }
 
     def _decimateMesh(self, mesh, decimateFactor: float):
+
         '''
+
         Decimate mesh to reduce face count.
 
         Parameters:
@@ -288,6 +307,7 @@ class DeviationExporter:
         Returns:
         --------
         trimesh.Trimesh : Decimated mesh
+
         '''
         targetFaces = max(int(len(mesh.faces) * decimateFactor), 1000)
 

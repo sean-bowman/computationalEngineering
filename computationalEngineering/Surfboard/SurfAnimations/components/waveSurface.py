@@ -1,12 +1,14 @@
 # -- Wave Surface Components -- #
 
 '''
+
 Reusable Manim mobjects for rendering wave surfaces in 2D and 3D.
 
 Wraps LinearWaveTheory to produce animated wave lines, water fills,
 and 3D parametric surfaces for use across all animation scenes.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 import os
@@ -25,7 +27,6 @@ from computationalEngineering.Surfboard.SurfPhysics.waves.linearWaveTheory impor
 from computationalEngineering.Surfboard.SurfPhysics.waves.waveConditions import WaveConditions
 from computationalEngineering.Surfboard.SurfAnimations.utils.manimTheme import WAVE_COLOR, WATER_FILL
 
-
 #--------------------------------------------------------------------#
 # -- 2D Wave Line -- #
 #--------------------------------------------------------------------#
@@ -40,7 +41,9 @@ def createWaveLine(
     color = None,
     strokeWidth: float = 2.5,
 ) -> VMobject:
+
     '''
+
     Create a 2D wave surface line from LinearWaveTheory.
 
     Parameters:
@@ -65,6 +68,7 @@ def createWaveLine(
     Returns:
     --------
     VMobject : Wave polyline in the XY plane
+
     '''
     if color is None:
         color = WAVE_COLOR
@@ -80,7 +84,6 @@ def createWaveLine(
     wave.set_stroke(color=color, width=strokeWidth)
     return wave
 
-
 def updateWaveLine(
     wave: VMobject,
     waveTheory: LinearWaveTheory,
@@ -90,7 +93,9 @@ def updateWaveLine(
     xMax: float = 7.0,
     nPoints: int = 200,
 ) -> None:
+
     '''
+
     Update an existing wave VMobject to a new time value.
 
     Modifies the wave in-place by recomputing corner points.
@@ -111,6 +116,7 @@ def updateWaveLine(
         Right edge of wave domain
     nPoints : int
         Number of sample points
+
     '''
     xVals = np.linspace(xMin, xMax, nPoints)
     points = []
@@ -119,7 +125,6 @@ def updateWaveLine(
         points.append([x, eta, 0])
 
     wave.set_points_as_corners(points)
-
 
 #--------------------------------------------------------------------#
 # -- Water Fill -- #
@@ -136,7 +141,9 @@ def createWaterFill(
     color = None,
     opacity: float = 0.3,
 ) -> Polygon:
+
     '''
+
     Create a filled polygon below the wave surface.
 
     Parameters:
@@ -163,6 +170,7 @@ def createWaterFill(
     Returns:
     --------
     Polygon : Filled water region
+
     '''
     if color is None:
         color = WATER_FILL
@@ -190,7 +198,6 @@ def createWaterFill(
     )
     return fill
 
-
 def updateWaterFill(
     fill: Polygon,
     waveTheory: LinearWaveTheory,
@@ -201,7 +208,9 @@ def updateWaterFill(
     bottomY: float = -4.0,
     nPoints: int = 200,
 ) -> None:
+
     '''
+
     Update an existing water fill polygon to a new time value.
 
     Parameters:
@@ -222,6 +231,7 @@ def updateWaterFill(
         Bottom of fill region
     nPoints : int
         Number of surface sample points
+
     '''
     xVals = np.linspace(xMin, xMax, nPoints)
     surfacePoints = []
@@ -240,7 +250,6 @@ def updateWaterFill(
     # Rebuild the polygon by setting new corners
     fill.set_points_as_corners(newVertices + [newVertices[0]])
 
-
 #--------------------------------------------------------------------#
 # -- 3D Wave Surface -- #
 #--------------------------------------------------------------------#
@@ -255,7 +264,9 @@ def createWaveSurface3D(
     color = None,
     opacity: float = 0.5,
 ) -> Surface:
+
     '''
+
     Create a 3D parametric wave surface for ThreeDScene.
 
     The surface elevation varies with x (propagation) but is constant
@@ -283,6 +294,7 @@ def createWaveSurface3D(
     Returns:
     --------
     Surface : 3D wave surface
+
     '''
     if color is None:
         color = WAVE_COLOR

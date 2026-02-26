@@ -2,6 +2,7 @@
 # -- Parametric Surface Sampler -- #
 
 '''
+
 Samples the parametric surfboard surface into a structured vertex grid
 suitable for Three.js BufferGeometry construction.
 
@@ -13,6 +14,7 @@ mirrors it for the full board.
 All output values are in millimeters to match the project coordinate system.
 
 Sean Bowman [02/04/2026]
+
 '''
 
 from __future__ import annotations
@@ -23,14 +25,15 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.board import BoardG
 from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import SurfboardParameters
 from computationalEngineering.Surfboard.SurfPhysics.units import mToMm
 
-
 def sampleParametricSurface(
     board: BoardGeometry,
     params: SurfboardParameters,
     nLongitudinal: int = 100,
     nLateral: int = 25,
 ) -> dict:
+
     '''
+
     Sample the parametric board surface into a vertex grid.
 
     Produces structured arrays of outline, rocker, deck, and bottom
@@ -63,6 +66,7 @@ def sampleParametricSurface(
         - rocker.heightsMm: rocker Z-offset at each t [mm]
         - deckSurface.heightsMm: 2D array [nLong x nLat] of deck Z [mm]
         - bottomSurface.heightsMm: 2D array [nLong x nLat] of bottom Z [mm]
+
     '''
     tValues = np.linspace(0.0, 1.0, nLongitudinal).tolist()
     lateralFractions = np.linspace(0.0, 1.0, nLateral).tolist()
