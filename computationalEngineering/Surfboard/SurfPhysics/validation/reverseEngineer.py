@@ -192,6 +192,26 @@ class ReverseEngineer:
 
     #--------------------------------------------------------------------#
     # -- Profile Extraction -- #
+    def getContourAt(self, t: float) -> Optional[np.ndarray]:
+        '''
+        Return the raw (Y, Z) mesh intersection contour at normalized position t.
+
+        Thin public wrapper around _sliceAtX for external callers (e.g. the
+        cross-section comparison viewer). The contour points are ordered by
+        angle from the centroid and form a closed loop.
+
+        Parameters:
+        -----------
+        t : float
+            Normalized longitudinal position (0.0 = nose, 1.0 = tail)
+
+        Returns:
+        --------
+        Optional[np.ndarray] : (N, 2) array of (Y, Z) contour points, or None
+        '''
+        xPos = self._noseX + t * self._boardLength
+        return self._sliceAtX(float(xPos))
+
     #--------------------------------------------------------------------#
 
     def extractProfiles(

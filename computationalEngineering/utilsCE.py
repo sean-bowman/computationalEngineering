@@ -953,11 +953,17 @@ def rescaleData(rawData: np.ndarray | list, newMax: float = None, newMin: float 
     
     return rescaledData
 
-def bezierCurve(p1: list[float], p4: list[float], theta_1: float, theta_2: float, magnitude: list[float], res: int) -> list[list[float]]:
+def bezierCurve(p1       : list[float],
+                p4       : list[float],
+                theta_1  : float,
+                theta_2  : float,
+                magnitude: list[float],
+                res      : int,
+                returnControlPoints: bool = False) -> list[list[float]] | tuple:
 
     '''
 
-    Create a cubic Bezier curve from start/end points, angles, and magnitudes.
+    Create a cubic Bezier curve from start/end points, departure/arrival angles, and magnitudes.
 
     Constructs a cubic Bezier curve by computing interior control points (p2, p3)
     from the specified start/end angles and magnitude scaling factors. The magnitudes
@@ -970,46 +976,174 @@ def bezierCurve(p1: list[float], p4: list[float], theta_1: float, theta_2: float
     p4 : list[float]
         End point as [x, y].
     theta_1 : float
-        Departure angle at the start point, in degrees.
+        Departure angle at p1, in degrees, measured from the positive x-axis.
+        Controls the direction the curve leaves the start point.
     theta_2 : float
-        Arrival angle at the end point, in degrees.
+        Arrival angle at p4, in degrees, measured from the positive x-axis.
+        Controls the direction the curve arrives at the end point.
     magnitude : list[float]
-        Two-element list of scaling factors [mag1, mag2] controlling the distance
-        of interior control points from the start and end points respectively.
-        Values are relative to the chord length between p1 and p4.
+        Two-element list [mag1, mag2] controlling the distance of the interior
+        control points from p1 and p4 respectively, as fractions of the chord length.
+        Larger values produce a fuller curve; typical range 0.2–0.6.
     res : int
         Number of points to sample along the Bezier curve.
+    returnControlPoints : bool, optional
+        If True, also returns a dict with the four control points and the two tangent
+        line segments. Default False.
 
     Returns:
     --------
-    list[list[float]] : A two-element list [x, y] where x and y are lists
-        of coordinates along the curve.
+    list[list[float]] : [x, y] coordinate lists along the curve.
+    dict (only when returnControlPoints=True) : {
+        'p1': start point,
+        'p2': first interior control point,
+        'p3': second interior control point,
+        'p4': end point,
+        'tangent1': [p1, p2]  — departure tangent line segment,
+        'tangent2': [p3, p4]  — arrival tangent line segment,
+    }
 
     '''
 
-    # Scale the magnitude to the size of the bezier to make it less dependent on the input points
-    length = np.sqrt(((p4[1]-p1[1])**2) + ((p4[0]-p1[0])**2))
-    magnitude[0] = magnitude[0]*length
-    magnitude[1] = magnitude[1]*length
+    # Scale magnitudes by chord length so values are shape-independent fractions.
+    # Use local copies to avoid mutating the caller's list.
+    chordLength = np.sqrt(((p4[1] - p1[1])**2) + ((p4[0] - p1[0])**2))
+    mag1 = magnitude[0] * chordLength
+    mag2 = magnitude[1] * chordLength
 
-    # Create control points p2, p3 from given angles and magnitudes
-    py2 = magnitude[0]*np.sin(np.radians(theta_1)) # (magnitude[0]-p1[0] - p1[0])*np.tan(np.radians(theta_1)) + p1[1]
-    px2 = np.sqrt((magnitude[0]**2)-(py2**2))
-    p2 = [px2+p1[0], py2+p1[1]] # magnitude, angle
-    py3 = magnitude[1]*np.sin(np.radians(theta_2)) # (p4[0]-magnitude[1] - p4[0])*np.tan(np.radians(theta_2)) + p4[1]
-    px3 = np.sqrt((magnitude[1]**2) - (py3**2))
-    p3 = [p4[0]-px3, p4[1]-py3] # magnitude, angle
+    # Build interior control points from angles and scaled magnitudes.
+    # p2 is offset from p1 in the direction of theta_1.
+    # p3 is offset from p4 opposite to the direction of theta_2
+    # (i.e., the curve arrives at p4 traveling in the theta_2 direction).
+    # Bug fix: use cos/sin directly — the previous sqrt approach forced the x-component
+    # to always be non-negative, mirroring control points for angles > 90° or < -90°.
+    p2 = [p1[0] + mag1 * np.cos(np.radians(theta_1)),
+          p1[1] + mag1 * np.sin(np.radians(theta_1))]
 
-    # Bezier parametric equation
-    def eqn(p1, p2, p3, p4, t):
-        return (1 - (t**3))*p1 + (3*t*(1-t)**2)*p2 + 3*(t**2)*(1-t)*p3 + (t**3)*p4
-    
-    # parametric bezier
+    p3 = [p4[0] - mag2 * np.cos(np.radians(theta_2)),
+          p4[1] - mag2 * np.sin(np.radians(theta_2))]
+
+    # Cubic Bezier parametric evaluation using the correct Bernstein basis.
+    # Bug fix: original code used (1 - t**3) for the first coefficient instead of
+    # the correct (1-t)**3, which over-weighted p1 through most of the parameter range.
+    def bernstein(p1: float, p2: float, p3: float, p4: float, t: np.ndarray) -> np.ndarray:
+        return (1-t)**3 * p1 + 3*t*(1-t)**2 * p2 + 3*t**2*(1-t) * p3 + t**3 * p4
+
     t = np.linspace(0, 1, res)
-    x = [eqn(0, p2[0]-p1[0], p3[0]-p1[0], p4[0]-p1[0], i)+p1[0] for i in t]
-    y = [eqn(0, p2[1]-p1[1], p3[1]-p1[1], p4[1]-p1[1], i)+p1[1] for i in t]
+    x = bernstein(p1[0], p2[0], p3[0], p4[0], t)
+    y = bernstein(p1[1], p2[1], p3[1], p4[1], t)
+
+    if returnControlPoints:
+        controlPoints = {
+            'p1'      : p1,
+            'p2'      : p2,
+            'p3'      : p3,
+            'p4'      : p4,
+            'tangent1': [p1, p2],  # departure tangent at start
+            'tangent2': [p3, p4],  # arrival tangent at end
+        }
+        return [x, y], controlPoints
 
     return [x, y]
+
+
+def bezierSubdivide(p1       : list[float],
+                    p2       : list[float],
+                    p3       : list[float],
+                    p4       : list[float],
+                    t        : float = 0.5) -> tuple:
+
+    '''
+
+    Exactly subdivide a cubic Bezier at parameter t using de Casteljau's algorithm.
+
+    Returns two sets of 4 control points that together reproduce the original curve
+    exactly — no approximation. Useful for splitting a segment at any interior point
+    while preserving the full shape.
+
+    Parameters:
+    -----------
+    p1, p2, p3, p4 : list[float]
+        The four cubic Bezier control points as [x, y].
+    t : float
+        Parameter value at which to subdivide (0 < t < 1). Default 0.5 = midpoint.
+
+    Returns:
+    --------
+    tuple : (leftCtrl, rightCtrl) where each is a tuple of four [x, y] arrays
+        representing the control polygon of the left and right sub-curves.
+
+    '''
+
+    pA = np.array(p1, dtype=float)
+    pB = np.array(p2, dtype=float)
+    pC = np.array(p3, dtype=float)
+    pD = np.array(p4, dtype=float)
+
+    # Level 1 — linear interpolation between adjacent pairs
+    pAB  = (1 - t) * pA  + t * pB
+    pBC  = (1 - t) * pB  + t * pC
+    pCD  = (1 - t) * pC  + t * pD
+
+    # Level 2
+    pABC = (1 - t) * pAB + t * pBC
+    pBCD = (1 - t) * pBC + t * pCD
+
+    # Level 3 — point on the curve at parameter t
+    pM   = (1 - t) * pABC + t * pBCD
+
+    leftCtrl  = (pA, pAB, pABC, pM)
+    rightCtrl = (pM, pBCD, pCD, pD)
+
+    return leftCtrl, rightCtrl
+
+
+def bezierEval(p1               : np.ndarray,
+               p2               : np.ndarray,
+               p3               : np.ndarray,
+               p4               : np.ndarray,
+               res              : int,
+               returnControlPoints: bool = False) -> list | tuple:
+
+    '''
+
+    Evaluate a cubic Bezier curve directly from its four control points using the
+    Bernstein basis. Companion to bezierSubdivide — accepts the control point arrays
+    that bezierSubdivide returns without needing to convert back to angle/magnitude form.
+
+    Parameters:
+    -----------
+    p1, p2, p3, p4 : np.ndarray
+        Control points as arrays of shape (2,): [x, y].
+    res : int
+        Number of sample points along the curve.
+    returnControlPoints : bool, optional
+        If True, also return a control-point dict matching the bezierCurve format.
+
+    Returns:
+    --------
+    list[np.ndarray] : [x, y] coordinate arrays.
+    dict (only when returnControlPoints=True) : {p1, p2, p3, p4, tangent1, tangent2}
+
+    '''
+
+    t  = np.linspace(0, 1, res)
+    x  = (1-t)**3 * p1[0] + 3*t*(1-t)**2 * p2[0] + 3*t**2*(1-t) * p3[0] + t**3 * p4[0]
+    y  = (1-t)**3 * p1[1] + 3*t*(1-t)**2 * p2[1] + 3*t**2*(1-t) * p3[1] + t**3 * p4[1]
+
+    if returnControlPoints:
+        cp = {
+            'p1'      : list(p1),
+            'p2'      : list(p2),
+            'p3'      : list(p3),
+            'p4'      : list(p4),
+            'tangent1': [list(p1), list(p2)],
+            'tangent2': [list(p3), list(p4)],
+        }
+        return [x, y], cp
+
+    return [x, y]
+
 
 #----------------------------------------------------------------------#
 # -- File I/O Tools -- #

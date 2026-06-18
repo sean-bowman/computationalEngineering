@@ -36,3 +36,9 @@ tmpclaude-*
 # OS
 Thumbs.db
 .DS_Store
+
+# Internal notes (not for publication)
+objectives.md
+
+# Temporary / generated job data
+temp/
