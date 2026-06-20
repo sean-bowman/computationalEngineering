@@ -52,7 +52,7 @@ from computationalEngineering.Surfboard.SurfPhysics.validation.reverseEngineer i
 # -- Module-Level State (shared across Dash callbacks) -- #
 #--------------------------------------------------------------------#
 
-# Cached reference data — loaded once at startup
+# Cached reference data -- loaded once at startup
 _refProfiles: Optional[ExtractedProfiles] = None
 _refContours: Optional[list] = None          # list of (N, 2) np.ndarray or None
 _boardLengthMm: float = 1828.0
@@ -69,9 +69,9 @@ _BG_PLOT    = '#1a1a2e'
 _BORDER     = '#334466'
 _TEXT       = '#d0d8ff'
 _TEXT_DIM   = '#8090b0'
-_REF_COLOR  = '#4488ff'      # blue — reference
-_PARAM_COLOR = '#ff6644'     # orange-red — parametric
-_STATION_COLOR = '#ffdd44'   # yellow — station indicator line
+_REF_COLOR  = '#4488ff'      # blue: reference
+_PARAM_COLOR = '#ff6644'     # orange-red: parametric
+_STATION_COLOR = '#ffdd44'   # yellow: station indicator line
 
 
 #--------------------------------------------------------------------#
@@ -79,7 +79,7 @@ _STATION_COLOR = '#ffdd44'   # yellow — station indicator line
 #--------------------------------------------------------------------#
 
 def _figLayout(title: str = '') -> dict:
-    '''Common Plotly layout settings for all panels (no xaxis/yaxis — each panel provides its own).'''
+    '''Common Plotly layout settings for all panels (no xaxis/yaxis: each panel provides its own).'''
     return dict(
         title=dict(text=title, font=dict(color=_TEXT, size=12), x=0.5),
         paper_bgcolor=_BG_PLOT,
@@ -777,7 +777,7 @@ def launchCrossSectionViewer(
     app = _buildApp(pythonParams)
 
     print(f'\nLaunching Cross-Section Comparison Viewer at http://127.0.0.1:{port}')
-    print('Adjust sliders to match the reference — all 4 panels update live.')
+    print('Adjust sliders to match the reference: all 4 panels update live.')
     print('Press Ctrl+C to stop the server.\n')
 
     app.run(debug=debug, port=port)

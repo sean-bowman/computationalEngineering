@@ -405,10 +405,10 @@ export class UIPanel {
         statsDiv.style.display = 'block';
         statsDiv.innerHTML = `
 <strong style="color:${CSS.purple}">Deviation Statistics</strong>
-RMS:  ${stats.rmsMm?.toFixed(2) || '—'} mm
-Mean: ${stats.meanMm?.toFixed(2) || '—'} mm
-Min:  ${stats.minMm?.toFixed(2) || '—'} mm
-Max:  ${stats.maxMm?.toFixed(2) || '—'} mm
+RMS:  ${stats.rmsMm?.toFixed(2) || ': '} mm
+Mean: ${stats.meanMm?.toFixed(2) || ': '} mm
+Min:  ${stats.minMm?.toFixed(2) || ': '} mm
+Max:  ${stats.maxMm?.toFixed(2) || ': '} mm
         `.trim();
     }
 
@@ -441,11 +441,11 @@ Tail:      ${p.tailShape}
 Foam:      ${p.foamType.toUpperCase()}
 
 <strong style="color:${CSS.textPrimary}">Physics</strong>
-Board Mass:  ${ph ? ph.boardMassKg.toFixed(2) : '—'} kg
-Total Wt:   ${b.totalWeightN ? b.totalWeightN.toFixed(0) : '—'} N
-Buoyancy:   ${b.maxBuoyancyN ? b.maxBuoyancyN.toFixed(0) : '—'} N
-Ratio:      ${b.buoyancyRatio ? b.buoyancyRatio.toFixed(2) : '—'}x
-Draft:      ${b.riderDraftCm ? b.riderDraftCm.toFixed(1) : '—'} cm
+Board Mass:  ${ph ? ph.boardMassKg.toFixed(2) : ': '} kg
+Total Wt:   ${b.totalWeightN ? b.totalWeightN.toFixed(0) : ': '} N
+Buoyancy:   ${b.maxBuoyancyN ? b.maxBuoyancyN.toFixed(0) : ': '} N
+Ratio:      ${b.buoyancyRatio ? b.buoyancyRatio.toFixed(2) : ': '}x
+Draft:      ${b.riderDraftCm ? b.riderDraftCm.toFixed(1) : ': '} cm
 Floats:     ${b.floats ? 'Yes' : 'No'}
         `.trim();
     }

@@ -2,7 +2,7 @@
 
 **Generation and analysis of physical models through computer algorithms.**
 
-This repository demonstrates computational engineering — using software to define, generate, and analyze physical objects and their behavior. Rather than drawing shapes manually in CAD software, geometry is defined programmatically through mathematical functions and parameters, enabling precise control, reproducibility, and design exploration.
+This repository demonstrates computational engineering: using software to define, generate, and analyze physical objects and their behavior. Rather than drawing shapes manually in CAD software, geometry is defined programmatically through mathematical functions and parameters, enabling precise control, reproducibility, and design exploration.
 
 Domains live under `computationalEngineering/`. Each domain is a self-contained Python package with its own configs, documentation, and code. Generic tools like `PicoGK` and `WaterSim` are organized for cross-domain reuse.
 
@@ -109,7 +109,7 @@ dotnet build computationalEngineering/Surfboard/SurfboardGeometry/SurfboardGeome
 
 ## References
 
-- [PicoGK by LEAP 71](https://github.com/leap71/PicoGK) — Computational geometry kernel
+- [PicoGK by LEAP 71](https://github.com/leap71/PicoGK): Computational geometry kernel
 - Paine, Frank. *The Science of Surfing*. Cambridge University Press.
 - Dean & Dalrymple. *Water Wave Mechanics for Engineers and Scientists*.
 - Finney, Ben & Houston, James. *Surfing: A History of the Ancient Hawaiian Sport*.

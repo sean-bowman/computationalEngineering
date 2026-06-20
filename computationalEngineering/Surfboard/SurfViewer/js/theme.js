@@ -3,7 +3,7 @@
 // Centralized dark-mode theme for the Three.js surfboard viewer.
 // Mirrors SurfPhysics/visualization/theme.py color palette.
 
-// Primary color palette (Material Design — visible on dark backgrounds)
+// Primary color palette (Material Design: visible on dark backgrounds)
 export const BLUE = 0x42A5F5;
 export const RED = 0xEF5350;
 export const GREEN = 0x66BB6A;

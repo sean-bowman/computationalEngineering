@@ -629,7 +629,7 @@ def _buildApp(
                 html.Div(id='rms-display', children=[
                     html.Div(f'Python RMS: {pythonRms:.2f} mm',
                              style={'color': '#88dd88', 'fontSize': '13px'}),
-                    html.Div('Voxel RMS: — mm',
+                    html.Div('Voxel RMS:: mm',
                              style={'color': '#dd8844', 'fontSize': '13px'}),
                 ], style={'marginBottom': '16px', 'padding': '10px', 'backgroundColor': '#1a1a2e',
                           'borderRadius': '4px', 'border': '1px solid #334'}),
@@ -734,7 +734,7 @@ def _registerCallbacks(app: 'dash.Dash', defaultParams: SurfboardParameters) -> 
         fig = _buildFigure(traces, boardLengthMm=params.length)
 
         # RMS display
-        voxRmsText = f'{voxRms:.2f} mm' if voxTrace is not None else '—'
+        voxRmsText = f'{voxRms:.2f} mm' if voxTrace is not None else ': '
         rmsChildren = [
             html.Div(
                 f'Python RMS: {pyRms:.2f} mm',

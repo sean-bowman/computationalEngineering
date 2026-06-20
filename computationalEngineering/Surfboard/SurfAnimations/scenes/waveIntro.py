@@ -181,7 +181,7 @@ class WavePhysicsIntro(Scene):
         crestY = wc.amplitude
         troughY = -wc.amplitude
 
-        # Wave Height H — vertical double-arrow
+        # Wave Height H: vertical double-arrow
         hArrowStart = np.array([crestX + 1.5, troughY, 0])
         hArrowEnd = np.array([crestX + 1.5, crestY, 0])
         hArrow = Arrow(
@@ -200,7 +200,7 @@ class WavePhysicsIntro(Scene):
 
         self.play(Create(hArrow), Create(hArrowDown), Write(hLabel), run_time=1.0)
 
-        # Wavelength L — horizontal double-arrow between crests
+        # Wavelength L: horizontal double-arrow between crests
         nextCrestX = crestX + 2 * np.pi / k
         lArrowY = crestY + 0.4
         lArrowStart = np.array([crestX, lArrowY, 0])
@@ -237,7 +237,7 @@ class WavePhysicsIntro(Scene):
             lArrowBack = None
             self.play(Write(lLabel), run_time=1.0)
 
-        # Period T and Phase Speed c — text annotations
+        # Period T and Phase Speed c: text annotations
         periodLabel = Text(
             f'T = {wc.period:.0f} s',
             font_size=20,

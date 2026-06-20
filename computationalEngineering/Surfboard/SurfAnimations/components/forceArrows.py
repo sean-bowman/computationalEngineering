@@ -163,7 +163,7 @@ def createForceBalance(
 
     forces = {}
 
-    # Weight — always straight down
+    # Weight: always straight down
     forces['weight'] = createForceArrow(
         origin=origin,
         direction=np.array([0, -1, 0]),
@@ -174,7 +174,7 @@ def createForceBalance(
         fontSize=fontSize,
     )
 
-    # Buoyancy — straight up, applied near center
+    # Buoyancy: straight up, applied near center
     buoyancyN = totalWeightN - planingState.liftForceN
     if buoyancyN < 0:
         buoyancyN = 0
@@ -188,7 +188,7 @@ def createForceBalance(
         fontSize=fontSize,
     )
 
-    # Planing lift — perpendicular to board bottom (angled by trim)
+    # Planing lift: perpendicular to board bottom (angled by trim)
     liftDir = np.array([
         -math.sin(trimRad),
         math.cos(trimRad),
@@ -204,7 +204,7 @@ def createForceBalance(
         fontSize=fontSize,
     )
 
-    # Drag — opposite to motion direction (leftward = negative X)
+    # Drag: opposite to motion direction (leftward = negative X)
     forces['drag'] = createForceArrow(
         origin=origin + np.array([0, 0.05, 0]),
         direction=np.array([-1, 0, 0]),
@@ -302,7 +302,7 @@ def createForceBalance3D(
     origin = np.array(boardCenter, dtype=float)
     forces = {}
 
-    # Weight — down (negative Z in 3D)
+    # Weight: down (negative Z in 3D)
     forces['weight'] = createForceArrow3D(
         origin=origin,
         direction=np.array([0, 0, -1]),
@@ -311,7 +311,7 @@ def createForceBalance3D(
         scaleFactor=scaleFactor,
     )
 
-    # Buoyancy — up (positive Z)
+    # Buoyancy: up (positive Z)
     buoyancyN = totalWeightN - planingState.liftForceN
     if buoyancyN < 0:
         buoyancyN = 0
@@ -323,7 +323,7 @@ def createForceBalance3D(
         scaleFactor=scaleFactor,
     )
 
-    # Lift — up (positive Z)
+    # Lift: up (positive Z)
     forces['lift'] = createForceArrow3D(
         origin=origin,
         direction=np.array([0, 0, 1]),
@@ -332,7 +332,7 @@ def createForceBalance3D(
         scaleFactor=scaleFactor,
     )
 
-    # Drag — backward (negative X)
+    # Drag: backward (negative X)
     forces['drag'] = createForceArrow3D(
         origin=origin,
         direction=np.array([-1, 0, 0]),

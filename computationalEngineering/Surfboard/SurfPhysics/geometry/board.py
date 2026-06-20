@@ -8,7 +8,7 @@ Composes Outline, RockerProfile, and CrossSection into a single facade
 that provides higher-level geometry queries (volume, area, submerged volume)
 needed by the hydrodynamics modules.
 
-All output in SI units (meters) — converts from mm at the boundary.
+All output in SI units (meters): converts from mm at the boundary.
 
 Sean Bowman [02/03/2026]
 

@@ -22,7 +22,7 @@ class RockerProfile:
 
     '''
 
-    Surfboard rocker profile — vertical offset of the bottom surface.
+    Surfboard rocker profile: vertical offset of the bottom surface.
 
     The lowest point (flat spot) is at Z = 0, located at 60% from the nose.
     The nose and tail curve upward from there using power functions.

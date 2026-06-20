@@ -59,10 +59,10 @@ class ExtractedProfiles:
     # Normalized longitudinal positions (0 = nose, 1 = tail)
     tValues: np.ndarray
 
-    # Half-width at each station (mm) — the outline curve
+    # Half-width at each station (mm): the outline curve
     halfWidths: np.ndarray
 
-    # Bottom centerline Z at each station (mm) — the rocker curve
+    # Bottom centerline Z at each station (mm): the rocker curve
     rockerHeights: np.ndarray
 
     # Total thickness (deck - bottom at centerline) at each station (mm)
@@ -153,7 +153,7 @@ class ReverseEngineer:
             isValid, msg = CoordinateTransformer.validateTransformation(
                 rawMesh, self._mesh
             )
-            print(f'  Transform: scale={scaleFactor:.4f}, axes={axisMapping} — {msg}')
+            print(f'  Transform: scale={scaleFactor:.4f}, axes={axisMapping}: {msg}')
         else:
             self._mesh = rawMesh
 
@@ -172,7 +172,7 @@ class ReverseEngineer:
                 print(f'  Removed {len(segmented.finMeshes)} fins '
                       f'({segmented.finConfiguration} configuration)')
             else:
-                print('  No fins detected — using full mesh')
+                print('  No fins detected: using full mesh')
 
         # Center the body mesh so the nose is at X=0
         bounds = self._bodyMesh.bounds
@@ -237,7 +237,7 @@ class ReverseEngineer:
         --------
         ExtractedProfiles : Extracted shape data
         '''
-        # Set up slicing positions — use a small margin at each end to avoid
+        # Set up slicing positions: use a small margin at each end to avoid
         # degenerate slices right at the nose/tail points, but keep it tight
         # so we capture the steep taper at the tail tip accurately
         marginMm = 3.0  # 3mm from each end
@@ -260,7 +260,7 @@ class ReverseEngineer:
             contour = self._sliceAtX(float(xPos))
 
             if contour is None or len(contour) < 3:
-                # Degenerate slice — use zero values
+                # Degenerate slice: use zero values
                 deckProfiles.append(np.zeros(nLateralSamples))
                 bottomProfiles.append(np.zeros(nLateralSamples))
                 continue

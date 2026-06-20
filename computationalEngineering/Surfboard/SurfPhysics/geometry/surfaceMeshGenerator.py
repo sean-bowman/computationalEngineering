@@ -117,7 +117,7 @@ class SurfaceMeshGenerator:
         self._rocker = RockerProfile(params)
         self._crossSection = CrossSection(params)
 
-        # Cached mesh — generated on first call to generate() or getMesh()
+        # Cached mesh: generated on first call to generate() or getMesh()
         self._mesh: Optional[trimesh.Trimesh] = None
 
     @classmethod
@@ -305,7 +305,7 @@ class SurfaceMeshGenerator:
             rz = self._rocker.getRockerHeight(float(t))
 
             if hw < _TIP_THRESHOLD_MM:
-                # Degenerate station — collapse to a single tip point
+                # Degenerate station: collapse to a single tip point
                 stations.append({
                     't': float(t),
                     'x': x,
@@ -410,7 +410,7 @@ class SurfaceMeshGenerator:
             points.append([x, y, rz + bottomZ])
 
         # Segment 3: Left bottom, lf 0→1 with Y negated (n-1 points)
-        # Skip lf=0 — that point duplicates the last point of segment 2
+        # Skip lf=0: that point duplicates the last point of segment 2
         # (bottom centerline at y=0)
         for lf in lfs[1:]:
             y = -float(lf) * hw
@@ -421,7 +421,7 @@ class SurfaceMeshGenerator:
             points.append([x, y, rz + bottomZ])
 
         # Segment 4: Left deck, lf 1→0 with Y negated (n-1 points)
-        # Skip lf=0 — that point would duplicate the first point of
+        # Skip lf=0: that point would duplicate the first point of
         # segment 1 (deck centerline at y=0), closing the loop implicitly
         for lf in reversed(lfs[1:]):
             y = -float(lf) * hw
@@ -577,7 +577,7 @@ class SurfaceMeshGenerator:
             tipB = stationB['isTip']
 
             if tipA and tipB:
-                # Both degenerate — no surface between two coincident tips
+                # Both degenerate: no surface between two coincident tips
                 continue
 
             elif tipA and not tipB:
@@ -591,13 +591,13 @@ class SurfaceMeshGenerator:
                                 tipBeforeContour=False)
 
             else:
-                # Both full contours — quad-strip triangulation
+                # Both full contours: quad-strip triangulation
                 self._addQuadStrip(faceList, offA, offB,
                                    len(stationA['contour']),
                                    len(stationB['contour']))
 
         # Cap the nose end if the first station is a full contour (not a tip)
-        # This is unusual — normally t=0 has halfWidth=0 — but handle it
+        # This is unusual, normally t=0 has halfWidth=0, but handle it
         if not stations[0]['isTip']:
             self._addPlanarCap(vertexList, faceList, stationOffsets[0],
                                len(stations[0]['contour']), facingNose=True)
@@ -644,7 +644,7 @@ class SurfaceMeshGenerator:
 
         '''
 
-        # Use the smaller contour size if they differ (safety fallback —
+        # Use the smaller contour size if they differ (safety fallback:
         # in normal operation all contours have the same M points)
         n = min(nPointsA, nPointsB)
 
@@ -725,7 +725,7 @@ class SurfaceMeshGenerator:
         Parameters:
         -----------
         vertexList : list[list[float]]
-            Accumulator for vertices (modified in place — centroid appended)
+            Accumulator for vertices (modified in place: centroid appended)
         faceList : list[list[int]]
             Accumulator for face triples (modified in place)
         contourOffset : int

@@ -94,7 +94,7 @@ class BoardOnWaveSideView(Scene):
 
         # Title
         title = Text(
-            'Surfboard on Wave — Side View',
+            'Surfboard on Wave: Side View',
             font_size=30,
             color=WHITE,
         ).to_corner(UP + LEFT, buff=0.3).scale(0.8)

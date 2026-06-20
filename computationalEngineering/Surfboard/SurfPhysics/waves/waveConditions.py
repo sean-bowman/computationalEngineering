@@ -58,7 +58,7 @@ class WaveConditions:
         '''
 
         Typical surfable beach break conditions.
-        H=1.5m, T=10s, d=2.5m — chest-to-shoulder-high surf.
+        H=1.5m, T=10s, d=2.5m: chest-to-shoulder-high surf.
 
         '''
 
@@ -70,7 +70,7 @@ class WaveConditions:
         '''
 
         Mellow small surf conditions.
-        H=0.6m, T=8s, d=1.5m — knee-to-waist-high.
+        H=0.6m, T=8s, d=1.5m: knee-to-waist-high.
 
         '''
 
@@ -82,7 +82,7 @@ class WaveConditions:
         '''
 
         Overhead surf conditions.
-        H=2.0m, T=12s, d=3.0m — powerful, well-organized swell.
+        H=2.0m, T=12s, d=3.0m: powerful, well-organized swell.
 
         '''
 

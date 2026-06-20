@@ -2,7 +2,7 @@
 
 **Weakly Compressible Smoothed Particle Hydrodynamics (WCSPH) simulation for free-surface water flows.**
 
-A pure-Python, NumPy-vectorized SPH solver for 2D and 3D water sloshing and wave-tank scenarios. Primarily used for physics visualizations and as a computational benchmark — particularly the `sloshing_tank` Manim animation scene.
+A pure-Python, NumPy-vectorized SPH solver for 2D and 3D water sloshing and wave-tank scenarios. Primarily used for physics visualizations and as a computational benchmark: particularly the `sloshing_tank` Manim animation scene.
 
 ---
 
@@ -91,7 +91,7 @@ The solver implements **WCSPH** (Weakly Compressible SPH):
 
 - **Density summation** via cubic spline kernel (smoothing length `h = 1.3 * particleSpacing`)
 - **Pressure** from Tait equation of state: `P = B * ((ρ/ρ₀)^γ - 1)` with `γ = 7`
-- **Speed of sound**: `c = 10 * sqrt(g * H)` — ensures density fluctuations < 1%
+- **Speed of sound**: `c = 10 * sqrt(g * H)`: ensures density fluctuations < 1%
 - **Momentum equation**: pressure gradient + viscosity (artificial + laminar)
 - **Time integration**: symplectic Euler with CFL-adaptive time step
 - **Boundary conditions**: fixed boundary particles with Lennard-Jones repulsion
@@ -170,16 +170,16 @@ Available presets: `sloshing_2d_default.json`, `wave_tank_2d_small.json`, `wave_
 ## Performance Notes
 
 - **~62 ms/step** with ~1200 fluid + ~400 boundary particles (vectorized NumPy)
-- **~16 steps/s** — acceptable for short sims; consider Numba JIT for longer runs
+- **~16 steps/s**: acceptable for short sims; consider Numba JIT for longer runs
 - **Bottleneck**: neighbor search `build()` uses Python dict loop; all SPH solver loops are fully vectorized with `np.add.at` scatter-add
 - **Density error**: ~35% at free-surface particles is expected (kernel truncation at free surface)
-- **Energy conservation**: total energy fluctuates by ~1% over a simulation — acceptable for WCSPH
+- **Energy conservation**: total energy fluctuates by ~1% over a simulation: acceptable for WCSPH
 
 ---
 
 ## Documentation
 
-- **[WaterSim Overview](documentation/waterSimOverview.md)** — WCSPH theory, algorithm design, and comparison to grid-based methods
+- **[WaterSim Overview](documentation/waterSimOverview.md)**: WCSPH theory, algorithm design, and comparison to grid-based methods
 
 ---
 

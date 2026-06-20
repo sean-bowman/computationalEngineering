@@ -11,7 +11,7 @@ This domain covers the full pipeline from parametric board shape definition thro
 ### Run the reverse-engineering demo
 
 ```bash
-# From the repo root — fits both Python parametric and C# voxel geometry
+# From the repo root -- fits both Python parametric and C# voxel geometry
 # to referenceThruster.stl, then launches the interactive comparison viewer
 python codeInterface.py
 ```
@@ -92,7 +92,7 @@ from computationalEngineering.Surfboard.SurfPhysics.geometry.parameters import S
 
 ### SurfboardGeometry (C#)
 
-Voxel-based geometry using [PicoGK](https://github.com/leap71/PicoGK). Geometry is built by spatial painting — placing thousands of overlapping spheres along the board surface, merging into a voxel field, then extracting a triangle mesh via marching cubes.
+Voxel-based geometry using [PicoGK](https://github.com/leap71/PicoGK). Geometry is built by spatial painting: placing thousands of overlapping spheres along the board surface, merging into a voxel field, then extracting a triangle mesh via marching cubes.
 
 CLI accepts `--config custom_params.json` for fully custom board shapes (see [Config Reference](#config-reference) below).
 
@@ -102,7 +102,7 @@ Manim scenes for physics education. Available scenes:
 
 | Scene | Description |
 |---|---|
-| `wave_intro` | Linear wave theory — propagating wave, particle orbits, velocity field |
+| `wave_intro` | Linear wave theory: propagating wave, particle orbits, velocity field |
 | `board_side` | 2D side view with force vectors and velocity field |
 | `board_perspective` | 3D perspective view with camera orbit |
 | `performance` | Shortboard vs longboard vs fish performance comparison |
@@ -177,7 +177,7 @@ optimizer = ParameterOptimizer('referenceThruster.stl', 'SurfboardGeometry/', 'o
 result    = optimizer.runOptimization('shortboard', targetRmsMm=5.0)
 ```
 
-The interactive comparison viewer (launched by `codeInterface.py`) overlays both geometry styles on the reference with per-vertex deviation coloring — green inside the reference, red outside.
+The interactive comparison viewer (launched by `codeInterface.py`) overlays both geometry styles on the reference with per-vertex deviation coloring: green inside the reference, red outside.
 
 ---
 
@@ -219,14 +219,14 @@ Preset configs: `shortboard_default.json`, `longboard_small.json`, `fish_overhea
 
 Detailed writeups in [`documentation/`](documentation/):
 
-- **[API Reference](documentation/apiReference.md)** — All importable classes and functions
-- **[SurfPhysics Overview](documentation/surfPhysicsOverview.md)** — Wave theory, buoyancy, and force balance
-- **[Geometry Implementation](documentation/surfboardGeometryImplementation.md)** — Math details for outline, rocker, and cross-section curves
-- **[Parametric Surface Mesh](documentation/parametricSurfaceMeshOverview.md)** — Python STL generation algorithm
-- **[SurfboardGeometry Overview](documentation/surfboardGeometryOverview.md)** — Voxel-based C# generation
-- **[SurfAnimations Overview](documentation/surfAnimationsOverview.md)** — Manim scene architecture
-- **[Fin Dimensions Reference](documentation/finDimensionsReference.md)** — Reference fin measurements
-- **[Surfboard Shaping References](documentation/surfboardShapingReferences.md)** — Industry shaping conventions
+- **[API Reference](documentation/apiReference.md)**: All importable classes and functions
+- **[SurfPhysics Overview](documentation/surfPhysicsOverview.md)**: Wave theory, buoyancy, and force balance
+- **[Geometry Implementation](documentation/surfboardGeometryImplementation.md)**: Math details for outline, rocker, and cross-section curves
+- **[Parametric Surface Mesh](documentation/parametricSurfaceMeshOverview.md)**: Python STL generation algorithm
+- **[SurfboardGeometry Overview](documentation/surfboardGeometryOverview.md)**: Voxel-based C# generation
+- **[SurfAnimations Overview](documentation/surfAnimationsOverview.md)**: Manim scene architecture
+- **[Fin Dimensions Reference](documentation/finDimensionsReference.md)**: Reference fin measurements
+- **[Surfboard Shaping References](documentation/surfboardShapingReferences.md)**: Industry shaping conventions
 
 ---
 

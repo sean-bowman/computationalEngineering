@@ -23,7 +23,7 @@ class Outline:
 
     '''
 
-    Surfboard planform outline — half-width at each longitudinal station.
+    Surfboard planform outline: half-width at each longitudinal station.
 
     The board is symmetric about its centerline, so only the half-width is
     computed. Given a normalized position t (0 = nose tip, 1 = tail tip),

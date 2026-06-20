@@ -23,7 +23,7 @@ class CrossSection:
 
     '''
 
-    Surfboard cross-section — deck and bottom heights at any (t, lateralFraction).
+    Surfboard cross-section: deck and bottom heights at any (t, lateralFraction).
 
     For a given longitudinal position t and lateral position (0 = center, 1 = rail),
     computes the deck (top surface) and bottom surface heights relative to the
@@ -91,7 +91,7 @@ class CrossSection:
 
         Get the bottom height (bottom surface Z) at a given position.
 
-        The bottom surface includes optional single concave — a cosine valley
+        The bottom surface includes optional single concave: a cosine valley
         at the centerline that fades toward the rails.
 
         Parameters:

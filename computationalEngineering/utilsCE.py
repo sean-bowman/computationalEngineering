@@ -999,8 +999,8 @@ def bezierCurve(p1       : list[float],
         'p2': first interior control point,
         'p3': second interior control point,
         'p4': end point,
-        'tangent1': [p1, p2]  — departure tangent line segment,
-        'tangent2': [p3, p4]  — arrival tangent line segment,
+        'tangent1': [p1, p2]: departure tangent line segment,
+        'tangent2': [p3, p4]: arrival tangent line segment,
     }
 
     '''
@@ -1015,7 +1015,7 @@ def bezierCurve(p1       : list[float],
     # p2 is offset from p1 in the direction of theta_1.
     # p3 is offset from p4 opposite to the direction of theta_2
     # (i.e., the curve arrives at p4 traveling in the theta_2 direction).
-    # Bug fix: use cos/sin directly — the previous sqrt approach forced the x-component
+    # Bug fix: use cos/sin directly: the previous sqrt approach forced the x-component
     # to always be non-negative, mirroring control points for angles > 90° or < -90°.
     p2 = [p1[0] + mag1 * np.cos(np.radians(theta_1)),
           p1[1] + mag1 * np.sin(np.radians(theta_1))]
@@ -1058,7 +1058,7 @@ def bezierSubdivide(p1       : list[float],
     Exactly subdivide a cubic Bezier at parameter t using de Casteljau's algorithm.
 
     Returns two sets of 4 control points that together reproduce the original curve
-    exactly — no approximation. Useful for splitting a segment at any interior point
+    exactly: no approximation. Useful for splitting a segment at any interior point
     while preserving the full shape.
 
     Parameters:
@@ -1080,7 +1080,7 @@ def bezierSubdivide(p1       : list[float],
     pC = np.array(p3, dtype=float)
     pD = np.array(p4, dtype=float)
 
-    # Level 1 — linear interpolation between adjacent pairs
+    # Level 1: linear interpolation between adjacent pairs
     pAB  = (1 - t) * pA  + t * pB
     pBC  = (1 - t) * pB  + t * pC
     pCD  = (1 - t) * pC  + t * pD
@@ -1089,7 +1089,7 @@ def bezierSubdivide(p1       : list[float],
     pABC = (1 - t) * pAB + t * pBC
     pBCD = (1 - t) * pBC + t * pCD
 
-    # Level 3 — point on the curve at parameter t
+    # Level 3: point on the curve at parameter t
     pM   = (1 - t) * pABC + t * pBCD
 
     leftCtrl  = (pA, pAB, pABC, pM)
@@ -1108,7 +1108,7 @@ def bezierEval(p1               : np.ndarray,
     '''
 
     Evaluate a cubic Bezier curve directly from its four control points using the
-    Bernstein basis. Companion to bezierSubdivide — accepts the control point arrays
+    Bernstein basis. Companion to bezierSubdivide: accepts the control point arrays
     that bezierSubdivide returns without needing to convert back to angle/magnitude form.
 
     Parameters:

@@ -60,32 +60,32 @@ class Surfboard:
 
         Settable properties (set per board-type preset or override after construction):
         ------------------------------------------------------------------------------
-        resolution               : int        — axial station count (default 1000)
-        outlineMag               : list       — Bezier handle magnitudes [dep, arr] for outline (default [0.35, 0.35])
-        rockerMag                : list       — Bezier handle magnitudes [dep, arr] for rocker  (default [0.35, 0.35])
-        showControlPoints        : bool       — overlay Bezier control points in plotGeometry (default True)
+        resolution               : int: axial station count (default 1000)
+        outlineMag               : list: Bezier handle magnitudes [dep, arr] for outline (default [0.35, 0.35])
+        rockerMag                : list: Bezier handle magnitudes [dep, arr] for rocker  (default [0.35, 0.35])
+        showControlPoints        : bool: overlay Bezier control points in plotGeometry (default True)
 
         Set by noseShape preset (overridable):
-        noseOutlineMidY          : float|None — Y (ft) of nose outline subdivision midpoint
-        noseOutlineMidAngle      : float|None — tangent angle (deg) at nose outline midpoint (None = avg dep+arr)
+        noseOutlineMidY          : float|None: Y (ft) of nose outline subdivision midpoint
+        noseOutlineMidAngle      : float|None: tangent angle (deg) at nose outline midpoint (None = avg dep+arr)
 
         Set by tailShape preset (overridable):
-        tailOutlineMidY          : float|None — Y (ft) of tail outline subdivision midpoint
-        tailOutlineMidAngle      : float|None — tangent angle (deg) at tail outline midpoint
+        tailOutlineMidY          : float|None: Y (ft) of tail outline subdivision midpoint
+        tailOutlineMidAngle      : float|None: tangent angle (deg) at tail outline midpoint
 
         Set by rockerProfile preset (overridable, independent per surface):
-        tailTopRockerAngle       : float      — departure angle (deg) at tail tip, top surface
-        tailBottomRockerAngle    : float      — departure angle (deg) at tail tip, bottom surface
-        noseTopRockerAngle       : float      — arrival angle (deg) at nose tip, top surface
-        noseBottomRockerAngle    : float      — arrival angle (deg) at nose tip, bottom surface
-        tailTopRockerMidY        : float|None — Z (ft) of tail rocker midpoint, top surface
-        tailBottomRockerMidY     : float|None — Z (ft) of tail rocker midpoint, bottom surface
-        noseTopRockerMidY        : float|None — Z (ft) of nose rocker midpoint, top surface
-        noseBottomRockerMidY     : float|None — Z (ft) of nose rocker midpoint, bottom surface
-        tailTopRockerMidAngle    : float|None — tangent angle (deg) at tail rocker midpoint, top surface
-        tailBottomRockerMidAngle : float|None — tangent angle (deg) at tail rocker midpoint, bottom surface
-        noseTopRockerMidAngle    : float|None — tangent angle (deg) at nose rocker midpoint, top surface
-        noseBottomRockerMidAngle : float|None — tangent angle (deg) at nose rocker midpoint, bottom surface
+        tailTopRockerAngle       : float: departure angle (deg) at tail tip, top surface
+        tailBottomRockerAngle    : float: departure angle (deg) at tail tip, bottom surface
+        noseTopRockerAngle       : float: arrival angle (deg) at nose tip, top surface
+        noseBottomRockerAngle    : float: arrival angle (deg) at nose tip, bottom surface
+        tailTopRockerMidY        : float|None: Z (ft) of tail rocker midpoint, top surface
+        tailBottomRockerMidY     : float|None: Z (ft) of tail rocker midpoint, bottom surface
+        noseTopRockerMidY        : float|None: Z (ft) of nose rocker midpoint, top surface
+        noseBottomRockerMidY     : float|None: Z (ft) of nose rocker midpoint, bottom surface
+        tailTopRockerMidAngle    : float|None: tangent angle (deg) at tail rocker midpoint, top surface
+        tailBottomRockerMidAngle : float|None: tangent angle (deg) at tail rocker midpoint, bottom surface
+        noseTopRockerMidAngle    : float|None: tangent angle (deg) at nose rocker midpoint, top surface
+        noseBottomRockerMidAngle : float|None: tangent angle (deg) at nose rocker midpoint, bottom surface
 
         '''
 
@@ -147,7 +147,7 @@ class Surfboard:
             case 'pin':
 
                 self.tailWidthFrac      = 0.01
-                self.tailAngle          = 60.0  # pin tail tapers gradually — shallower departure angle
+                self.tailAngle          = 60.0  # pin tail tapers gradually: shallower departure angle
                 self.tailOutlineMidY    = 0.5
                 self.tailOutlineMidAngle = None
 
@@ -312,7 +312,7 @@ class Surfboard:
         Casteljau midpoint (t=0.5 of the equivalent single cubic), with optional tangent
         angle override at that midpoint.
 
-        When midAngleOverride is None the subdivision is exact — the two cubics together are
+        When midAngleOverride is None the subdivision is exact: the two cubics together are
         mathematically identical to the single cubic that bezierCurve would produce, so there
         is zero visual change from using this helper. When midAngleOverride is a float the
         midpoint position stays fixed at the subdivision point but the tangent is rotated to
@@ -357,14 +357,14 @@ class Surfboard:
         # is given, the fallback tangent is the average of the section's departure and arrival
         # angles. This is always sign-consistent with the section's travel direction (unlike
         # the de Casteljau internal tangent, which can have the wrong sign when the control
-        # polygon dips below the chord — e.g. nose rocker with a steep arrival angle).
+        # polygon dips below the chord: e.g. nose rocker with a steep arrival angle).
         if midYOverride is not None:
             midPoint[1] = midYOverride
             if midAngleOverride is None:
                 midAngleOverride = 0.5 * (thetaDep + thetaArr)
 
         if midAngleOverride is None:
-            # Exact subdivision — curve is identical to the original single cubic
+            # Exact subdivision: curve is identical to the original single cubic
             curveL, cpL = bezierEval(*leftCtrl,  resHalf, returnControlPoints=True)
             curveR, cpR = bezierEval(*rightCtrl, resHalf, returnControlPoints=True)
         else:
@@ -446,7 +446,7 @@ class Surfboard:
 
         '''
 
-        # Convert to feet (local vars only — do not mutate self)
+        # Convert to feet (local vars only: do not mutate self)
         convertedValues  = self._convertUnits(outputUnits='feet')
         totalLength      = convertedValues['totalLength']
 
@@ -495,7 +495,7 @@ class Surfboard:
             midYOverride=noseMidY,
         )
 
-        # Resample onto uniform x grid — split at xFlat to keep each section's x-range clean
+        # Resample onto uniform x grid: split at xFlat to keep each section's x-range clean
         xRocker   = np.linspace(0.0, totalLength, self.resolution)
         xTailGrid = xRocker[xRocker <= xFlat]
         xNoseGrid = xRocker[xRocker >  xFlat]
@@ -552,7 +552,7 @@ class Surfboard:
 
         '''
 
-        # Convert to feet (local vars only — do not mutate self)
+        # Convert to feet (local vars only: do not mutate self)
         convertedValues = self._convertUnits(outputUnits='feet')
         totalLengthFt   = convertedValues['totalLength']
         maxWidthFt      = convertedValues['maxWidth']
@@ -567,7 +567,7 @@ class Surfboard:
 
         # High internal resolution for accurate interpolation onto the uniform x grid.
         # Each section uses two linked cubics (see _splitBezierSection), so resInternal
-        # per section is split in half internally — use 8× to keep density high.
+        # per section is split in half internally: use 8× to keep density high.
         resInternal = self.resolution * 8
 
         # -- Tail section: tail tip → wide point (two linked cubics) --
@@ -703,13 +703,13 @@ class Surfboard:
             deckCrown      = deckHeightFrac      * H                  # crown height at centerline
             concavityDepth = bottomConcavityFrac * H                  # concavity depth at centerline
 
-            # Deck: parabolic crown — Z_deck(η) = rTop + deckCrown*(1-η²)
+            # Deck: parabolic crown: Z_deck(η) = rTop + deckCrown*(1-η²)
             # Horizontal tangent at η=0 (centerline), meets rail exactly at η=1 (Z = rTop)
             deckX[i]   = x
             deckY[i]   = halfWidth * eta
             deckZ[i]   = rTop    + deckCrown      * (1.0 - eta**2)
 
-            # Bottom: parabolic concavity — Z_bottom(η) = rBottom - concavityDepth*(1-η²)
+            # Bottom: parabolic concavity: Z_bottom(η) = rBottom - concavityDepth*(1-η²)
             # Horizontal tangent at η=0 (centerline groove), meets rail exactly at η=1 (Z = rBottom)
             bottomX[i] = x
             bottomY[i] = halfWidth * eta
@@ -746,11 +746,11 @@ class Surfboard:
         # Validate input parameters
         self._validateInputs()
 
-        # First: Rocker profiles (side view) — returns (x, r, controlPoints)
+        # First: Rocker profiles (side view): returns (x, r, controlPoints)
         xRockerBottom, rRockerBottom, cpRockerBottom = self._generateRockerProfile(isTopOrBottom='bottom')
         xRockerTop,    rRockerTop,    cpRockerTop    = self._generateRockerProfile(isTopOrBottom='top')
 
-        # Second: Nose-to-tail planform outline — returns (x, r, controlPoints)
+        # Second: Nose-to-tail planform outline: returns (x, r, controlPoints)
         xBoardOutline, rBoardOutline, cpOutline = self._generateNoseToTailProfile()
 
         self.geometryData = {
@@ -821,7 +821,7 @@ class Surfboard:
         # Top-view extent: x = board length, y centred at 0 = board half-width
         topExtent = [0, refTotalLength, -refMaxWidthFt / 2.0, refMaxWidthFt / 2.0]
 
-        # -- Plot — shared x-axis, constrained layout -- #
+        # -- Plot: shared x-axis, constrained layout -- #
 
         # Collapsible plot formatting container for board geometry plot
         if True:
@@ -839,7 +839,7 @@ class Surfboard:
 
             if os.path.exists(sideViewPath):
                 sideView = plt.imread(sideViewPath)
-                # y-extent derived from pixel aspect ratio — x-axis in feet, y in image-scaled units
+                # y-extent derived from pixel aspect ratio: x-axis in feet, y in image-scaled units
                 h, w       = sideView.shape[:2]
                 sideYRange = refTotalLength * (h / w)
                 sideExtent = [0, refTotalLength, 0, sideYRange]
@@ -847,7 +847,7 @@ class Surfboard:
 
             if os.path.exists(bottomViewPath):
                 bottomView = plt.imread(bottomViewPath)
-                # Same extent mapping as top view — bottom board has the same planform outline
+                # Same extent mapping as top view: bottom board has the same planform outline
                 h, w          = bottomView.shape[:2]
                 bottomYRange  = refTotalLength * (h / w)
                 bottomExtent  = [0, refTotalLength, -bottomYRange / 2.0, bottomYRange / 2.0]
@@ -857,7 +857,7 @@ class Surfboard:
             axTop.plot(xBoardOutline,  rBoardOutline,  color = 'cyan', linewidth = 2)
             axTop.plot(xBoardOutline, -rBoardOutline,  color = 'cyan', linewidth = 2)
             axTop.fill_between(xBoardOutline, rBoardOutline, -rBoardOutline, alpha = 0.08, color = 'cyan')
-            axTop.set_title('Surfboard Outline (Top View) — reference overlay at 45% alpha')
+            axTop.set_title('Surfboard Outline (Top View): reference overlay at 45% alpha')
             axTop.set_xlabel('Length (ft)')
             axTop.set_ylabel('Half-Width (ft)')
             axTop.grid(True, alpha = 0.2)
@@ -866,7 +866,7 @@ class Surfboard:
             axSide.plot(xRockerBottom, rRockerBottom, color = 'cyan', linewidth = 2)
             axSide.plot(xRockerTop, rRockerTop, color = 'cyan', linewidth = 2)
             axSide.axhline(0, color = 'white', linewidth = 0.5, linestyle = '--', alpha = 0.4)
-            axSide.set_title('Rocker Profile (Side View) — reference overlay at 45% alpha')
+            axSide.set_title('Rocker Profile (Side View): reference overlay at 45% alpha')
             axSide.set_xlabel('Length (ft)')
             axSide.set_ylabel('Rocker Height (ft)')
             axSide.grid(True, alpha = 0.2)
@@ -875,7 +875,7 @@ class Surfboard:
             axBottom.plot(xBoardOutline,  rBoardOutline,  color = 'cyan', linewidth = 2)
             axBottom.plot(xBoardOutline, -rBoardOutline,  color = 'cyan', linewidth = 2)
             axBottom.fill_between(xBoardOutline, rBoardOutline, -rBoardOutline, alpha = 0.08, color = 'cyan')
-            axBottom.set_title('Surfboard Outline (Bottom View) — reference overlay at 45% alpha')
+            axBottom.set_title('Surfboard Outline (Bottom View): reference overlay at 45% alpha')
             axBottom.set_xlabel('Length (ft)')
             axBottom.set_ylabel('Half-Width (ft)')
             axBottom.grid(True, alpha = 0.2)
@@ -884,7 +884,7 @@ class Surfboard:
 
             if self.showControlPoints and self.geometryData is not None:
 
-                cpColor   = '#FF9500'   # orange — distinct from cyan board curves
+                cpColor   = '#FF9500'   # orange: distinct from cyan board curves
                 cpKwArgs  = dict(color=cpColor, zorder=5)
 
                 def drawControlPoints(ax: plt.Axes, cp: dict, mirrorY: bool = False) -> None:
@@ -912,7 +912,7 @@ class Surfboard:
                             facecolors='none', edgecolors=cpColor, linewidths=1.5)
 
                 # Outline control points on top and bottom views (both halves).
-                # Each section ('tail', 'nose') now holds a list of two cp dicts — one per sub-segment.
+                # Each section ('tail', 'nose') now holds a list of two cp dicts: one per sub-segment.
                 if 'cpOutline' in self.geometryData:
                     for segment in ('tail', 'nose'):
                         for cp in self.geometryData['cpOutline'][segment]:
@@ -920,7 +920,7 @@ class Surfboard:
                                 drawControlPoints(ax, cp, mirrorY=False)  # upper half
                                 drawControlPoints(ax, cp, mirrorY=True)   # mirrored lower half
 
-                # Rocker control points on side view — same list-of-two-dicts structure
+                # Rocker control points on side view: same list-of-two-dicts structure
                 for cpKey in ('cpRockerBottom', 'cpRockerTop'):
                     if cpKey in self.geometryData:
                         for segment in ('tail', 'nose'):
@@ -950,7 +950,7 @@ class Surfboard:
 
             fig3d = go.Figure()
 
-            # Render deck and bottom surfaces — each mirrored across centerline (Y and -Y) for full board
+            # Render deck and bottom surfaces: each mirrored across centerline (Y and -Y) for full board
             for surfaceName, xArr, yArr, zArr, color in [
                 ('Deck',   deckX,   deckY,   deckZ,   'rgba(100,200,255,0.7)'),
                 ('Bottom', bottomX, bottomY, bottomZ, 'rgba(255,160,80,0.7)'),

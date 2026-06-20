@@ -163,7 +163,7 @@ class BuoyancyModel:
         # (fully submerged buoyancy must exceed weight)
         fullBuoyancy = self.buoyancyForce(self._getTotalVolume())
         if fullBuoyancy < totalWeight:
-            # Board sinks — return max draft as an indicator
+            # Board sinks: return max draft as an indicator
             return maxDraft
 
         try:

@@ -319,7 +319,7 @@ class PlaningModel:
         '''
 
         if speed <= 0.5:
-            # Below planing speed — displacement mode
+            # Below planing speed: displacement mode
             return PlaningState(
                 speed=speed,
                 trimAngleDeg=0.0,
@@ -347,7 +347,7 @@ class PlaningModel:
             # Use the trim angle that maximizes lift (best partial planing).
             tauSolution = bestTau
         else:
-            # Lift can support weight — find the exact equilibrium trim
+            # Lift can support weight: find the exact equilibrium trim
             def residual(tau: float) -> float:
                 tau = max(0.5, tau)
                 return self.computePlaningLift(speed, tau).force - totalWeightN

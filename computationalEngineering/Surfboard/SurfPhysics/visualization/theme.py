@@ -13,7 +13,7 @@ Sean Bowman [02/04/2026]
 # Plotly template
 TEMPLATE = 'plotly_dark'
 
-# Primary color palette (Material Design — visible on dark backgrounds)
+# Primary color palette (Material Design -- visible on dark backgrounds)
 BLUE = '#42A5F5'
 RED = '#EF5350'
 GREEN = '#66BB6A'
